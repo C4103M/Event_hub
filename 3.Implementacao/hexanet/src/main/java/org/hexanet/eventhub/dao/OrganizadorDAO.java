@@ -1,4 +1,7 @@
 package org.hexanet.eventhub.dao;
 
-public class OrganizadorDAO {
+import org.hexanet.eventhub.dao.interfaces.BaseCrud;
+import org.hexanet.eventhub.model.Organizador;
+
+public class OrganizadorDAO extends BaseCrud<Organizador, Long> {
 }

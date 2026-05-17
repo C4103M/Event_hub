@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private double valor;
     private LocalDateTime dataHora;
 
@@ -21,7 +21,7 @@ public class Pagamento {
     @Column(name = "status_pagamento")
     private StatusPagamento statusPagamento;
 
-    public Pagamento(int id, double valor, LocalDateTime dataHora, MetodoPagamento metodo,
+    public Pagamento(Long id, double valor, LocalDateTime dataHora, MetodoPagamento metodo,
             StatusPagamento statusPagamento) {
         this.id = id;
         this.valor = valor;
@@ -33,11 +33,11 @@ public class Pagamento {
     public Pagamento() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

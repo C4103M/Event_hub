@@ -8,7 +8,7 @@ import org.hexanet.eventhub.model.enums.TipoIngresso;
 public class Ingresso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private TipoIngresso tipo;
@@ -32,11 +32,11 @@ public class Ingresso {
         this.evento = evento;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

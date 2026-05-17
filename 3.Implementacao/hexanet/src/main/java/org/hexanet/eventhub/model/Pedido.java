@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private LocalDateTime dataHora;
 
@@ -29,13 +29,13 @@ public class Pedido {
     private List<Ingresso> ingressos;
 
 
-    public Pedido(int id, LocalDateTime dataHora, List<Ingresso> ingressos) {
+    public Pedido(Long id, LocalDateTime dataHora, List<Ingresso> ingressos) {
         this.id = id;
         this.dataHora = dataHora;
         this.ingressos = ingressos;
         this.pagamento = new Pagamento();
     }
-    public Pedido(int id, LocalDateTime dataHora, Ingresso ingresso) {
+    public Pedido(Long id, LocalDateTime dataHora, Ingresso ingresso) {
         this.id = id;
         this.dataHora = dataHora;
         this.pagamento = new Pagamento();
@@ -43,11 +43,11 @@ public class Pedido {
         this.addIngresso(ingresso);
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 public class Organizador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nome;
     private String email;
     private String senha_hash;
@@ -26,7 +26,7 @@ public class Organizador {
 
     }
 
-    public Organizador(int id, String nome, String email, String senha_hash, String cnpj) {
+    public Organizador(Long id, String nome, String email, String senha_hash, String cnpj) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -43,11 +43,11 @@ public class Organizador {
         this.eventos = eventos;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

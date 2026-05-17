@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String nome;
     private String local;
@@ -37,7 +37,7 @@ public class Evento {
     public Evento() {
         
     }
-    public Evento(int id, String nome, String local, int capacidadeTotal, LocalDateTime dataHora, StatusEvento statusEvento) {
+    public Evento(Long id, String nome, String local, int capacidadeTotal, LocalDateTime dataHora, StatusEvento statusEvento) {
         this.id = id;
         this.nome = nome;
         this.local = local;
@@ -50,7 +50,7 @@ public class Evento {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

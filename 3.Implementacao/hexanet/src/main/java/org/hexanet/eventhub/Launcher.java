@@ -12,5 +12,6 @@ public class Launcher {
             throw new RuntimeException("Erro ao conectar com o banco de dados", e);
         }
         javafx.application.Application.launch(Application.class, args);
+
     }
 }

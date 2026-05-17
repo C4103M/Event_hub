@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 public class Participante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nome;
     private String email;
     private String cpf;
@@ -26,7 +26,7 @@ public class Participante {
     public Participante() {
     }
 
-    public Participante(int id, String nome, String email, String cpf, LocalDate dataNasc, String senha_hash) {
+    public Participante(Long id, String nome, String email, String cpf, LocalDate dataNasc, String senha_hash) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -43,11 +43,11 @@ public class Participante {
         this.senha_hash = senha_hash;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
