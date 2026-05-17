@@ -46,7 +46,7 @@ public class Evento {
         this.statusEvento = statusEvento;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

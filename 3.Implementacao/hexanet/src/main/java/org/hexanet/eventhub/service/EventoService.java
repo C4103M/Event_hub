@@ -1,4 +1,4 @@
 package org.hexanet.eventhub.service;
 
-public class EventoController {
+public class EventoService {
 }

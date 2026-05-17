@@ -26,8 +26,7 @@ public class Participante {
     public Participante() {
     }
 
-    public Participante(Long id, String nome, String email, String cpf, LocalDate dataNasc, String senha_hash) {
-        this.id = id;
+    public Participante(String nome, String email, String cpf, LocalDate dataNasc, String senha_hash) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
