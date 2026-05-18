@@ -1,5 +1,5 @@
 package org.hexanet.eventhub.controller;
 
 public class ComprarIngressoController {
-    // Comprar ingressos
+    // Telas necessárias: Comprar ingresso
 }
