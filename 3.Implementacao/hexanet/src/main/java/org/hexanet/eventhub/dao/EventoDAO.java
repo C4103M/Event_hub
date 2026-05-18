@@ -13,22 +13,4 @@ public class EventoDAO extends BaseCrud<Evento, Long> {
     public EventoDAO() {
         super(Evento.class);
     }
-    // Por implementar a Base do crud genérica, ele herda os métodos de crud simples,
-    // ficando aqui apenas oq for específico da classe
-
-    public Evento buscarPorEmail(String email) {
-        EntityManager em = EmFactory.getEntityManager();
-        try {
-            String jpql = "SELECT u FROM Usuario u WHERE u.email = :email";
-            return em.createQuery(jpql, Evento.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
-        } finally {
-            em.close();
-        }
-    }
-
-
-
-
 }

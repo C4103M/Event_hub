@@ -1,0 +1,88 @@
+-------------------------------------------------------------
+FASE 1: CONSTRUIR AS REGRAS DE NEGÓCIO (Pacote: service)
+-------------------------------------------------------------
+Os "Services" são o coração do seu sistema. Eles usam os DAOs 
+para salvar/buscar coisas e aplicam as regras (ex: validar senha).
+
+Passo 1.1 - Autenticação (UsuarioService)
+- Abra `org.hexanet.eventhub.service.UsuarioService`.
+- Crie um método `login(String email, String senha)`.
+- Neste método, instancie o `ParticipanteDAO` e busque pelo email 
+  usando o método `buscarPorEmail` que corrigimos. Se não achar, 
+  tente no `OrganizadorDAO`.
+- Se achar o usuário, compare a senha (idealmente comparando hashes).
+- Retorne o usuário logado (ou jogue uma exceção se a senha estiver errada).
+
+Passo 1.2 - Compra de Ingresso (ComprarIngressoService)
+- Abra `org.hexanet.eventhub.service.ComprarIngressoService`.
+- Crie um método `realizarCompra(Participante p, Evento e, TipoIngresso tipo)`.
+- Regras a implementar:
+  1. Verificar se o evento tem capacidade disponível.
+  2. Criar um objeto `Pedido` vinculando o Participante e o Evento.
+  3. Criar um objeto `Ingresso` e um `Pagamento` (status PENDENTE).
+  4. Usar `PedidoDAO`, `IngressoDAO` e `PagamentoDAO` para salvar (`.salvar()`) tudo no banco.
+
+-------------------------------------------------------------
+FASE 2: GERENCIAR O USUÁRIO LOGADO (Pacote: singleton)
+-------------------------------------------------------------
+Quando o usuário faz login na primeira tela, as outras telas 
+precisam saber quem ele é (para saber no nome de quem salvar o pedido).
+
+Passo 2.1 - Criar a Sessão
+- No pacote `singleton`, crie uma classe `SessaoUsuario`.
+- Aplique o padrão Singleton (construtor privado, método estático `getInstance()`).
+- Crie atributos para guardar o usuário atual (ex: `private Object usuarioLogado;`).
+- Crie métodos `getUsuarioLogado()` e `setUsuarioLogado()`.
+- Toda vez que o login der certo (Fase 1), chame `SessaoUsuario.getInstance().setUsuarioLogado(usuario)`.
+
+-------------------------------------------------------------
+FASE 3: DESENHAR AS TELAS (Views - FXML)
+-------------------------------------------------------------
+Use a ferramenta Scene Builder para editar os arquivos `.fxml` 
+dentro de `src/main/resources/org/hexanet/eventhub/`.
+
+Passo 3.1 - Tela de Login (`auth/login-view.fxml`)
+- Adicione campos de texto (`TextField` e `PasswordField`) para e-mail e senha.
+- Adicione um botão "Entrar" e defina o `onAction` dele para um método 
+  no seu Controller (ex: `fazerLogin`).
+
+Passo 3.2 - Tela de Compra (`ingressos/comprar-view.fxml`)
+- Adicione os detalhes do Evento (Nome, Local, Preço).
+- Adicione uma ComboBox ou RadioButtons para o `TipoIngresso`.
+- Adicione o botão "Finalizar Compra".
+
+-------------------------------------------------------------
+FASE 4: INTEGRAR TELA COM O CÓDIGO (Pacote: controller)
+-------------------------------------------------------------
+Os controllers fazem a ponte entre os botões da tela e os Services.
+
+Passo 4.1 - AuthController
+- Abra `org.hexanet.eventhub.controller.AuthController`.
+- Declare os componentes da tela com `@FXML` (ex: `@FXML private TextField txtEmail;`).
+- Crie o método que o botão chamará:
+  ```java
+  @FXML
+  protected void fazerLogin() {
+      // 1. Pegar texto digitado
+      // 2. Chamar UsuarioService.login()
+      // 3. Se sucesso, salvar na SessaoUsuario
+      // 4. Usar FXMLLoader para carregar a tela Principal e mudar a Scene.
+  }
+  ```
+
+Passo 4.2 - ComprarIngressoController
+- Abra `org.hexanet.eventhub.controller.ComprarIngressoController`.
+- Pegue o usuário logado via `SessaoUsuario.getInstance().getUsuarioLogado()`.
+- Chame a `ComprarIngressoService` passando o usuário, o evento atual e o tipo do ingresso.
+- Mostre um Alerta (JavaFX `Alert`) de sucesso.
+
+-------------------------------------------------------------
+FASE 5: TESTAR FLUXO COMPLETO
+-------------------------------------------------------------
+1. Abra o `Launcher` ou `Application`.
+2. Garanta que a tela inicial configurada no `Application.java` é a tela de Login.
+3. Rode o projeto. 
+4. Cadastre um usuário diretamente no banco via MySQL Workbench para testar o login.
+5. Faça o login e tente navegar até a compra do ingresso!
+
+Boa sorte no desenvolvimento! O alicerce com o banco e DAOs está ótimo.
