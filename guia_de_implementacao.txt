@@ -1,8 +1,6 @@
 -------------------------------------------------------------
 FASE 1: CONSTRUIR AS REGRAS DE NEGÓCIO (Pacote: service)
 -------------------------------------------------------------
-Os "Services" são o coração do seu sistema. Eles usam os DAOs 
-para salvar/buscar coisas e aplicam as regras (ex: validar senha).
 
 Passo 1.1 - Autenticação (UsuarioService)
 - Abra `org.hexanet.eventhub.service.UsuarioService`.
@@ -84,5 +82,3 @@ FASE 5: TESTAR FLUXO COMPLETO
 3. Rode o projeto. 
 4. Cadastre um usuário diretamente no banco via MySQL Workbench para testar o login.
 5. Faça o login e tente navegar até a compra do ingresso!
-
-Boa sorte no desenvolvimento! O alicerce com o banco e DAOs está ótimo.
