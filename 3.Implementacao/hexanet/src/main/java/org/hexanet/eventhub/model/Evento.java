@@ -45,6 +45,13 @@ public class Evento {
         this.dataHora = dataHora;
         this.statusEvento = statusEvento;
     }
+    public Evento(String nome, String local, int capacidadeTotal, LocalDateTime dataHora, StatusEvento statusEvento) {
+        this.nome = nome;
+        this.local = local;
+        this.capacidadeTotal = capacidadeTotal;
+        this.dataHora = dataHora;
+        this.statusEvento = statusEvento;
+    }
 
     public Long getId() {
         return id;
