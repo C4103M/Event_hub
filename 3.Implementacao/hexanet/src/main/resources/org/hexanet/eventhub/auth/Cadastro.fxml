@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.hexanet.eventhub.controller.AuthController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.AuthController">
+   <children>
+      <Label layoutX="235.0" layoutY="14.0" text="CADASTRO">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtNome" layoutX="235.0" layoutY="74.0" prefHeight="17.0" prefWidth="180.0" />
+      <Label fx:id="lblNome" layoutX="186.0" layoutY="78.0" text="NOME:" />
+      <TextField fx:id="txtEmail" layoutX="235.0" layoutY="113.0" prefHeight="25.0" prefWidth="180.0" />
+      <Label fx:id="lblEmail" layoutX="187.0" layoutY="117.0" text="EMAIL:" />
+      <TextField layoutX="235.0" layoutY="149.0" prefHeight="25.0" prefWidth="180.0" />
+      <Label fx:id="lblCPF" layoutX="194.0" layoutY="153.0" text="CPF:" />
+      <DatePicker fx:id="dpDatanasc" layoutX="235.0" layoutY="188.0" prefHeight="25.0" prefWidth="180.0" />
+      <Label fx:id="lblDatanasc" layoutX="98.0" layoutY="192.0" text="DATA DE NASCIMENTO: " />
+      <Button fx:id="btnCadastrar" layoutX="235.0" layoutY="298.0" mnemonicParsing="false" text="CADASTRAR" />
+      <Button fx:id="btnLogin" layoutX="332.0" layoutY="298.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="LOGIN" />
+      <TextField fx:id="txtSenha" layoutX="235.0" layoutY="228.0" prefHeight="25.0" prefWidth="180.0" />
+      <Label fx:id="lblSenha" layoutX="185.0" layoutY="232.0" text="SENHA:" />
+      <Label fx:id="lblConfirmaS" layoutX="115.0" layoutY="270.0" text="CONFIRMAR SENHA:" />
+      <TextField fx:id="txtConfirmaS" layoutX="235.0" layoutY="266.0" prefHeight="25.0" prefWidth="180.0" />
+   </children>
 </AnchorPane>
