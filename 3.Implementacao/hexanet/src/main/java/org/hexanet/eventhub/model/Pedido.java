@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
-
+import org.hibernate.annotations.Cascade;
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -21,7 +21,7 @@ public class Pedido {
     @JoinColumn(name = "participante_id", nullable = false)
     private Participante participante;
 
-    @OneToOne
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL)
     @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
 
@@ -80,6 +80,14 @@ public class Pedido {
             this.ingressos = new ArrayList<Ingresso>();
         }
         this.ingressos.add(ingresso);
+    }
+
+    public double calcValorPedido() {
+        double valor = 0;
+        for(Ingresso ingresso : this.ingressos) {
+            valor += ingresso.getEvento().getValorIngresso() * ingresso.getTipo().getFator();
+        }
+        return valor;
     }
 
 }

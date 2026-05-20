@@ -19,6 +19,9 @@ public class Evento {
     @Column(name = "capacidade_total")
     private int capacidadeTotal;
 
+    @Column(name = "QtdDisponiveis")
+    private int qtdDisponiveis;
+
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
@@ -99,5 +102,29 @@ public class Evento {
 
     public void setStatusEvento(StatusEvento statusEvento) {
         this.statusEvento = statusEvento;
+    }
+
+    public int getQtdDisponiveis() {
+        return qtdDisponiveis;
+    }
+
+    public void setQtdDisponiveis(int qtdDisponiveis) {
+        this.qtdDisponiveis = qtdDisponiveis;
+    }
+
+    public double getValorIngresso() {
+        return valorIngresso;
+    }
+
+    public void setValorIngresso(double valorIngresso) {
+        this.valorIngresso = valorIngresso;
+    }
+
+    public Organizador getOrganizador() {
+        return organizador;
+    }
+
+    public void setOrganizador(Organizador organizador) {
+        this.organizador = organizador;
     }
 }
