@@ -1,0 +1,73 @@
+package org.hexanet.eventhub.dto;
+
+import java.time.LocalDate;
+
+public class CadastroUsuarioDTO {
+    private String nome;
+    private String email;
+    private String cpf;
+    private LocalDate dataNasc;
+    private String senha;
+    private String confirmarSenha;
+
+    public CadastroUsuarioDTO(String nome, String email, String cpf, LocalDate dataNasc, String senha, String confirmarSenha) {
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.dataNasc = dataNasc;
+        this.senha = senha;
+        this.confirmarSenha = confirmarSenha;
+    }
+
+    public CadastroUsuarioDTO() {
+
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public LocalDate getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setDataNasc(LocalDate dataNasc) {
+        this.dataNasc = dataNasc;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getConfirmarSenha() {
+        return confirmarSenha;
+    }
+
+    public void setConfirmarSenha(String confirmarSenha) {
+        this.confirmarSenha = confirmarSenha;
+    }
+}

@@ -16,10 +16,9 @@ public abstract class BaseCrud<T, ID> implements CrudInterface<T, ID>{
     public void salvar(T entidade) {
         EntityManager em = EmFactory.getEntityManager();
         try {
-            // Estrutura de add do Jakarta Persistence API (JPA)
-            em.getTransaction().begin(); // Começa a querry
-            em.persist(entidade); // Adciona a entidade
-            em.getTransaction().commit(); // Salva
+            em.getTransaction().begin();
+            em.persist(entidade);
+            em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw e;

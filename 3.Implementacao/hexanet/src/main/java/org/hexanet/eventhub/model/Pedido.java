@@ -21,7 +21,7 @@ public class Pedido {
     @JoinColumn(name = "participante_id", nullable = false)
     private Participante participante;
 
-    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
 

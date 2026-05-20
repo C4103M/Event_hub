@@ -17,8 +17,10 @@ public class Participante {
     private String nome;
     private String email;
     private String cpf;
+    @Column(name = "data_nasc")
     private LocalDate dataNasc;
-    private String senha_hash;
+    @Column(name = "senha_hash")
+    private String senhaHash;
 
     @OneToMany(mappedBy = "participante")
     private List<Pedido> pedidos = new ArrayList<>();
@@ -26,20 +28,20 @@ public class Participante {
     public Participante() {
     }
 
-    public Participante(String nome, String email, String cpf, LocalDate dataNasc, String senha_hash) {
+    public Participante(String nome, String email, String cpf, LocalDate dataNasc, String senhaHash) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.dataNasc = dataNasc;
-        this.senha_hash = senha_hash;
+        this.senhaHash = senhaHash;
     }
 
-    public String getSenha_hash() {
-        return senha_hash;
+    public String getSenhaHash() {
+        return senhaHash;
     }
 
-    public void setSenha_hash(String senha_hash) {
-        this.senha_hash = senha_hash;
+    public void setSenhaHash(String senhaHash) {
+        this.senhaHash = senhaHash;
     }
 
     public Long getId() {
@@ -74,8 +76,8 @@ public class Participante {
         this.cpf = cpf;
     }
 
-    public LocalDate getDataNasc() {
-        return dataNasc;
+    public LocalDate getDataNasc(LocalDate dataNasc) {
+        return this.dataNasc;
     }
 
     public void setDataNasc(LocalDate dataNasc) {
