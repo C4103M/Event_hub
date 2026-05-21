@@ -5,7 +5,6 @@ import org.hexanet.eventhub.model.enums.StatusEvento;
 
 import java.time.LocalDateTime;
 
-
 @Entity
 @Table(name = "evento")
 public class Evento {
@@ -19,7 +18,7 @@ public class Evento {
     @Column(name = "capacidade_total")
     private int capacidadeTotal;
 
-    @Column(name = "QtdDisponiveis")
+    @Column(name = "qtd_disponiveis")
     private int qtdDisponiveis;
 
     @Column(name = "data_hora")
@@ -27,6 +26,9 @@ public class Evento {
 
     @Column(name = "valor_ingresso")
     private double valorIngresso;
+
+    @Column(name = "evento_img")
+    private String eventoImg;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_evento")
@@ -36,11 +38,12 @@ public class Evento {
     @JoinColumn(name = "organizador_id")
     private Organizador organizador;
 
-
     public Evento() {
-        
+
     }
-    public Evento(Long id, String nome, String local, int capacidadeTotal, LocalDateTime dataHora, StatusEvento statusEvento) {
+
+    public Evento(Long id, String nome, String local, int capacidadeTotal, LocalDateTime dataHora,
+            StatusEvento statusEvento) {
         this.id = id;
         this.nome = nome;
         this.local = local;
@@ -48,6 +51,7 @@ public class Evento {
         this.dataHora = dataHora;
         this.statusEvento = statusEvento;
     }
+
     public Evento(String nome, String local, int capacidadeTotal, LocalDateTime dataHora, StatusEvento statusEvento) {
         this.nome = nome;
         this.local = local;
@@ -126,5 +130,13 @@ public class Evento {
 
     public void setOrganizador(Organizador organizador) {
         this.organizador = organizador;
+    }
+
+    public void setEventoImg(String eventoImg) {
+        this.eventoImg = eventoImg;
+    }
+
+    public String getEventoImg() {
+        return eventoImg;
     }
 }
