@@ -17,6 +17,7 @@ public class AuthController {
     @FXML private DatePicker dpDataNasc;
     @FXML private PasswordField txtSenha;
     @FXML private PasswordField txtConfirmarSenha;
+    @FXML private CheckBox chkMostrarSenha;
 
     AuthService authService = new AuthService();
 
@@ -66,5 +67,12 @@ public class AuthController {
         Stage stageJanelaAtual = (Stage) this.txtCPF.getScene().getWindow();
         ScreenManager.abrirLogin(stageJanelaAtual);
     }
+
+    public void toogleMostrarSenha() {
+        if(chkMostrarSenha.isSelected()) {
+
+        }
+    }
+
 
 }
