@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.hexanet.eventhub.controller.EventoController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.EventoController">
+   <children>
+      <Label fx:id="lblFormulario" layoutX="223.0" layoutY="14.0" text="FORMULARIO">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEvento" layoutX="263.0" layoutY="50.0" text="EVENTO">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Hyperlink layoutX="111.0" layoutY="151.0" />
+      <Label fx:id="lblNomeEvento" layoutX="209.0" layoutY="93.0" text="NOME DO EVENTO:" />
+      <Label fx:id="lblData" layoutX="207.0" layoutY="135.0" text="DATA:" />
+      <Label fx:id="lblHorarioEvento" layoutX="204.0" layoutY="175.0" text="HORARIO:" />
+      <Label fx:id="lblLovalEvento" layoutX="204.0" layoutY="217.0" text="LOCAL:" />
+      <Label fx:id="lblCapacidade" layoutX="206.0" layoutY="259.0" text="CAPACIDADE:" />
+      <TextField fx:id="txtNomeEvento" layoutX="208.0" layoutY="110.0" prefHeight="25.0" prefWidth="185.0" />
+      <DatePicker fx:id="dgvDataEvento" layoutX="208.0" layoutY="150.0" prefHeight="25.0" prefWidth="185.0" />
+      <TextField fx:id="txtHorarioEvento" layoutX="208.0" layoutY="192.0" prefHeight="25.0" prefWidth="185.0" />
+      <TextField fx:id="txtLovalEvento" layoutX="208.0" layoutY="234.0" prefHeight="25.0" prefWidth="185.0" />
+      <TextField fx:id="txtCapacidadeEvento" layoutX="208.0" layoutY="276.0" prefHeight="25.0" prefWidth="185.0" />
+      <Label fx:id="lblBannerEvento" layoutX="206.0" layoutY="301.0" text="BANNER DO EVENTO:" />
+      <ComboBox fx:id="cbxBannerEvento" layoutX="209.0" layoutY="318.0" prefHeight="25.0" prefWidth="185.0" />
+   </children>
 </AnchorPane>

@@ -3,18 +3,85 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.AuthController">
-   <children>
-      <Label fx:id="lblLogin" layoutX="234.0" layoutY="28.0" text="LOGIN">
-         <font>
-            <Font size="33.0" />
-         </font></Label>
-      <Label fx:id="lblEmail" layoutX="184.0" layoutY="89.0" text="Email" />
-      <TextField fx:id="txtEmail" layoutX="183.0" layoutY="106.0" prefHeight="25.0" prefWidth="185.0" />
-      <Label fx:id="lblSenha" layoutX="184.0" layoutY="140.0" text="SENHA:" />
-      <PasswordField fx:id="txtSenha" layoutX="183.0" layoutY="157.0" prefHeight="25.0" prefWidth="185.0" />
-      <Button layoutX="283.0" layoutY="197.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="LOGAR" />
-      <Button layoutX="187.0" layoutY="197.0" mnemonicParsing="false" onAction="#goCadastro" prefHeight="25.0" prefWidth="89.0" text="CADASTRAR" />
-   </children>
-</AnchorPane>
+<StackPane xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.hexanet.eventhub.controller.AuthController"
+           style="-fx-background-color: #f5f4f0;"
+           minWidth="480" minHeight="420">
+
+   <VBox prefWidth="400.0" maxWidth="400.0" maxHeight="540.0" spacing="0"
+         style="-fx-background-color: white;
+                 -fx-background-radius: 20;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 24, 0, 0, 6);">
+
+      <!-- Header escuro -->
+      <VBox style="-fx-background-color: #1a1a2e; -fx-background-radius: 20 20 0 0;">
+         <padding><Insets top="28" right="32" bottom="28" left="32"/></padding>
+         <Label text="BEM-VINDO DE VOLTA"
+                style="-fx-text-fill: #e8a87c; -fx-font-size: 10px;
+                          -fx-font-family: 'Segoe UI'; -fx-letter-spacing: 3;"/>
+         <Label text="Entrar na conta"
+                style="-fx-text-fill: white; -fx-font-size: 26px;
+                          -fx-font-family: 'Georgia'; -fx-font-weight: bold;"/>
+      </VBox>
+
+      <!-- Corpo -->
+      <VBox spacing="12" style="-fx-background-color: white; -fx-background-radius: 0 0 20 20;">
+         <padding><Insets top="28" right="32" bottom="32" left="32"/></padding>
+
+         <!-- Email -->
+         <VBox spacing="4">
+            <Label text="E-MAIL"
+                   style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;"/>
+            <TextField fx:id="txtEmail" promptText="joao@email.com"
+                       style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;
+                                  -fx-border-color: transparent; -fx-pref-height: 40;
+                                  -fx-padding: 0 12; -fx-font-size: 13px;"/>
+         </VBox>
+
+         <!-- Senha -->
+         <VBox spacing="4">
+            <Label text="SENHA"
+                   style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;"/>
+            <PasswordField fx:id="txtSenha" promptText="••••••••"
+                           style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;
+                                      -fx-border-color: transparent; -fx-pref-height: 40;
+                                      -fx-padding: 0 12; -fx-font-size: 13px;"/>
+         </VBox>
+
+         <!-- Mostrar senha -->
+         <CheckBox fx:id="chkMostrarSenha" text="Mostrar senha"
+                   style="-fx-font-size: 12px; -fx-text-fill: #888; -fx-cursor: hand;">
+            <VBox.margin><Insets top="2" bottom="4"/></VBox.margin>
+         </CheckBox>
+
+         <!-- Botão Logar -->
+         <Button text="ENTRAR" onAction="#logar"
+                 maxWidth="Infinity" prefHeight="44.0"
+                 style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
+                           -fx-background-radius: 10; -fx-font-size: 12px;
+                           -fx-letter-spacing: 2; -fx-cursor: hand;">
+            <VBox.margin><Insets top="4"/></VBox.margin>
+         </Button>
+
+         <!-- Separador -->
+         <HBox alignment="CENTER" spacing="10">
+            <VBox.margin><Insets top="2" bottom="2"/></VBox.margin>
+            <Separator HBox.hgrow="ALWAYS"/>
+            <Label text="ou" style="-fx-text-fill: #aaa; -fx-font-size: 12px;"/>
+            <Separator HBox.hgrow="ALWAYS"/>
+         </HBox>
+
+         <!-- Botão Cadastrar -->
+         <Button text="Não tenho uma conta — Cadastrar"
+                 onAction="#goCadastro"
+                 maxWidth="Infinity" prefHeight="40.0"
+                 style="-fx-background-color: transparent; -fx-border-color: #ddd;
+                           -fx-border-radius: 10; -fx-background-radius: 10;
+                           -fx-text-fill: #666; -fx-font-size: 12px; -fx-cursor: hand;"/>
+      </VBox>
+   </VBox>
+
+</StackPane>
