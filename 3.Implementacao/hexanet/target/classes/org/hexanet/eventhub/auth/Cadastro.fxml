@@ -1,29 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.AuthController">
-   <children>
-      <Label layoutX="235.0" layoutY="14.0" text="CADASTRO">
-         <font>
-            <Font size="33.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtNome" layoutX="235.0" layoutY="74.0" prefHeight="17.0" prefWidth="180.0" />
-      <Label fx:id="lblNome" layoutX="186.0" layoutY="78.0" text="NOME:" />
-      <TextField fx:id="txtEmail" layoutX="235.0" layoutY="113.0" prefHeight="25.0" prefWidth="180.0" />
-      <Label fx:id="lblEmail" layoutX="187.0" layoutY="117.0" text="EMAIL:" />
-      <TextField fx:id="txtCPF" layoutX="235.0" layoutY="149.0" prefHeight="25.0" prefWidth="180.0" />
-      <Label fx:id="lblCPF" layoutX="194.0" layoutY="153.0" text="CPF:" />
-      <DatePicker fx:id="dpDataNasc" layoutX="235.0" layoutY="188.0" prefHeight="25.0" prefWidth="180.0" />
-      <Label fx:id="lblDatanasc" layoutX="98.0" layoutY="192.0" text="DATA DE NASCIMENTO: " />
-      <Button fx:id="btnCadastrar" layoutX="235.0" layoutY="298.0" mnemonicParsing="false" onAction="#cadastrar" text="CADASTRAR" />
-      <Button fx:id="btnLogin" layoutX="332.0" layoutY="298.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="25.0" prefWidth="83.0" text="LOGIN" />
-      <PasswordField fx:id="txtSenha" layoutX="235.0" layoutY="228.0" prefHeight="25.0" prefWidth="180.0" />
-      <Label fx:id="lblSenha" layoutX="185.0" layoutY="232.0" text="SENHA:" />
-      <Label fx:id="lblConfirmaS" layoutX="115.0" layoutY="270.0" text="CONFIRMAR SENHA:" />
-      <PasswordField fx:id="txtConfirmarSenha" layoutX="235.0" layoutY="266.0" prefHeight="25.0" prefWidth="180.0" />
-   </children>
-</AnchorPane>
+<StackPane minHeight="540" minWidth="480" prefHeight="561.0" prefWidth="480.0" style="-fx-background-color: linear-gradient(to right, #B15B86, #440F50);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.AuthController">
+
+   <!-- Card centralizado automaticamente pelo StackPane -->
+   <VBox maxHeight="540.0" maxWidth="400.0" prefWidth="400.0" spacing="0" style="-fx-background-color: white;                  -fx-background-radius: 20;                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 24, 0, 0, 6);">
+
+      <!-- Header escuro -->
+      <VBox style="-fx-background-color: #1a1a2e; -fx-background-radius: 20 20 0 0;">
+         <padding><Insets bottom="28" left="32" right="32" top="28" /></padding>
+         <Label style="-fx-text-fill: #e8a87c; -fx-font-size: 10px;                           -fx-font-family: 'Segoe UI'; -fx-letter-spacing: 3;" text="NOVA CONTA" />
+         <Label style="-fx-text-fill: white; -fx-font-size: 26px;                           -fx-font-family: 'Georgia'; -fx-font-weight: bold;" text="Criar cadastro" />
+      </VBox>
+
+      <!-- Corpo do formulário -->
+      <VBox spacing="12" style="-fx-background-color: white; -fx-background-radius: 0 0 20 20;">
+         <padding><Insets bottom="28" left="32" right="32" top="24" /></padding>
+
+         <VBox spacing="4">
+            <Label style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;" text="NOME COMPLETO" />
+            <TextField fx:id="txtNome" promptText="João da Silva" style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;                                   -fx-border-color: transparent; -fx-pref-height: 40;                                   -fx-padding: 0 12; -fx-font-size: 13px;" />
+         </VBox>
+
+         <VBox spacing="4">
+            <Label style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;" text="E-MAIL" />
+            <TextField fx:id="txtEmail" promptText="joao@email.com" style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;                                   -fx-border-color: transparent; -fx-pref-height: 40;                                   -fx-padding: 0 12; -fx-font-size: 13px;" />
+         </VBox>
+
+         <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+               <Label style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;" text="CPF" />
+               <TextField fx:id="txtCPF" maxWidth="Infinity" promptText="000.000.000-00" style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;                                       -fx-border-color: transparent; -fx-pref-height: 40;                                       -fx-padding: 0 12; -fx-font-size: 13px;" />
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+               <Label style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;" text="NASCIMENTO" />
+               <DatePicker fx:id="dpDataNasc" maxWidth="Infinity" style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;                                        -fx-border-color: transparent; -fx-pref-height: 40;                                        -fx-font-size: 13px;" />
+            </VBox>
+         </HBox>
+
+         <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+               <Label style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;" text="SENHA" />
+               <PasswordField fx:id="txtSenha" maxWidth="Infinity" promptText="••••••••" style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;                                          -fx-border-color: transparent; -fx-pref-height: 40;                                          -fx-padding: 0 12; -fx-font-size: 13px;" />
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+               <Label style="-fx-font-size: 10px; -fx-text-fill: #888; -fx-letter-spacing: 1.5;" text="CONFIRMAR SENHA" />
+               <PasswordField fx:id="txtConfirmarSenha" maxWidth="Infinity" promptText="••••••••" style="-fx-background-color: #f5f4f0; -fx-background-radius: 10;                                          -fx-border-color: transparent; -fx-pref-height: 40;                                          -fx-padding: 0 12; -fx-font-size: 13px;" />
+            </VBox>
+         </HBox>
+
+         <Button fx:id="btnCadastrar" maxWidth="Infinity" onAction="#cadastrar" prefHeight="44.0" style="-fx-background-color: #1a1a2e; -fx-text-fill: white;                            -fx-background-radius: 10; -fx-font-size: 12px;                            -fx-letter-spacing: 2; -fx-cursor: hand;" text="CADASTRAR">
+            <VBox.margin><Insets top="6" /></VBox.margin>
+         </Button>
+
+         <HBox alignment="CENTER" spacing="10">
+            <VBox.margin><Insets bottom="2" top="2" /></VBox.margin>
+            <Separator HBox.hgrow="ALWAYS" />
+            <Label style="-fx-text-fill: #aaa; -fx-font-size: 12px;" text="ou" />
+            <Separator HBox.hgrow="ALWAYS" />
+         </HBox>
+
+         <Button fx:id="btnLogin" maxWidth="Infinity" onAction="#goLogin" prefHeight="40.0" style="-fx-background-color: transparent; -fx-border-color: #ddd;                            -fx-border-radius: 10; -fx-background-radius: 10;                            -fx-text-fill: #666; -fx-font-size: 12px; -fx-cursor: hand;" text="Já tenho uma conta — Entrar" />
+      </VBox>
+   </VBox>
+
+</StackPane>
