@@ -1,16 +1,21 @@
 package org.hexanet.eventhub.service;
 
 import org.hexanet.eventhub.dao.ParticipanteDAO;
-import org.hexanet.eventhub.dto.CadastroUsuarioDTO;
+import org.hexanet.eventhub.dao.UsuarioDAO;
+import org.hexanet.eventhub.dto.UsuarioDTO;
 import org.hexanet.eventhub.exceptions.SenhaInvalidaException;
+import org.hexanet.eventhub.exceptions.UsuarioNaoEncontradoException;
 import org.hexanet.eventhub.model.Participante;
+import org.hexanet.eventhub.model.Usuario;
+import org.hexanet.eventhub.singleton.SessaoUsuario;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthService {
     ParticipanteDAO participanteDAO = new ParticipanteDAO();
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-    public void cadastrar(CadastroUsuarioDTO dto) {
-        validarSenha(dto.getSenha(), dto.getConfirmarSenha());
+    public void cadastrar(UsuarioDTO dto) {
+        validarFormatoSenha(dto.getSenha(), dto.getConfirmarSenha());
 
         Participante usuario = new Participante();
         usuario.setNome(dto.getNome());
@@ -23,7 +28,20 @@ public class AuthService {
 
     }
 
-    private void validarSenha(String senha, String confirmarSenha) {
+    public void logar(UsuarioDTO dto) {
+        Usuario usuarioLogado = this.usuarioDAO.buscarPorEmail(dto.getEmail());
+        if(usuarioLogado == null) {
+            throw new UsuarioNaoEncontradoException("Usuário não Encontrado. Verifique o Email e tente novamente");
+        }
+        if(! this.compararSenha(dto.getSenha(), usuarioLogado.getSenhaHash())) {
+            throw new SenhaInvalidaException("Senha inválida");
+        }
+        SessaoUsuario.getInstancia().login(usuarioLogado);
+
+
+    }
+
+    private void validarFormatoSenha(String senha, String confirmarSenha) {
         if (!senha.equals(confirmarSenha)) {
             throw new SenhaInvalidaException("As senhas devem ser iguais");
         } else if(senha.isBlank()) {
@@ -31,7 +49,7 @@ public class AuthService {
         } else if(senha.length() < 8) {
             throw new SenhaInvalidaException("A senha deve ter no mínimo 8 caracteres");
         }
-        String sequencias[] = {"123", "abc", "qwerty"};
+        String[] sequencias = {"123", "abc", "qwerty"};
         for (String sequencia : sequencias) {
             if(senha.toLowerCase().contains(sequencia)) {
                 throw new SenhaInvalidaException("Senha não dever conter sequências");
@@ -40,7 +58,12 @@ public class AuthService {
 
     }
 
-    private String criptografarSenha(String senha) {
+
+    public boolean compararSenha(String senha, String senhaHash) {
+        return BCrypt.checkpw(senha, senhaHash);
+    }
+
+    public String criptografarSenha(String senha) {
         return BCrypt.hashpw(senha, BCrypt.gensalt(12));
     }
 

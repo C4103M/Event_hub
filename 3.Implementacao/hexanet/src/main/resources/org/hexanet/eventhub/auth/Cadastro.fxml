@@ -20,7 +20,7 @@
       <DatePicker fx:id="dpDataNasc" layoutX="235.0" layoutY="188.0" prefHeight="25.0" prefWidth="180.0" />
       <Label fx:id="lblDatanasc" layoutX="98.0" layoutY="192.0" text="DATA DE NASCIMENTO: " />
       <Button fx:id="btnCadastrar" layoutX="235.0" layoutY="298.0" mnemonicParsing="false" onAction="#cadastrar" text="CADASTRAR" />
-      <Button fx:id="btnLogin" layoutX="332.0" layoutY="298.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="LOGIN" />
+      <Button fx:id="btnLogin" layoutX="332.0" layoutY="298.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="25.0" prefWidth="83.0" text="LOGIN" />
       <PasswordField fx:id="txtSenha" layoutX="235.0" layoutY="228.0" prefHeight="25.0" prefWidth="180.0" />
       <Label fx:id="lblSenha" layoutX="185.0" layoutY="232.0" text="SENHA:" />
       <Label fx:id="lblConfirmaS" layoutX="115.0" layoutY="270.0" text="CONFIRMAR SENHA:" />

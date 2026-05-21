@@ -6,15 +6,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.AuthController">
    <children>
-      <Label fx:id="lblLogin" layoutX="275.0" layoutY="26.0" text="LOGIN">
+      <Label fx:id="lblLogin" layoutX="234.0" layoutY="28.0" text="LOGIN">
          <font>
             <Font size="33.0" />
          </font></Label>
-      <Label fx:id="lblCPFEMAIL" layoutX="182.0" layoutY="88.0" text="CPF/EMAIL:" />
-      <TextField fx:id="txtCPFEMAIL" layoutX="251.0" layoutY="84.0" prefHeight="25.0" prefWidth="170.0" />
-      <Label fx:id="lblSenha" layoutX="192.0" layoutY="118.0" text="SENHA:" />
-      <TextField fx:id="txtSenha" layoutX="251.0" layoutY="114.0" prefHeight="25.0" prefWidth="170.0" />
-      <Button layoutX="198.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="LOGAR" />
-      <Button layoutX="376.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="CADASTRAR" />
+      <Label fx:id="lblEmail" layoutX="184.0" layoutY="89.0" text="Email" />
+      <TextField fx:id="txtEmail" layoutX="183.0" layoutY="106.0" prefHeight="25.0" prefWidth="185.0" />
+      <Label fx:id="lblSenha" layoutX="184.0" layoutY="140.0" text="SENHA:" />
+      <PasswordField fx:id="txtSenha" layoutX="183.0" layoutY="157.0" prefHeight="25.0" prefWidth="185.0" />
+      <Button layoutX="283.0" layoutY="197.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" text="LOGAR" />
+      <Button layoutX="187.0" layoutY="197.0" mnemonicParsing="false" onAction="#goCadastro" prefHeight="25.0" prefWidth="89.0" text="CADASTRAR" />
    </children>
 </AnchorPane>

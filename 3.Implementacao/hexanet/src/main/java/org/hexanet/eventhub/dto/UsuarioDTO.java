@@ -2,7 +2,7 @@ package org.hexanet.eventhub.dto;
 
 import java.time.LocalDate;
 
-public class CadastroUsuarioDTO {
+public class UsuarioDTO {
     private String nome;
     private String email;
     private String cpf;
@@ -10,7 +10,7 @@ public class CadastroUsuarioDTO {
     private String senha;
     private String confirmarSenha;
 
-    public CadastroUsuarioDTO(String nome, String email, String cpf, LocalDate dataNasc, String senha, String confirmarSenha) {
+    public UsuarioDTO(String nome, String email, String cpf, LocalDate dataNasc, String senha, String confirmarSenha) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
@@ -18,8 +18,13 @@ public class CadastroUsuarioDTO {
         this.senha = senha;
         this.confirmarSenha = confirmarSenha;
     }
+    public UsuarioDTO(String nome, String senha) {
+        this.email = email;
+        this.senha = senha;
+    }
 
-    public CadastroUsuarioDTO() {
+
+    public UsuarioDTO() {
 
     }
 

@@ -20,7 +20,7 @@ public class ComprarIngressoService {
 
     public void comprarIngresso(Pedido pedido) {
         List<Ingresso> ingressosDisponiveis = new ArrayList<>();
-        int disponiveis = 100;
+
         for(Ingresso ingresso : pedido.getIngressos()) {
             if(isDisponivel(ingresso) ) {
                 ingressosDisponiveis.add(ingresso);
@@ -41,6 +41,7 @@ public class ComprarIngressoService {
     }
 
     private void pagar(Pedido pedido) {
+
         Pagamento pg = new Pagamento();
         pg.setDataHora(LocalDateTime.now());
         pg.setValor(pedido.calcValorPedido());
