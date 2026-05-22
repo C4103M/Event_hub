@@ -116,6 +116,10 @@ public class Evento {
         this.qtdDisponiveis = qtdDisponiveis;
     }
 
+    public void subtrairQtdDisponiveis(int qtd) {
+        this.qtdDisponiveis -= qtd;
+    }
+
     public double getValorIngresso() {
         return valorIngresso;
     }

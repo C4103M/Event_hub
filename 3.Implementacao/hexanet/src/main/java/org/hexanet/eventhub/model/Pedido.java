@@ -15,6 +15,14 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Participante getParticipante() {
+        return participante;
+    }
+
+    public void setParticipante(Participante participante) {
+        this.participante = participante;
+    }
+
     private LocalDateTime dataHora;
 
     @ManyToOne(optional = false)
@@ -28,6 +36,9 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<Ingresso> ingressos;
 
+    public Pedido() {
+
+    }
 
     public Pedido(Long id, LocalDateTime dataHora, List<Ingresso> ingressos) {
         this.id = id;

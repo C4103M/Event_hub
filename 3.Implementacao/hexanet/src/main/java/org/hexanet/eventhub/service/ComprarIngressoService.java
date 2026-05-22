@@ -3,11 +3,13 @@ package org.hexanet.eventhub.service;
 import org.hexanet.eventhub.dao.IngressoDAO;
 import org.hexanet.eventhub.dao.PagamentoDAO;
 import org.hexanet.eventhub.dao.PedidoDAO;
-import org.hexanet.eventhub.model.Ingresso;
-import org.hexanet.eventhub.model.Pagamento;
-import org.hexanet.eventhub.model.Pedido;
+import org.hexanet.eventhub.dto.ComprarIngressoDTO;
+import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
+import org.hexanet.eventhub.exceptions.PermissaoNegada;
+import org.hexanet.eventhub.model.*;
 import org.hexanet.eventhub.model.enums.MetodoPagamento;
 import org.hexanet.eventhub.model.enums.StatusEvento;
+import org.hexanet.eventhub.singleton.SessaoUsuario;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,26 +20,32 @@ public class ComprarIngressoService {
 
     public ComprarIngressoService() {}
 
-    public void comprarIngresso(Pedido pedido) {
-        List<Ingresso> ingressosDisponiveis = new ArrayList<>();
+    public void comprarIngresso(ComprarIngressoDTO comprarIngressoDTO) {
+        if(!(SessaoUsuario.getInstancia().getUsuarioLogado() instanceof Participante participante)){
+            throw new PermissaoNegada("Organizador não pode comprar ingresso");
+        }
+
+        Pedido pedido = new Pedido();
+
+        pedido.setIngressos(comprarIngressoDTO.getIngressos());
+        pedido.setDataHora(LocalDateTime.now());
+        pedido.setParticipante(participante);
 
         for(Ingresso ingresso : pedido.getIngressos()) {
-            if(isDisponivel(ingresso) ) {
-                ingressosDisponiveis.add(ingresso);
+            if(!isDisponivel(ingresso) ) {
+                throw new IngressoNaoDisponivelException("Ingresso para o evento " + ingresso.getEvento().getNome() + " esgotado");
+            }
+            ingresso.getEvento().subtrairQtdDisponiveis(1);
+            if (ingresso.getEvento().getQtdDisponiveis() == 0) {
+                ingresso.getEvento().setStatusEvento(StatusEvento.ESGOTADO);
             }
         }
-        pedido.setIngressos(ingressosDisponiveis);
         pagar(pedido);
     }
 
     private boolean isDisponivel(Ingresso ingresso) {
-        int qtd = ingresso.getEvento().getQtdDisponiveis();
-        if(qtd > 0) {
-            return ingresso.getEvento().getStatusEvento() == StatusEvento.ABERTO;
-        }
-        ingresso.getEvento().setQtdDisponiveis(qtd-1);
-        ingresso.getEvento().setStatusEvento(StatusEvento.ESGOTADO);
-        return false;
+        return ingresso.getEvento().getQtdDisponiveis() > 0
+                && ingresso.getEvento().getStatusEvento() == StatusEvento.ABERTO;
     }
 
     private void pagar(Pedido pedido) {

@@ -11,7 +11,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("eventos/ConsultarEventos.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("EventHub - Teste de saudação");
+        stage.setTitle("EventHub");
         stage.setScene(scene);
         stage.show();
     }
