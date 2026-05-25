@@ -162,43 +162,62 @@
     -fx-background-color: #FFFFFF;
 }
 
-/* Tables and Lists */
+/* Tables and Lists (Excel Grid Style) */
 .table-view, .list-view {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: transparent;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
+    -fx-border-color: #9CA3AF;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 0;
 }
 
 .table-view .column-header-background {
     -fx-background-color: #F3F4F6;
-    -fx-background-radius: 8 8 0 0;
+    -fx-background-radius: 4 4 0 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent transparent #9CA3AF transparent;
+    -fx-border-width: 0 0 1 0;
 }
 
 .table-view .column-header, .table-view .filler {
     -fx-background-color: transparent;
-    -fx-size: 40px;
-    -fx-text-fill: #1E3A8A;
+    -fx-size: 35px;
+    -fx-border-color: transparent #9CA3AF transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #111827;
     -fx-font-weight: bold;
+    -fx-font-size: 13px;
 }
 
 .table-row-cell, .list-cell {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: transparent transparent #E5E7EB transparent;
-    -fx-border-width: 0 0 1 0;
-    -fx-text-fill: #374151;
-    -fx-padding: 8 10 8 10;
+    -fx-border-color: transparent;
+}
+
+.table-cell {
+    -fx-padding: 5 10 5 10;
+    -fx-text-fill: #111827;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent #D1D5DB #D1D5DB transparent;
+    -fx-border-width: 0 1 1 0;
 }
 
 .table-row-cell:hover, .list-cell:hover {
-    -fx-background-color: #F9FAFB;
+    -fx-background-color: #E5E7EB;
 }
 
 .table-row-cell:selected, .list-cell:selected {
-    -fx-background-color: #DBEAFE;
+    -fx-background-color: #BFDBFE;
+}
+
+.table-row-cell:selected .table-cell {
     -fx-text-fill: #1E3A8A;
 }
 
 .table-view .scroll-bar:horizontal, .table-view .scroll-bar:vertical {
-    -fx-background-color: transparent;
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #D1D5DB;
 }

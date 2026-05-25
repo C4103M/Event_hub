@@ -3,29 +3,106 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
 
-<StackPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.EventoController">
-   <stylesheets>
-      <URL value="@../styles.css" />
-   </stylesheets>
-   <children>
-      <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="card" maxWidth="900.0" maxHeight="600.0" prefWidth="900.0" prefHeight="600.0">
-         <children>
-            <VBox alignment="CENTER" spacing="5.0">
-               <children>
-                  <Label styleClass="label-title" text="Vitrine de Eventos" />
-                  <Label styleClass="label-subtitle" text="Selecione um evento para comprar seu ingresso." />
-               </children>
-            </VBox>
-
-            <ListView fx:id="listVitrineEventos" prefHeight="400.0" prefWidth="850.0" style="-fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;" />
-
-            <HBox alignment="CENTER" spacing="15.0" prefWidth="850.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#irParaComprarIngressoSelecionado" text="Comprar Ingresso" prefWidth="300.0" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
-</StackPane>
+<ScrollPane fitToWidth="true" style="-fx-background-color: #F3F4F6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.EventoController">
+    <stylesheets>
+        <URL value="@../styles.css" />
+    </stylesheets>
+    
+    <content>
+        <VBox alignment="TOP_CENTER" spacing="0.0">
+            <children>
+                
+                <!-- Top Banner -->
+                <ImageView fitHeight="300.0" fitWidth="1080.0" preserveRatio="false">
+                    <image>
+                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.webp" />
+                    </image>
+                </ImageView>
+                
+                <!-- Main Content Area -->
+                <HBox spacing="40.0" maxWidth="1000.0" prefWidth="1000.0" alignment="TOP_CENTER">
+                    <padding>
+                        <Insets top="30" right="20" bottom="50" left="20" />
+                    </padding>
+                    
+                    <children>
+                        <!-- Left Side: Event Details -->
+                        <VBox spacing="20.0" prefWidth="400.0">
+                            <children>
+                                <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Festa Junina Foxes" />
+                                
+                                <VBox spacing="10.0" styleClass="card" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                                    <children>
+                                        <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Centro de Eventos, São Paulo, SP" />
+                                        <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="24 de Junho de 2026" />
+                                        <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Abertura dos portões: 18:00" />
+                                    </children>
+                                </VBox>
+                                
+                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Sobre o Evento" />
+                                <Label style="-fx-text-fill: #6B7280; -fx-wrap-text: true; -fx-font-size: 14px;" text="A maior festa junina universitária está de volta! Prepare-se para muita comida típica, brincadeiras, fogueira e atrações musicais incríveis que vão animar a noite toda. Não perca!" />
+                            </children>
+                        </VBox>
+                        
+                        <!-- Right Side: Tickets -->
+                        <VBox spacing="15.0" prefWidth="500.0" styleClass="card" style="-fx-background-radius: 12; -fx-padding: 25;">
+                            <children>
+                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Ingressos" />
+                                
+                                <!-- Ticket Option 1 -->
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #E5E7EB; -fx-border-radius: 8; -fx-padding: 15; -fx-background-color: #FFFFFF; -fx-background-radius: 8;">
+                                    <children>
+                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #374151;" text="Entrada Normal" />
+                                                <Label style="-fx-font-size: 14px; -fx-text-fill: #6B7280;" text="Lote 1" />
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #10B981;" text="R$ 50,00" />
+                                            </children>
+                                        </VBox>
+                                        <RadioButton mnemonicParsing="false" />
+                                    </children>
+                                </HBox>
+                                
+                                <!-- Ticket Option 2 -->
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #E5E7EB; -fx-border-radius: 8; -fx-padding: 15; -fx-background-color: #FFFFFF; -fx-background-radius: 8;">
+                                    <children>
+                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #374151;" text="Open Food" />
+                                                <Label style="-fx-font-size: 14px; -fx-text-fill: #6B7280;" text="Acesso à área de alimentação liberada." />
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #10B981;" text="R$ 120,00" />
+                                            </children>
+                                        </VBox>
+                                        <RadioButton mnemonicParsing="false" />
+                                    </children>
+                                </HBox>
+                                
+                                <!-- Ticket Option 3 -->
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #E5E7EB; -fx-border-radius: 8; -fx-padding: 15; -fx-background-color: #FFFFFF; -fx-background-radius: 8;">
+                                    <children>
+                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #374151;" text="Open Bar + Open Food" />
+                                                <Label style="-fx-font-size: 14px; -fx-text-fill: #6B7280;" text="Experiência VIP completa." />
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #10B981;" text="R$ 250,00" />
+                                            </children>
+                                        </VBox>
+                                        <RadioButton mnemonicParsing="false" />
+                                    </children>
+                                </HBox>
+                                
+                                <Region VBox.vgrow="ALWAYS" />
+                                
+                                <Button mnemonicParsing="false" text="Comprar Ingresso" prefWidth="500.0" style="-fx-font-size: 16px; -fx-padding: 12;" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

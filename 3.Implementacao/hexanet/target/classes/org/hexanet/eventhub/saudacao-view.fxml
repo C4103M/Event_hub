@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.SaudacaoController">
+    <stylesheets>
+        <java.net.URL value="@styles.css" />
+    </stylesheets>
+   <children>
+      <VBox alignment="CENTER" layoutX="415.0" layoutY="200.0" prefWidth="350.0" styleClass="card" spacing="20.0">
+         <children>
+            <Label fx:id="labelSaldar" styleClass="label-title" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" />
+            
+            <VBox spacing="8.0" prefWidth="300.0" maxWidth="300.0">
+               <children>
+                  <Label text="Nome" />
+                  <TextField fx:id="tfNome" />
+               </children>
+            </VBox>
+            
+            <VBox spacing="8.0" prefWidth="300.0" maxWidth="300.0">
+               <children>
+                  <Label text="Mensagem" />
+                  <TextField fx:id="tfMsg" />
+               </children>
+            </VBox>
+            
+            <VBox alignment="CENTER" spacing="15.0" prefWidth="300.0" maxWidth="300.0">
+               <children>
+                  <Button fx:id="btnSaudar" mnemonicParsing="false" text="Saudar" prefWidth="300.0" />
+                  <Button fx:id="btnGerenciar" mnemonicParsing="false" styleClass="button-secondary" text="Gerenciar Meus Eventos" onAction="#irParaGerenciar" prefWidth="300.0" />
+                  <Button fx:id="btnVitrine" mnemonicParsing="false" styleClass="button-secondary" text="Vitrine de Eventos" onAction="#irParaVitrine" prefWidth="300.0" />
+                  <Button fx:id="btnComprar" mnemonicParsing="false" styleClass="button-secondary" text="Comprar Ingresso (Direto)" onAction="#irParaCompra" prefWidth="300.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
