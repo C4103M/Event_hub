@@ -1,97 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.12"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="org.hexanet.eventhub.controller.EventoController"
-           style="-fx-background-color: linear-gradient(to right, #B15B86, #440F50);"
-           minWidth="700" minHeight="600">
-
-    <VBox spacing="0"
-          style="-fx-background-color: white;
-             -fx-background-radius: 20;
-             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 24, 0, 0, 6);">
-        <StackPane.margin>
-            <Insets top="20" right="40" bottom="20" left="40"/>
-        </StackPane.margin>
-
-        <VBox style="-fx-background-color: #1a1a2e; -fx-background-radius: 20 20 0 0;">
-            <padding><Insets top="20" right="32" bottom="20" left="32"/></padding>
-            <HBox alignment="CENTER_LEFT">
-                <VBox HBox.hgrow="ALWAYS">
-                    <Label text="MEUS EVENTOS"
-                           style="-fx-text-fill: #e8a87c; -fx-font-size: 10px;
-                                  -fx-font-family: 'Segoe UI'; -fx-letter-spacing: 3;"/>
-                    <Label text="Gerenciar eventos"
-                           style="-fx-text-fill: white; -fx-font-size: 22px;
-                                  -fx-font-family: 'Georgia'; -fx-font-weight: bold;"/>
+<StackPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.EventoController">
+    <stylesheets>
+        <URL value="@../styles.css" />
+    </stylesheets>
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="card" maxWidth="900.0" maxHeight="600.0" prefWidth="900.0" prefHeight="600.0">
+            <children>
+                <VBox alignment="CENTER" spacing="5.0">
+                    <children>
+                        <Label styleClass="label-title" text="Consultar Eventos" />
+                        <Label styleClass="label-subtitle" text="Veja todos os eventos disponíveis na plataforma." />
+                    </children>
                 </VBox>
-                <VBox alignment="CENTER_RIGHT" spacing="4">
-                    <Label fx:id="lblNomeOrganizador"
-                           text="Olá, Organizador"
-                           style="-fx-text-fill: #aaa; -fx-font-size: 12px;"/>
-                    <Button fx:id="btnSair" text="SAIR" onAction="#sair"
-                            style="-fx-background-color: transparent;
-                                   -fx-border-color: #e8a87c;
-                                   -fx-border-radius: 8;
-                                   -fx-background-radius: 8;
-                                   -fx-text-fill: #e8a87c;
-                                   -fx-font-size: 11px;
-                                   -fx-letter-spacing: 1;
-                                   -fx-cursor: hand;
-                                   -fx-padding: 4 14;"/>
-                </VBox>
-            </HBox>
+
+                <TableView fx:id="tabelaEventos" prefHeight="450.0" prefWidth="850.0" style="-fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;">
+                    <columns>
+                        <TableColumn fx:id="colNome" prefWidth="250.0" text="Nome do Evento" />
+                        <TableColumn fx:id="colLocal" prefWidth="200.0" text="Local" />
+                        <TableColumn fx:id="colData" prefWidth="150.0" text="Data/Hora" />
+                        <TableColumn fx:id="colPreco" prefWidth="120.0" text="Valor (R$)" />
+                        <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
+                    </columns>
+                </TableView>
+            </children>
         </VBox>
-
-        <HBox alignment="CENTER_LEFT" spacing="12"
-              style="-fx-background-color: #f5f4f0; -fx-border-color: #e0e0e0;
-                     -fx-border-width: 0 0 1 0;">
-            <padding><Insets top="12" right="32" bottom="12" left="32"/></padding>
-            <TextField fx:id="txtBuscar" promptText="Buscar evento..."
-                       HBox.hgrow="ALWAYS"
-                       style="-fx-background-color: white; -fx-background-radius: 10;
-                              -fx-border-color: #ddd; -fx-border-radius: 10;
-                              -fx-pref-height: 36; -fx-padding: 0 12; -fx-font-size: 13px;"/>
-            <Button text="+ NOVO EVENTO" onAction="#abrirFormulario"
-                    style="-fx-background-color: #1a1a2e; -fx-text-fill: white;
-                           -fx-background-radius: 10; -fx-font-size: 11px;
-                           -fx-letter-spacing: 1.5; -fx-cursor: hand;
-                           -fx-padding: 8 18; -fx-pref-height: 36;"/>
-        </HBox>
-
-        <TableView fx:id="tblEventos" VBox.vgrow="ALWAYS"
-                   style="-fx-background-color: white;
-                          -fx-border-color: transparent;
-                          -fx-background-radius: 0 0 20 20;
-                          -fx-table-cell-border-color: #f0f0f0;">
-            <padding><Insets top="8" right="16" bottom="16" left="16"/></padding>
-            <columns>
-
-                <TableColumn fx:id="colBanner" text="Banner" prefWidth="90" />
-
-                <TableColumn fx:id="colNome" text="Nome do Evento" prefWidth="160" />
-
-                <TableColumn fx:id="colData" text="Data" prefWidth="90" />
-
-                <TableColumn fx:id="colHorario" text="Horário" prefWidth="70" />
-
-                <TableColumn fx:id="colLocal" text="Local" prefWidth="120" />
-
-                <TableColumn fx:id="colCapacidade" text="Vagas" prefWidth="60" />
-
-                <TableColumn fx:id="colAcoes" text="Ações" prefWidth="120" />
-
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-            </columnResizePolicy>
-        </TableView>
-
-    </VBox>
-
+    </children>
 </StackPane>
