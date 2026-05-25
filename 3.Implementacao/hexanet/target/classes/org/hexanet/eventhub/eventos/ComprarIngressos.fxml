@@ -1,31 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.EventoController">
+<?import java.lang.String?>
+<StackPane prefHeight="720.0" prefWidth="1180.0" style="-fx-background-color: #F3F4F6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.CompraIngressoController">
    <stylesheets>
       <URL value="@../styles.css" />
    </stylesheets>
    <children>
-      <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="card" maxWidth="900.0" maxHeight="600.0" prefWidth="900.0" prefHeight="600.0">
+      <GridPane hgap="30.0" maxWidth="1100.0" prefHeight="650.0" prefWidth="1100.0" styleClass="card">
+         <columnConstraints>
+            <ColumnConstraints percentWidth="45.0" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints percentWidth="55.0" hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <VBox alignment="CENTER" spacing="5.0">
+
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="AS_NEEDED">
+               <content>
+                  <VBox spacing="20.0">
+                     <children>
+                        <StackPane style="-fx-background-radius: 12; -fx-overflow-piece: true;">
+                           <children>
+                              <ImageView fx:id="imgBannerEvento" fitHeight="220.0" fitWidth="440.0" pickOnBounds="true" preserveRatio="true">
+                              </ImageView>
+                           </children>
+                        </StackPane>
+
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label fx:id="lblNomeEvento" styleClass="label-title" text="Arraiá da Foxes" wrapText="true" />
+                              <Label fx:id="lblLocalCidade" styleClass="label-subtitle" text="Havana Bar - Curitiba / Paraná" />
+                           </children>
+                        </VBox>
+
+                        <Separator prefWidth="200.0" />
+
+                        <VBox spacing="12.0">
+                           <children>
+                              <Label fx:id="lblDataHorario" text="📅 20 Jun às 20:00 até 21 Jun às 01:00">
+                                 <styleClass>
+                                    <String fx:value="label" />
+                                 </styleClass></Label>
+
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold;" styleClass="label" text="Políticas do Evento" />
+                                    <Label styleClass="label-subtitle" text="• Proibido menores de 16 anos (Classificação Etária)" />
+                                    <Label styleClass="label-subtitle" text="• Documentos solicitados na entrada para validação" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+
+            <VBox spacing="20.0" GridPane.columnIndex="1">
                <children>
-                  <Label styleClass="label-title" text="Vitrine de Eventos" />
-                  <Label styleClass="label-subtitle" text="Selecione um evento para comprar seu ingresso." />
+                  <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" styleClass="label" text="INGRESSOS" />
+
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="420.0" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="AS_NEEDED">
+                     <content>
+                        <VBox spacing="15.0">
+                           <children>
+
+                              <VBox spacing="5.0" style="-fx-background-color: #F9FAFB; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label style="-fx-font-weight: bold;" text="Entrada Normal (Segundo Lote)" />
+                                                <Label styleClass="label-subtitle" text="R$ 18,50 + taxa" />
+                                             </children>
+                                          </VBox>
+                                          <Spinner fx:id="spinNormal" prefWidth="100.0" initialValue="0" max="10" min="0" editable="false" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+
+                              <VBox spacing="5.0" style="-fx-background-color: #F9FAFB; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label style="-fx-font-weight: bold;" text="Open Food (Segundo Lote)" />
+                                                <Label styleClass="label-subtitle" text="R$ 25,00 + taxa" />
+                                             </children>
+                                          </VBox>
+                                          <Spinner fx:id="spinOpenFood" prefWidth="100.0" initialValue="0" max="10" min="0" editable="false" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+
+                              <VBox spacing="5.0" style="-fx-background-color: #F9FAFB; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label style="-fx-font-weight: bold;" text="Open Bar (Segundo Lote)" />
+                                                <Label styleClass="label-subtitle" text="R$ 30,00 + taxa" />
+                                             </children>
+                                          </VBox>
+                                          <Spinner fx:id="spinOpenBar" prefWidth="100.0" initialValue="0" max="10" min="0" editable="false" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+
+                  <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="" prefHeight="45.0" prefWidth="250.0" styleClass="button" text="Finalizar Compra" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-
-            <ListView fx:id="listVitrineEventos" prefHeight="400.0" prefWidth="850.0" style="-fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;" />
-
-            <HBox alignment="CENTER" spacing="15.0" prefWidth="850.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#irParaComprarIngressoSelecionado" text="Comprar Ingresso" prefWidth="300.0" />
-               </children>
-            </HBox>
          </children>
-      </VBox>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </GridPane>
    </children>
 </StackPane>
