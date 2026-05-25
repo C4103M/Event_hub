@@ -221,3 +221,10 @@
     -fx-background-color: #F3F4F6;
     -fx-border-color: #D1D5DB;
 }
+
+/* Background Image Classes (Resolves URL safely via CSS) */
+.image-rodeio {
+    -fx-background-image: url('assets/rodeio_itu.png');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}

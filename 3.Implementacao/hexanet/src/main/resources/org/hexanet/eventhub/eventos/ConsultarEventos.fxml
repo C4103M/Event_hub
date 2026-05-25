@@ -56,18 +56,14 @@
                         <!-- Event Card Mock 1 -->
                         <HBox spacing="20.0" styleClass="card" style="-fx-background-radius: 12; -fx-padding: 15; -fx-cursor: hand;" maxWidth="900.0" prefWidth="900.0">
                             <children>
-                                <!-- Event Image -->
-                                <ImageView fitHeight="150.0" fitWidth="250.0" preserveRatio="false" style="-fx-background-radius: 8;">
-                                    <image>
-                                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.webp" />
-                                    </image>
-                                </ImageView>
+                                <!-- Event Image (Perfect Cover via CSS) -->
+                                <Region prefHeight="150.0" prefWidth="250.0" minWidth="250.0" styleClass="image-rodeio" style="-fx-background-radius: 8;" />
                                 
                                 <!-- Event Details -->
                                 <VBox spacing="10.0" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
                                     <children>
                                         <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Festa Junina Foxes" />
-                                        <Label style="-fx-text-fill: #4B5563;" text="📍 Parque da Cidade | 📅 24 de Junho, 18:00" />
+                                        <Label style="-fx-text-fill: #4B5563;" text="Parque da Cidade | 24 de Junho, 18:00" />
                                         <Label style="-fx-text-fill: #6B7280; -fx-wrap-text: true;" text="A maior festa junina da região com comidas típicas, quadrilha, e muita música ao vivo!" />
                                         <Region VBox.vgrow="ALWAYS" />
                                         <HBox alignment="BOTTOM_LEFT" spacing="15.0">
@@ -85,15 +81,12 @@
                         <!-- Event Card Mock 2 -->
                         <HBox spacing="20.0" styleClass="card" style="-fx-background-radius: 12; -fx-padding: 15; -fx-cursor: hand;" maxWidth="900.0" prefWidth="900.0">
                             <children>
-                                <ImageView fitHeight="150.0" fitWidth="250.0" preserveRatio="false" style="-fx-background-radius: 8;">
-                                    <image>
-                                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.webp" />
-                                    </image>
-                                </ImageView>
+                                <!-- Event Image (Perfect Cover via CSS) -->
+                                <Region prefHeight="150.0" prefWidth="250.0" minWidth="250.0" styleClass="image-rodeio" style="-fx-background-radius: 8;" />
                                 <VBox spacing="10.0" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
                                     <children>
                                         <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Tech Summit 2026" />
-                                        <Label style="-fx-text-fill: #4B5563;" text="📍 Centro de Convenções | 📅 10 de Agosto, 09:00" />
+                                        <Label style="-fx-text-fill: #4B5563;" text="Centro de Convenções | 10 de Agosto, 09:00" />
                                         <Label style="-fx-text-fill: #6B7280; -fx-wrap-text: true;" text="O maior evento de tecnologia e inovação, com palestrantes internacionais e workshops práticos." />
                                         <Region VBox.vgrow="ALWAYS" />
                                         <HBox alignment="BOTTOM_LEFT" spacing="15.0">
