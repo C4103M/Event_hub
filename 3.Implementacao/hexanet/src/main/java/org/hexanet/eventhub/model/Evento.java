@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hexanet.eventhub.model.enums.StatusEvento;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "evento")
@@ -33,6 +35,9 @@ public class Evento {
     @Enumerated(EnumType.STRING)
     @Column(name = "status_evento")
     private StatusEvento statusEvento;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<TipoIngresso> tiposIngresso = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "organizador_id")
@@ -142,5 +147,13 @@ public class Evento {
 
     public String getEventoImg() {
         return eventoImg;
+    }
+
+    public List<TipoIngresso> getTiposIngresso() {
+        return tiposIngresso;
+    }
+
+    public void setTiposIngresso(List<TipoIngresso> tiposIngresso) {
+        this.tiposIngresso = tiposIngresso;
     }
 }

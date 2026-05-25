@@ -59,7 +59,7 @@
                                 <!-- Event Image -->
                                 <ImageView fitHeight="150.0" fitWidth="250.0" preserveRatio="false" style="-fx-background-radius: 8;">
                                     <image>
-                                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.webp" />
+                                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.png" />
                                     </image>
                                 </ImageView>
                                 
@@ -87,7 +87,7 @@
                             <children>
                                 <ImageView fitHeight="150.0" fitWidth="250.0" preserveRatio="false" style="-fx-background-radius: 8;">
                                     <image>
-                                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.webp" />
+                                        <Image url="@/org/hexanet/eventhub/assets/rodeio_itu.png" />
                                     </image>
                                 </ImageView>
                                 <VBox spacing="10.0" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">

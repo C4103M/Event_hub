@@ -1,7 +1,6 @@
 package org.hexanet.eventhub.model;
 
 import jakarta.persistence.*;
-import org.hexanet.eventhub.model.enums.TipoIngresso;
 
 @Entity
 @Table(name = "ingresso")
@@ -10,7 +9,8 @@ public class Ingresso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_ingresso_id", nullable = false)
     private TipoIngresso tipo;
 
     private String codigo;

@@ -49,7 +49,6 @@ public class ComprarIngressoService {
     }
 
     private void pagar(Pedido pedido) {
-
         Pagamento pg = new Pagamento();
         pg.setDataHora(LocalDateTime.now());
         pg.setValor(pedido.calcValorPedido());

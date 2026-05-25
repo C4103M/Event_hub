@@ -221,3 +221,40 @@
     -fx-background-color: #F3F4F6;
     -fx-border-color: #D1D5DB;
 }
+.spinner .decrement-arrow-button .arrow {
+    -fx-shape: null;                 /* Remove o triângulo */
+    -fx-padding: 0;                  /* Reseta o espaçamento interno */
+    -fx-text-fill: #374151;          /* Cor do sinal de menos */
+    -fx-alignment: center;
+}
+.spinner .decrement-arrow-button::before {
+    content: "–";                    /* Injeta o caractere de menos */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #374151;
+}
+
+/* Remove o desenho geométrico padrão da seta de mais e injeta o texto "+" */
+.spinner .increment-arrow-button .arrow {
+    -fx-shape: null;                 /* Remove o triângulo */
+    -fx-padding: 0;
+    -fx-text-fill: #374151;          /* Cor do sinal de mais */
+    -fx-alignment: center;
+}
+.spinner .increment-arrow-button::before {
+    content: "+";                    /* Injeta o caractere de mais */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #374151;
+}
+
+/* Ajustes finos opcionais de fundo para os botões do Projeto Mura */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: #F3F4F6;
+    -fx-cursor: hand;
+}
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-background-color: #E5E7EB;
+}
