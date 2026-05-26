@@ -26,9 +26,6 @@ public class Evento {
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
-    @Column(name = "valor_ingresso")
-    private double valorIngresso;
-
     @Column(name = "evento_img")
     private String eventoImg;
 
@@ -36,7 +33,7 @@ public class Evento {
     @Column(name = "status_evento")
     private StatusEvento statusEvento;
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<TipoIngresso> tiposIngresso = new ArrayList<>();
 
     @ManyToOne
@@ -125,13 +122,7 @@ public class Evento {
         this.qtdDisponiveis -= qtd;
     }
 
-    public double getValorIngresso() {
-        return valorIngresso;
-    }
 
-    public void setValorIngresso(double valorIngresso) {
-        this.valorIngresso = valorIngresso;
-    }
 
     public Organizador getOrganizador() {
         return organizador;
@@ -156,4 +147,15 @@ public class Evento {
     public void setTiposIngresso(List<TipoIngresso> tiposIngresso) {
         this.tiposIngresso = tiposIngresso;
     }
+
+    public String getData() {
+        if (dataHora == null) return "";
+        return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String getHorario() {
+        if (dataHora == null) return "";
+        return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
 }

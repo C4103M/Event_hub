@@ -1,9 +1,7 @@
 package org.hexanet.eventhub;
 
 import org.hexanet.eventhub.dao.EventoDAO;
-import org.hexanet.eventhub.dao.ParticipanteDAO;
 import org.hexanet.eventhub.model.Evento;
-import org.hexanet.eventhub.model.Participante;
 import org.hexanet.eventhub.model.enums.StatusEvento;
 
 import java.time.LocalDateTime;

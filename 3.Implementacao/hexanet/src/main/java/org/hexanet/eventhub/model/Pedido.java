@@ -96,7 +96,7 @@ public class Pedido {
     public double calcValorPedido() {
         double valor = 0;
         for(Ingresso ingresso : this.ingressos) {
-            valor += ingresso.getEvento().getValorIngresso() * ingresso.getTipo().getFator();
+            valor += ingresso.getTipo().getPreco();
         }
         return valor;
     }
