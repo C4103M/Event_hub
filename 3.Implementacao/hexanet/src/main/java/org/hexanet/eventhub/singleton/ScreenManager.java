@@ -9,6 +9,7 @@ import org.hexanet.eventhub.controller.ComprarIngressoController;
 import org.hexanet.eventhub.controller.PagamentoController;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
+import org.hexanet.eventhub.model.Usuario;
 
 import java.io.IOException;
 
@@ -38,6 +39,27 @@ public class ScreenManager {
 
     // 2. Caminhos FXML (Privados e Centralizados)
 
+
+    private static final String TELA_CONSULTAR_EVENTOS = "/org/hexanet/eventhub/eventos/ConsultarEventos.fxml";
+
+    public void irParaConsultarEventos() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_CONSULTAR_EVENTOS));
+            Parent root = loader.load();
+
+
+
+            // Troca o miolo do BorderPane se estiver configurado, ou a cena inteira
+            if (painelPrincipal != null) {
+                painelPrincipal.setCenter(root);
+            } else {
+                stagePrincipal.getScene().setRoot(root);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar o pagamento.");
+        }
+    }
 
 
     private static final String TELA_COMPRAR_INGRESSO = "/org/hexanet/eventhub/ingressos/ComprarIngresso.fxml";

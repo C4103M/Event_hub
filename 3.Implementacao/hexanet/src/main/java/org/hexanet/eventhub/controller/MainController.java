@@ -21,47 +21,17 @@ public class MainController {
     public void initialize() {
         // Registra o painel central no Singleton de Navegação
         ScreenManager.getInstancia().setPainelPrincipal(mainContainer);
-        DetalhesEventoDTO detalhes = gerarDetalhes();
 
         atualizarMenu();
-        exibirBarraPesquisa(false);
+        exibirBarraPesquisa(true);
 
-        ScreenManager.getInstancia().irParaTelaComprarIngressos(detalhes);
+        ScreenManager.getInstancia().irParaConsultarEventos();
     }
 
     public void irParaLogin() {
         ScreenManager.getInstancia().abrirLogin();
     }
 
-    public DetalhesEventoDTO gerarDetalhes() {
-        DetalhesEventoDTO mockDTO = new DetalhesEventoDTO();
-        mockDTO.setIdEvento(99L);
-        mockDTO.setNome("Festa Junina Teste (MOCK)");
-        mockDTO.setLocal("Pavilhão Central");
-        mockDTO.setDataHora(LocalDateTime.now().plusDays(10)); // Evento daqui a 10 dias
-
-        // Criar opções de ingressos falsas
-        List<TipoIngressoDTO> tiposMocks = new ArrayList<>();
-
-        TipoIngressoDTO tipo1 = new TipoIngressoDTO();
-        tipo1.setId(1L);
-        tipo1.setNome("VIP - 1º Lote");
-        tipo1.setPreco(150.50);
-        tipo1.setQtdDisponiveis(10); // Máximo que o spinner vai aceitar
-
-        TipoIngressoDTO tipo2 = new TipoIngressoDTO();
-        tipo2.setId(2L);
-        tipo2.setNome("Pista - 2º Lote");
-        tipo2.setPreco(50.00);
-        tipo2.setQtdDisponiveis(5);
-
-        tiposMocks.add(tipo1);
-        tiposMocks.add(tipo2);
-
-        mockDTO.setTiposDisponiveis(tiposMocks);
-
-        return  mockDTO;
-    }
 
     public void atualizarMenu() {
         boolean estaLogado = SessaoUsuario.getInstancia().getUsuarioLogado() != null;
@@ -77,9 +47,4 @@ public class MainController {
         barraPesquisa.setVisible(mostrar);
         barraPesquisa.setManaged(mostrar);
     }
-
-//    @FXML
-//    public void irParaEventos() {
-////        ScreenManager.getInstancia().
-//    }
 }

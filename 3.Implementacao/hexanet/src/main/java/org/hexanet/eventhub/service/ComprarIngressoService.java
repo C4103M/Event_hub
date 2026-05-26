@@ -23,9 +23,14 @@ public class ComprarIngressoService {
     public ComprarIngressoService() {}
 
     public void comprarIngresso(ComprarIngressoDTO comprarIngressoDTO) {
-        if(!(SessaoUsuario.getInstancia().getUsuarioLogado() instanceof Participante participante)){
+        if((SessaoUsuario.getInstancia().getUsuarioLogado() instanceof Organizador organizador)){
             throw new PermissaoNegada("Organizador não pode comprar ingresso");
         }
+        if(SessaoUsuario.getInstancia().getUsuarioLogado() == null) {
+            throw new PermissaoNegada("Deve fazer login para comprar ingresso");
+        }
+
+        Participante participante = (Participante) SessaoUsuario.getInstancia().getUsuarioLogado();
 
         Pedido pedido = new Pedido();
 
@@ -34,7 +39,9 @@ public class ComprarIngressoService {
         pedido.setParticipante(participante);
 
         for(Ingresso ingresso : pedido.getIngressos()) {
-            if(!isDisponivel(ingresso) ) {
+
+            // Está vindo errado, tem que resolver
+            if(isDisponivel(ingresso) ) {
                 throw new IngressoNaoDisponivelException("Ingresso para o evento " + ingresso.getEvento().getNome() + " esgotado");
             }
             ingresso.getEvento().subtrairQtdDisponiveis(1);
@@ -46,6 +53,7 @@ public class ComprarIngressoService {
     }
 
     private boolean isDisponivel(Ingresso ingresso) {
+        System.out.printf("%d\n%s", ingresso.getEvento().getQtdDisponiveis(), ingresso.getEvento().getStatusEvento());
         return ingresso.getEvento().getQtdDisponiveis() > 0
                 && ingresso.getEvento().getStatusEvento() == StatusEvento.ABERTO;
     }

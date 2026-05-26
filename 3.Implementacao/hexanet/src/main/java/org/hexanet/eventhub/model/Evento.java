@@ -156,6 +156,13 @@ public class Evento {
         this.tiposIngresso = tiposIngresso;
     }
 
+    public void addTipoIngresso(TipoIngresso tipoIngresso) {
+        if (this.tiposIngresso == null) {
+            this.tiposIngresso = new ArrayList<>();
+        }
+        this.tiposIngresso.add(tipoIngresso);
+        tipoIngresso.setEvento(this);
+    }
     public String getData() {
         if (dataHora == null) return "";
         return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -164,13 +171,5 @@ public class Evento {
     public String getHorario() {
         if (dataHora == null) return "";
         return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
-    }
-
-    public void addTipoIngresso(TipoIngresso tipoIngresso) {
-        if (this.tiposIngresso == null) {
-            this.tiposIngresso = new ArrayList<>();
-        }
-        this.tiposIngresso.add(tipoIngresso);
-        tipoIngresso.setEvento(this);
     }
 }

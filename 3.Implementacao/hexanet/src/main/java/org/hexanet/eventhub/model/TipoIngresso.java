@@ -26,6 +26,12 @@ public class TipoIngresso {
     // Construtores
     public TipoIngresso() {}
 
+    public TipoIngresso(String nome, double preco, int qtdDisponiveis, Evento evento) {
+        this.nome = nome;
+        this.preco = preco;
+        this.qtdDisponiveis = qtdDisponiveis;
+        this.evento = evento;
+    }
     public TipoIngresso(String nome, double preco, int qtdDisponiveis) {
         this.nome = nome;
         this.preco = preco;

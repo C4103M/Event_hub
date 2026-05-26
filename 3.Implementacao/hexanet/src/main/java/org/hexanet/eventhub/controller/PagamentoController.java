@@ -1,9 +1,7 @@
 package org.hexanet.eventhub.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
 import org.hexanet.eventhub.exceptions.PermissaoNegada;
@@ -22,6 +20,9 @@ public class PagamentoController {
     @FXML private RadioButton rbCredito;
     @FXML private RadioButton rbDebito;
     @FXML private RadioButton rbBoleto;
+
+    @FXML private TableView tvResumoItens;
+    @FXML private Label lbValorTotal;
 
     public void initData(ComprarIngressoDTO dto) {
         this.carrinhoDTO = dto;

@@ -1,13 +1,17 @@
 package org.hexanet.eventhub.service;
 
 import org.hexanet.eventhub.dao.EventoDAO;
+import org.hexanet.eventhub.dto.DetalhesEventoDTO;
+import org.hexanet.eventhub.dto.TipoIngressoDTO;
 import org.hexanet.eventhub.exceptions.AlterarEvento;
 import org.hexanet.eventhub.exceptions.CapacidadeTotal;
 import org.hexanet.eventhub.exceptions.EventoCancelado;
 import org.hexanet.eventhub.exceptions.EventoNaoEncontrado;
 import org.hexanet.eventhub.model.Evento;
 
+import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
+import org.w3c.dom.events.Event;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +19,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventoService {
     private final EventoDAO eventoDAO;
@@ -184,7 +191,55 @@ public class EventoService {
         }
     }
 
-    public java.util.List<Evento> listarTodos() {
+    public List<Evento> listarTodos() {
         return eventoDAO.listarTodos();
+    }
+
+    public List<DetalhesEventoDTO> listarDetalhes() {
+        List<Evento> eventos = this.listarTodos();
+
+        // Lista que vai guardar o resultado final
+        List<DetalhesEventoDTO> listaDetalhes = new ArrayList<>();
+
+        // Laço passando por cada evento retornado do banco
+        for (Evento evento : eventos) {
+            DetalhesEventoDTO dto = new DetalhesEventoDTO();
+
+            // Mapeando os campos básicos
+            dto.setIdEvento(evento.getId());
+            dto.setNome(evento.getNome());
+            dto.setLocal(evento.getLocal());
+            dto.setDataHora(evento.getDataHora());
+            dto.setUrlImg(evento.getEventoImg());
+
+            // Lista para guardar os tipos de ingresso convertidos
+            List<TipoIngressoDTO> tiposDTO = new ArrayList<>();
+
+            // Verifica se a lista não é nula antes de tentar percorrê-la
+            if (evento.getTiposIngresso() != null) {
+
+                // Laço passando por cada tipo de ingresso daquele evento específico
+                for (TipoIngresso tipo : evento.getTiposIngresso()) {
+                    TipoIngressoDTO tipoDTO = new TipoIngressoDTO();
+
+                    // ATENÇÃO: Adapte os getters/setters abaixo conforme
+                    // os campos exatos da sua classe TipoIngressoDTO
+                    tipoDTO.setId(tipo.getId());
+                    tipoDTO.setNome(tipo.getNome()); // Exemplo: "Inteira", "Meia"
+                    tipoDTO.setPreco(tipo.getPreco());
+
+                    // Adiciona o ingresso convertido na nossa lista temporária
+                    tiposDTO.add(tipoDTO);
+                }
+            }
+
+            // Atribui a lista de ingressos (vazia ou preenchida) ao DTO do evento
+            dto.setTiposDisponiveis(tiposDTO);
+
+            // Adiciona o evento totalmente montado na lista final
+            listaDetalhes.add(dto);
+        }
+
+        return listaDetalhes;
     }
 }

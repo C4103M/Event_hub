@@ -55,4 +55,6 @@ public class Ingresso {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
+
+
 }
