@@ -14,6 +14,10 @@ public class TipoIngressoDTO {
         this.qtdDisponiveis = qtdDisponiveis;
     }
 
+    public TipoIngressoDTO() {
+
+    }
+
     public double getPreco() {
         return preco;
     }

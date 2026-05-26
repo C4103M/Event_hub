@@ -17,6 +17,8 @@ public class Evento {
     private String nome;
     private String local;
 
+    private String descricao;
+
     @Column(name = "capacidade_total")
     private int capacidadeTotal;
 
@@ -143,7 +145,13 @@ public class Evento {
     public List<TipoIngresso> getTiposIngresso() {
         return tiposIngresso;
     }
+    public String getDescricao() {
+        return descricao;
+    }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
     public void setTiposIngresso(List<TipoIngresso> tiposIngresso) {
         this.tiposIngresso = tiposIngresso;
     }
@@ -158,4 +166,11 @@ public class Evento {
         return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
     }
 
+    public void addTipoIngresso(TipoIngresso tipoIngresso) {
+        if (this.tiposIngresso == null) {
+            this.tiposIngresso = new ArrayList<>();
+        }
+        this.tiposIngresso.add(tipoIngresso);
+        tipoIngresso.setEvento(this);
+    }
 }

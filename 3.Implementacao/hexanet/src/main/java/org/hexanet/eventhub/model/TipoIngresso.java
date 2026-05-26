@@ -19,18 +19,17 @@ public class TipoIngresso {
     @Column(name = "qtd_disponiveis", nullable = false)
     private int qtdDisponiveis;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "evento_id", nullable = false)
     private Evento evento;
 
     // Construtores
     public TipoIngresso() {}
 
-    public TipoIngresso(String nome, double preco, int qtdDisponiveis, Evento evento) {
+    public TipoIngresso(String nome, double preco, int qtdDisponiveis) {
         this.nome = nome;
         this.preco = preco;
         this.qtdDisponiveis = qtdDisponiveis;
-        this.evento = evento;
     }
 
     // Getters e Seters

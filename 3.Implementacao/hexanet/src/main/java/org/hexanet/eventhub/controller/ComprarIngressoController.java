@@ -9,42 +9,50 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
+import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.dto.TipoIngressoDTO;
-import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
-import org.hexanet.eventhub.exceptions.PermissaoNegada;
+import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.Ingresso;
-import org.hexanet.eventhub.model.Pedido;
-import org.hexanet.eventhub.model.enums.MetodoPagamento;
+import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.service.ComprarIngressoService;
 import org.hexanet.eventhub.service.TipoIngressoService;
 import org.hexanet.eventhub.utils.AlertManager;
+import org.hexanet.eventhub.singleton.ScreenManager;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ComprarIngressoController {
 
+    @FXML private VBox containerTipoIngresso;
+    @FXML private Label lblNomeEvento;
+    @FXML private Label lblDataLocal;
+
+    private final Map<TipoIngressoDTO, Spinner<Integer>> mapaContadores = new HashMap<>();
+    private Evento eventoBase = new Evento();
+
     private final ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
     private final TipoIngressoService tipoIngressoService = new TipoIngressoService();
 
-    // Tem que receber do front
-    MetodoPagamento metodoPagamento;
-    private Pedido pedido;
+
 
     @FXML
-    private VBox containerTipoIngresso;
+    public void initData(DetalhesEventoDTO detalhes) {
+        this.lblNomeEvento.setText(detalhes.getNome());
+        this.lblDataLocal.setText(detalhes.getLocal() + " - " + detalhes.getDataHora().toString());
 
-    private final Map<TipoIngressoDTO, Spinner<Integer>> mapaContadores = new HashMap<>();
-    List<Ingresso> ingressos;
+        this.eventoBase.setId(detalhes.getIdEvento());
+        this.eventoBase.setNome(detalhes.getNome());
 
-    @FXML
-    public void initialize() {
-        // Exemplo de dados vindo do Service. Substitua pela chamada real do banco:
-        // List<TipoIngressoDTO> ingressos = tipoIngressoService.buscarPorEvento(eventoId);
-        List<TipoIngressoDTO> listaIngressosDoBanco = tipoIngressoService.buscarTiposIngressoPorEvento(1L);
 
-        carregarOpcoesDeIngresso(listaIngressosDoBanco);
+        carregarOpcoesDeIngresso(detalhes.getTiposDisponiveis());
+
+//        eventoBase.setId(1L);
+//        List<TipoIngressoDTO> listaIngressosDoBanco = tipoIngressoService.buscarTiposIngressoPorEvento(evento.getId());
+//        carregarOpcoesDeIngresso(listaIngressosDoBanco);
     }
 
     private void carregarOpcoesDeIngresso(List<TipoIngressoDTO> listaIngressos) {
@@ -79,19 +87,84 @@ public class ComprarIngressoController {
 
     }
 
+    public void irParaPagamento() {
+        List<Ingresso> ingressosSelecionados = new ArrayList<>();
+        double valorTotal = 0.0;
 
-    @FXML
-    public void comprarIngressos() {
-        ComprarIngressoDTO comprarIngressoDTO = new ComprarIngressoDTO(this.ingressos, this.metodoPagamento);
-        try {
-            this.comprarIngressoService.comprarIngresso(comprarIngressoDTO);
-        } catch (PermissaoNegada e) {
-            AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Permissão Negada", e.getMessage());
-        } catch (IngressoNaoDisponivelException e) {
-            AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Ingresso indisponível", e.getMessage());
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+        for(Map.Entry<TipoIngressoDTO, Spinner<Integer>> entry : mapaContadores.entrySet()) {
+            TipoIngressoDTO tipoDTO = entry.getKey();
+            Spinner<Integer> spinner = entry.getValue();
+            int quantidade = spinner.getValue();
+
+            if(quantidade > 0) {
+                TipoIngresso tipoEntity = new TipoIngresso();
+                tipoEntity.setId(tipoDTO.getId());
+                tipoEntity.setNome(tipoDTO.getNome());
+                tipoEntity.setPreco(tipoDTO.getPreco());
+
+                for (int i = 0; i < quantidade; i++) {
+                    Ingresso ingresso = new Ingresso();
+                    ingresso.setTipo(tipoEntity);
+                    ingresso.setEvento(this.eventoBase); // CRUCIAL para o service subtrair a QTD!
+
+                    ingressosSelecionados.add(ingresso);
+                    valorTotal += tipoDTO.getPreco(); // Soma no total
+                }
+            }
+            if (ingressosSelecionados.isEmpty()) {
+                AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Selecione pelo menos um ingresso.");
+                return;
+            }
+            ComprarIngressoDTO carrinhoDTO = new ComprarIngressoDTO();
+            carrinhoDTO.setIdEvento(this.eventoBase.getId());
+            carrinhoDTO.setNomeEvento(this.eventoBase.getNome());
+            carrinhoDTO.setIngressosSelecionados(ingressosSelecionados);
+            carrinhoDTO.setValorTotalPedido(valorTotal);
+
+            ScreenManager.getInstancia().irParaTelaPagamento(carrinhoDTO);
         }
 
     }
+
+//    @FXML
+//    public void initialize() {
+//        // MODO DESENVOLVIMENTO: Simular a chegada de dados do Ecrã A
+//        // ATENÇÃO: Apagar ou comentar esta linha quando a integração real for feita!
+//        simularChegadaDoEcraA();
+//    }
+//    /**
+//     * FUNÇÃO TEMPORÁRIA DE MOCK
+//     * Cria dados estáticos na memória para poderes testar a renderização
+//     * e a passagem para o Ecrã C sem precisares da base de dados ou do Ecrã A.
+//     */
+//    private void simularChegadaDoEcraA() {
+//        DetalhesEventoDTO mockDTO = new DetalhesEventoDTO();
+//        mockDTO.setIdEvento(99L);
+//        mockDTO.setNome("Festa Junina Teste (MOCK)");
+//        mockDTO.setLocal("Pavilhão Central");
+//        mockDTO.setDataHora(LocalDateTime.now().plusDays(10)); // Evento daqui a 10 dias
+//
+//        // Criar opções de ingressos falsas
+//        List<TipoIngressoDTO> tiposMocks = new ArrayList<>();
+//
+//        TipoIngressoDTO tipo1 = new TipoIngressoDTO();
+//        tipo1.setId(1L);
+//        tipo1.setNome("VIP - 1º Lote");
+//        tipo1.setPreco(150.50);
+//        tipo1.setQtdDisponiveis(10); // Máximo que o spinner vai aceitar
+//
+//        TipoIngressoDTO tipo2 = new TipoIngressoDTO();
+//        tipo2.setId(2L);
+//        tipo2.setNome("Pista - 2º Lote");
+//        tipo2.setPreco(50.00);
+//        tipo2.setQtdDisponiveis(5);
+//
+//        tiposMocks.add(tipo1);
+//        tiposMocks.add(tipo2);
+//
+//        mockDTO.setTiposDisponiveis(tiposMocks);
+//
+//        // Força a injeção como se o ScreenManager tivesse acabado de chamar
+//        initData(mockDTO);
+//    }
 }

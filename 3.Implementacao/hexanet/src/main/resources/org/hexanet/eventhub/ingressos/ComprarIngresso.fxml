@@ -36,8 +36,8 @@
 
                         <VBox spacing="10.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" styleClass="card">
                            <children>
-                              <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Centro de Eventos, São Paulo, SP" />
-                              <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="24 de Junho de 2026" />
+                              <Label fx:id="lblNomeEvento" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Centro de Eventos, São Paulo, SP" />
+                              <Label fx:id="lblDataLocal" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="24 de Junho de 2026" />
                               <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Abertura dos portões: 18:00" />
                            </children>
                         </VBox>
@@ -52,8 +52,8 @@
                      <children>
                         <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Ingressos" />
                         <!--Pega um for de ingressos do db e renderiza no vbox-->
-                        <VBox fx:id="containerTipoIngresso" spacing="15.0" style="spinner"/>
-                        <Button mnemonicParsing="false" prefWidth="500.0" style="-fx-font-size: 16px; -fx-padding: 12;" text="Comprar Ingresso" />
+                        <VBox fx:id="containerTipoIngresso" spacing="15.0" style="spinner" />
+                        <Button mnemonicParsing="false" onAction="#irParaPagamento" prefWidth="500.0" style="-fx-font-size: 16px; -fx-padding: 12;" text="Comprar Ingresso" />
                      </children>
                   </VBox>
                </children>

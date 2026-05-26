@@ -18,7 +18,7 @@ public class UsuarioDTO {
         this.senha = senha;
         this.confirmarSenha = confirmarSenha;
     }
-    public UsuarioDTO(String nome, String senha) {
+    public UsuarioDTO(String email, String senha) {
         this.email = email;
         this.senha = senha;
     }

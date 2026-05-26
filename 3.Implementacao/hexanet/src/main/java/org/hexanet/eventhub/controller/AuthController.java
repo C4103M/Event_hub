@@ -9,7 +9,7 @@ import org.hexanet.eventhub.exceptions.SenhaInvalidaException;
 import org.hexanet.eventhub.exceptions.UsuarioNaoEncontradoException;
 import org.hexanet.eventhub.service.AuthService;
 import org.hexanet.eventhub.utils.AlertManager;
-import org.hexanet.eventhub.utils.ScreenManager;
+import org.hexanet.eventhub.singleton.ScreenManager;
 
 public class AuthController {
     @FXML
@@ -51,6 +51,8 @@ public class AuthController {
 
         try {
             authService.cadastrar(usuario);
+            AlertManager.exibirAlerta(Alert.AlertType.CONFIRMATION, "Sucesso", "Usuário Cadastrado com sucesso!");
+            irParaLogin();
         } catch (SenhaInvalidaException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Erro de Validação", e.getMessage());
             txtSenha.clear();
@@ -63,7 +65,9 @@ public class AuthController {
     }
 
     public void logar() {
-        UsuarioDTO usuario = new UsuarioDTO(txtEmail.getText(), txtSenha.getText());
+        System.out.println("==================TESTE NO CONTROLLER =================");
+        System.out.println(txtEmail.getText().trim().toLowerCase());
+        UsuarioDTO usuario = new UsuarioDTO(txtEmail.getText().trim().toLowerCase(), txtSenha.getText());
         try {
             this.authService.logar(usuario);
         } catch (UsuarioNaoEncontradoException | SenhaInvalidaException e) {
@@ -76,14 +80,12 @@ public class AuthController {
 
     @FXML
     public void irParaLogin() {
-        Stage stageJanelaAtual = (Stage) this.txtNome.getScene().getWindow();
-        ScreenManager.abrirLogin(stageJanelaAtual);
+        ScreenManager.getInstancia().abrirLogin();
     }
 
     @FXML
     public void irParaCadastro() {
-        Stage stageJanelaAtual = (Stage) this.txtNome.getScene().getWindow();
-        ScreenManager.abrirLogin(stageJanelaAtual);
+        ScreenManager.getInstancia().abrirCadastro();
     }
 
     public void toogleOrgPart() {
