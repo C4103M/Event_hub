@@ -9,7 +9,7 @@
       <URL value="@../styles.css" />
    </stylesheets>
    <children>
-      <VBox alignment="CENTER" spacing="20.0" styleClass="card" maxWidth="450.0" maxHeight="550.0" prefWidth="450.0">
+      <VBox alignment="CENTER" spacing="20.0" styleClass="card" maxWidth="950.0" maxHeight="550.0" prefWidth="950.0">
          <children>
             <VBox alignment="CENTER" spacing="5.0">
                <children>
@@ -18,35 +18,57 @@
                </children>
             </VBox>
 
-            <GridPane hgap="10.0" vgap="15.0" alignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints halignment="RIGHT" minWidth="100.0" />
-                  <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
-               </columnConstraints>
+            <HBox alignment="TOP_CENTER" spacing="40.0" prefWidth="900.0">
+               <children>
+                  <GridPane hgap="10.0" vgap="15.0" alignment="TOP_RIGHT">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="130.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+                     </columnConstraints>
 
-               <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-               <TextField fx:id="tfNome" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                     <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                     <TextField fx:id="tfNome" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-               <Label text="Local:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-               <TextField fx:id="tfLocal" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <Label text="Local:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                     <TextField fx:id="tfLocal" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-               <Label text="Capacidade:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-               <TextField fx:id="tfCapacidade" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <Label text="Capacidade:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                     <TextField fx:id="tfCapacidade" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-               <Label text="Data:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-               <DatePicker fx:id="dpData" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     <Label text="Data:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                     <DatePicker fx:id="dpData" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-               <Label text="Valor (R$):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-               <TextField fx:id="tfValorIngresso" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     <Label text="Horário (HH:mm)" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                     <TextField fx:id="tfHorario" promptText="20:30" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-               <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-               <ComboBox fx:id="cbStatus" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            </GridPane>
+                     <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                     <ComboBox fx:id="cbStatus" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                     <Label text="Imagem do Evento:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                        <Button text="Selecionar" onAction="#selecionarImagem" minWidth="120.0" prefWidth="120.0"/>
+                        <Label fx:id="lblImagemSelecionada" text="Nenhuma imagem..."/>
+                     </HBox>
+                  </GridPane>
+
+                  <Separator orientation="VERTICAL" />
+
+                  <VBox spacing="10.0" alignment="TOP_LEFT" prefWidth="460.0" minWidth="460.0">
+                      <Label text="Tipos de Ingressos:" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                      <ScrollPane fitToWidth="true" prefHeight="600.0" style="-fx-background-color: transparent;">
+                          <VBox spacing="10.0">
+                              <VBox fx:id="vboxTiposIngresso" spacing="10.0" />
+                              <Button text="+ Adicionar Ingresso" onAction="#adicionarLinhaIngresso" style="-fx-background-color: transparent; -fx-text-fill: #4CAF50; -fx-cursor: hand; -fx-font-weight: bold;" />
+                          </VBox>
+                      </ScrollPane>
+                  </VBox>
+               </children>
+            </HBox>
 
             <HBox alignment="CENTER" spacing="15.0" prefWidth="350.0">
                <children>
-                  <Button mnemonicParsing="false" styleClass="button-secondary" onAction="#irParaGerenciar" text="Cancelar" prefWidth="150.0" />
-                  <Button mnemonicParsing="false" onAction="#salvarEvento" text="Salvar" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" styleClass="button-secondary" onAction="#cancelar" text="Cancelar" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" onAction="#cadastrarEvento" text="Salvar" prefWidth="150.0" />
                </children>
             </HBox>
          </children>

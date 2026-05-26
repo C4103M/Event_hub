@@ -10,12 +10,13 @@
         <class>org.hexanet.eventhub.model.Pagamento</class>
         <class>org.hexanet.eventhub.model.Participante</class>
         <class>org.hexanet.eventhub.model.Pedido</class>
+        <class>org.hexanet.eventhub.model.TipoIngresso</class>
 
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
 
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/eventhub?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/eventhub?createDatabaseIfNotExist=true" />
 
             <property name="jakarta.persistence.jdbc.user" value="root" />
             <property name="jakarta.persistence.jdbc.password" value="ifsp" />

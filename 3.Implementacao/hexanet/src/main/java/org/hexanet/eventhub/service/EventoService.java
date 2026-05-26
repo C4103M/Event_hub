@@ -1,13 +1,17 @@
 package org.hexanet.eventhub.service;
 
 import org.hexanet.eventhub.dao.EventoDAO;
+import org.hexanet.eventhub.dto.DetalhesEventoDTO;
+import org.hexanet.eventhub.dto.TipoIngressoDTO;
 import org.hexanet.eventhub.exceptions.AlterarEvento;
 import org.hexanet.eventhub.exceptions.CapacidadeTotal;
 import org.hexanet.eventhub.exceptions.EventoCancelado;
 import org.hexanet.eventhub.exceptions.EventoNaoEncontrado;
 import org.hexanet.eventhub.model.Evento;
 
+import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
+import org.w3c.dom.events.Event;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +19,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventoService {
     private final EventoDAO eventoDAO;
@@ -31,6 +38,11 @@ public class EventoService {
             evento.setStatusEvento(StatusEvento.ABERTO);
         }
 
+        if (org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() && 
+            org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
+            evento.setOrganizador((org.hexanet.eventhub.model.Organizador) org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado());
+        }
+
         if (imagem != null && imagem.exists()) {
             String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
             File dir = new File(assetsDir);
@@ -41,80 +53,193 @@ public class EventoService {
             Path destiny = Paths.get(assetsDir, imgName);
 
             Files.copy(imagem.toPath(), destiny, StandardCopyOption.REPLACE_EXISTING);
-            evento.setEventoImg("assets/images/" + imgName);
+            evento.setEventoImg("assets/" + imgName);
         }
 
         eventoDAO.salvar(evento);
     }
 
     public void atualizarEvento(Evento eventoAtualizado, File novaImagem) throws Exception {
-        Evento existEvent = eventoDAO.buscarPorId(eventoAtualizado.getId());
+        jakarta.persistence.EntityManager em = org.hexanet.eventhub.factory.EmFactory.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Evento existEvent = em.find(Evento.class, eventoAtualizado.getId());
 
-        if (existEvent == null) {
-            throw new EventoNaoEncontrado("Evento não encontrado no sistema");
+            if (existEvent == null) {
+                throw new EventoNaoEncontrado("Evento não encontrado no sistema");
+            }
+
+            StatusEvento status = existEvent.getStatusEvento();
+
+            if (status == StatusEvento.CANCELADO || status == StatusEvento.FINALIZADO
+                    || status == StatusEvento.EM_ANDAMENTO) {
+                throw new AlterarEvento("Não é possível alterar um evento que está " + status.name() + ".");
+            }
+
+            String imagemCaminho = existEvent.getEventoImg();
+            if (novaImagem != null && novaImagem.exists()) {
+                String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
+                File dir = new File(assetsDir);
+                if (!dir.exists())
+                    dir.mkdirs();
+
+                String imgName = UUID.randomUUID().toString() + "_" + novaImagem.getName();
+                Path destiny = Paths.get(assetsDir, imgName);
+
+                Files.copy(novaImagem.toPath(), destiny, StandardCopyOption.REPLACE_EXISTING);
+                imagemCaminho = "assets/" + imgName;
+            }
+
+            int diferencaCapacidade = eventoAtualizado.getCapacidadeTotal() - existEvent.getCapacidadeTotal();
+            int novaQtdDisponivel = existEvent.getQtdDisponiveis() + diferencaCapacidade;
+
+            if (novaQtdDisponivel < 0) {
+                throw new CapacidadeTotal(
+                        "A nova capacidade do local é menor do que a quantidade de ingressos que já foram vendidos.");
+            }
+
+            existEvent.setNome(eventoAtualizado.getNome());
+            existEvent.setLocal(eventoAtualizado.getLocal());
+            existEvent.setCapacidadeTotal(eventoAtualizado.getCapacidadeTotal());
+            existEvent.setDataHora(eventoAtualizado.getDataHora());
+            existEvent.setEventoImg(imagemCaminho);
+            existEvent.setQtdDisponiveis(novaQtdDisponivel);
+
+            if (existEvent.getOrganizador() == null && org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() && 
+                org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
+                existEvent.setOrganizador((org.hexanet.eventhub.model.Organizador) org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado());
+            }
+
+            StatusEvento novoStatus = eventoAtualizado.getStatusEvento();
+            if (novaQtdDisponivel == 0 && novoStatus == StatusEvento.ABERTO) {
+                existEvent.setStatusEvento(StatusEvento.ESGOTADO);
+            } else if (novaQtdDisponivel > 0 && novoStatus == StatusEvento.ESGOTADO) {
+                existEvent.setStatusEvento(StatusEvento.ABERTO);
+            } else {
+                existEvent.setStatusEvento(novoStatus);
+            }
+
+            // Sincronizar a coleção tiposIngresso
+            java.util.List<org.hexanet.eventhub.model.TipoIngresso> newTipos = eventoAtualizado.getTiposIngresso();
+            java.util.List<org.hexanet.eventhub.model.TipoIngresso> currentTipos = existEvent.getTiposIngresso();
+
+            // 1. Remover ingressos órfãos
+            currentTipos.removeIf(current -> {
+                boolean keep = newTipos.stream().anyMatch(n -> n.getNome().equalsIgnoreCase(current.getNome()));
+                if (!keep) {
+                    current.setEvento(null);
+                }
+                return !keep;
+            });
+
+            // 2. Adicionar ou atualizar ingressos
+            for (org.hexanet.eventhub.model.TipoIngresso newTipo : newTipos) {
+                org.hexanet.eventhub.model.TipoIngresso existing = currentTipos.stream()
+                        .filter(c -> c.getNome().equalsIgnoreCase(newTipo.getNome()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existing != null) {
+                    existing.setPreco(newTipo.getPreco());
+                    existing.setQtdDisponiveis(newTipo.getQtdDisponiveis());
+                } else {
+                    newTipo.setEvento(existEvent);
+                    currentTipos.add(newTipo);
+                }
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
         }
-
-        StatusEvento status = existEvent.getStatusEvento();
-
-        if (status == StatusEvento.CANCELADO || status == StatusEvento.FINALIZADO
-                || status == StatusEvento.EM_ANDAMENTO) {
-            throw new AlterarEvento("Não é possível alterar um evento que está " + status.name() + ".");
-        }
-
-        if (novaImagem != null && novaImagem.exists()) {
-            String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
-            File dir = new File(assetsDir);
-            if (!dir.exists())
-                dir.mkdirs();
-
-            String imgName = UUID.randomUUID().toString() + "_" + novaImagem.getName();
-            Path destiny = Paths.get(assetsDir, imgName);
-
-            Files.copy(novaImagem.toPath(), destiny, StandardCopyOption.REPLACE_EXISTING);
-            eventoAtualizado.setEventoImg("assets/images/" + imgName);
-        } else {
-            eventoAtualizado.setEventoImg(existEvent.getEventoImg());
-        }
-
-        int diferencaCapacidade = eventoAtualizado.getCapacidadeTotal() - existEvent.getCapacidadeTotal();
-        int novaQtdDisponivel = existEvent.getQtdDisponiveis() + diferencaCapacidade;
-
-        if (novaQtdDisponivel < 0) {
-            throw new CapacidadeTotal(
-                    "A nova capacidade do local é menor do que a quantidade de ingressos que já foram vendidos.");
-        }
-
-        eventoAtualizado.setQtdDisponiveis(novaQtdDisponivel);
-
-        if (eventoAtualizado.getQtdDisponiveis() == 0 && eventoAtualizado.getStatusEvento() == StatusEvento.ABERTO) {
-            eventoAtualizado.setStatusEvento(StatusEvento.ESGOTADO);
-        } else if (eventoAtualizado.getQtdDisponiveis() > 0
-                && eventoAtualizado.getStatusEvento() == StatusEvento.ESGOTADO) {
-            eventoAtualizado.setStatusEvento(StatusEvento.ABERTO);
-        }
-        eventoDAO.atualizar(eventoAtualizado);
-
     }
 
     public void excluirEvento(long idEvento){
-        Evento evento = eventoDAO.buscarPorId(idEvento);
+        jakarta.persistence.EntityManager em = org.hexanet.eventhub.factory.EmFactory.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Evento evento = em.find(Evento.class, idEvento);
 
-        if (evento == null){
-            throw new EventoNaoEncontrado("Evento não encontrado.");
-        }
+            if (evento == null){
+                throw new EventoNaoEncontrado("Evento não encontrado.");
+            }
 
             StatusEvento status = evento.getStatusEvento();
 
             if (status == StatusEvento.RASCUNHO){
-                eventoDAO.deletar(idEvento);
+                em.remove(evento);
             }else{
                 if (status == StatusEvento.FINALIZADO || status == StatusEvento.CANCELADO){
                     throw new EventoCancelado("O evento já está " + status.name() + ".");
                 }
 
                 evento.setStatusEvento(StatusEvento.CANCELADO);
-
-                eventoDAO.atualizar(evento);
             }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Evento> listarTodos() {
+        return eventoDAO.listarTodos();
+    }
+
+    public List<DetalhesEventoDTO> listarDetalhes() {
+        List<Evento> eventos = this.listarTodos();
+
+        // Lista que vai guardar o resultado final
+        List<DetalhesEventoDTO> listaDetalhes = new ArrayList<>();
+
+        // Laço passando por cada evento retornado do banco
+        for (Evento evento : eventos) {
+            DetalhesEventoDTO dto = new DetalhesEventoDTO();
+
+            // Mapeando os campos básicos
+            dto.setIdEvento(evento.getId());
+            dto.setNome(evento.getNome());
+            dto.setLocal(evento.getLocal());
+            dto.setDataHora(evento.getDataHora());
+            dto.setUrlImg(evento.getEventoImg());
+
+            // Lista para guardar os tipos de ingresso convertidos
+            List<TipoIngressoDTO> tiposDTO = new ArrayList<>();
+
+            // Verifica se a lista não é nula antes de tentar percorrê-la
+            if (evento.getTiposIngresso() != null) {
+
+                // Laço passando por cada tipo de ingresso daquele evento específico
+                for (TipoIngresso tipo : evento.getTiposIngresso()) {
+                    TipoIngressoDTO tipoDTO = new TipoIngressoDTO();
+
+                    // ATENÇÃO: Adapte os getters/setters abaixo conforme
+                    // os campos exatos da sua classe TipoIngressoDTO
+                    tipoDTO.setId(tipo.getId());
+                    tipoDTO.setNome(tipo.getNome()); // Exemplo: "Inteira", "Meia"
+                    tipoDTO.setPreco(tipo.getPreco());
+
+                    // Adiciona o ingresso convertido na nossa lista temporária
+                    tiposDTO.add(tipoDTO);
+                }
+            }
+
+            // Atribui a lista de ingressos (vazia ou preenchida) ao DTO do evento
+            dto.setTiposDisponiveis(tiposDTO);
+
+            // Adiciona o evento totalmente montado na lista final
+            listaDetalhes.add(dto);
+        }
+
+        return listaDetalhes;
     }
 }

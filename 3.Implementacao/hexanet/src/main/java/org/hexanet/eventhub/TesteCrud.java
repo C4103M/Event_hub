@@ -30,6 +30,7 @@ public class TesteCrud {
             festaJunina.setLocal("Centro de Eventos, São Paulo, SP");
             festaJunina.setDataHora(LocalDateTime.of(2026, 6, 24, 18, 0));
             festaJunina.setDescricao("A maior festa junina universitária está de volta! Prepare-se para muita comida típica, brincadeiras e atrações.");
+            festaJunina.setCapacidadeTotal(500);
 
             // Utilizando o método utilitário bidirecional para amarrar o cascade
             festaJunina.addTipoIngresso(new TipoIngresso("Entrada Normal (Segundo Lote)", 18.50, 150));
@@ -44,11 +45,11 @@ public class TesteCrud {
             techSymposium.setLocal("Auditório Paulista, São Paulo, SP");
             techSymposium.setDataHora(LocalDateTime.of(2026, 8, 12, 9, 0));
             techSymposium.setDescricao("O maior simpósio de tecnologia e arquitetura de software da América Latina.");
+            techSymposium.setCapacidadeTotal(500);
 
             techSymposium.addTipoIngresso(new TipoIngresso("Ingresso Estudante", 25.00, 100));
             techSymposium.addTipoIngresso(new TipoIngresso("Inscrição Profissional", 70.00, 200));
             techSymposium.addTipoIngresso(new TipoIngresso("Acesso VIP + Workshops", 150.00, 30));
-
             // ==========================================
             // SALVANDO VIA DAO (CASCATA ATIVA)
             // ==========================================

@@ -70,6 +70,9 @@ public class AuthController {
         UsuarioDTO usuario = new UsuarioDTO(txtEmail.getText().trim().toLowerCase(), txtSenha.getText());
         try {
             this.authService.logar(usuario);
+            AlertManager.exibirAlerta(Alert.AlertType.CONFIRMATION, "Sucesso", "Usuário logado com sucesso");
+            ScreenManager.getInstancia().irParaConsultarEventos();
+
         } catch (UsuarioNaoEncontradoException | SenhaInvalidaException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Erro de Validação", e.getMessage());
         } catch (Exception e) {
