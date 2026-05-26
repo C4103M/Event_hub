@@ -24,10 +24,10 @@ import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EventoService {
+public class ManterEventoService {
     private final EventoDAO eventoDAO;
 
-    public EventoService() {
+    public ManterEventoService() {
         this.eventoDAO = new EventoDAO();
     }
 
@@ -44,7 +44,7 @@ public class EventoService {
         }
 
         if (imagem != null && imagem.exists()) {
-            String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
+            String assetsDir = "src/main/resources/assets";
             File dir = new File(assetsDir);
             if (!dir.exists())
                 dir.mkdirs(); // cria o diretorio, se nao existir
@@ -78,7 +78,7 @@ public class EventoService {
 
             String imagemCaminho = existEvent.getEventoImg();
             if (novaImagem != null && novaImagem.exists()) {
-                String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
+                String assetsDir = "src/main/resources/assets";
                 File dir = new File(assetsDir);
                 if (!dir.exists())
                     dir.mkdirs();

@@ -10,7 +10,7 @@ import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
-import org.hexanet.eventhub.service.EventoService;
+import org.hexanet.eventhub.service.ManterEventoService;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.utils.AlertManager;
 
-public class EventoController implements Initializable {
+public class ManterEventoController implements Initializable {
 
     @FXML
     private TableView<Evento> tblEventos;
@@ -84,7 +84,7 @@ public class EventoController implements Initializable {
     private VBox containerEventos;
 
     private File imagemSelecionada;
-    private EventoService eventoService = new EventoService();
+    private ManterEventoService eventoService = new ManterEventoService();
 
 
 
@@ -311,9 +311,9 @@ public class EventoController implements Initializable {
                         cleanPath = cleanPath.substring("assets/".length());
                     }
 
-                    URL url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
+                    URL url = getClass().getResource("/assets/" + cleanPath);
                     if (url == null) {
-                        url = getClass().getResource("/assets/" + cleanPath);
+                        url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
                     }
                     if (url == null) {
                         url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
@@ -434,7 +434,7 @@ public class EventoController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/hexanet/eventhub/eventos/FormularioEvento.fxml"));
             javafx.scene.Parent root = fxmlLoader.load();
             
-            EventoController controller = fxmlLoader.getController();
+            ManterEventoController controller = fxmlLoader.getController();
             controller.preencherFormulario(evento);
 
             Stage stage = (Stage) tblEventos.getScene().getWindow();
@@ -742,8 +742,7 @@ public class EventoController implements Initializable {
         imageView.setPreserveRatio(false);
         imageView.setStyle("-fx-background-radius: 8;");
 
-        // --- INÍCIO DA LÓGICA DE IMAGEM ADAPTADA ---
-        String nomeArquivo = evento.getUrlImg(); // Pegando a string da imagem do DTO
+        String nomeArquivo = evento.getUrlImg();
 
         if (nomeArquivo != null && !nomeArquivo.trim().isEmpty()) {
             String cleanPath = nomeArquivo;
@@ -755,10 +754,9 @@ public class EventoController implements Initializable {
                 cleanPath = cleanPath.substring("assets/".length());
             }
 
-            // Tentando resolver a URL em diferentes locais possíveis
-            URL url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
+            URL url = getClass().getResource("/assets/" + cleanPath);
             if (url == null) {
-                url = getClass().getResource("/assets/" + cleanPath);
+                url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
             }
             if (url == null) {
                 url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
@@ -770,7 +768,7 @@ public class EventoController implements Initializable {
                 System.out.println("Imagem não encontrada no classpath para: " + evento.getNome() + " (Caminho tentado: " + cleanPath + ")");
             }
         }
-        // --- FIM DA LÓGICA DE IMAGEM ---
+       
 
         // Detalhes em VBox
         VBox detalhesVBox = new VBox(10.0);
