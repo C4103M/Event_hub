@@ -1,5 +1,6 @@
 package org.hexanet.eventhub.service;
 
+import org.hexanet.eventhub.dao.EventoDAO;
 import org.hexanet.eventhub.dao.IngressoDAO;
 import org.hexanet.eventhub.dao.PagamentoDAO;
 import org.hexanet.eventhub.dao.PedidoDAO;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class ComprarIngressoService {
     private final PedidoDAO pedidoDAO = new PedidoDAO();
+    private final EventoDAO eventoDAO = new EventoDAO();
 
     public ComprarIngressoService() {}
 
@@ -27,7 +29,7 @@ public class ComprarIngressoService {
 
         Pedido pedido = new Pedido();
 
-        pedido.setIngressos(comprarIngressoDTO.getIngressos());
+        pedido.setIngressos(comprarIngressoDTO.getIngressosSelecionados());
         pedido.setDataHora(LocalDateTime.now());
         pedido.setParticipante(participante);
 
@@ -57,4 +59,6 @@ public class ComprarIngressoService {
 
         pedidoDAO.salvar(pedido);
     }
+
+
 }

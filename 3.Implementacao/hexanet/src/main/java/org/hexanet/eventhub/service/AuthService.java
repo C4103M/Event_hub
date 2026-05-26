@@ -29,6 +29,8 @@ public class AuthService {
     }
 
     public void logar(UsuarioDTO dto) {
+//        System.out.println("==============================================TESTE NO SERVICE=======================================================");
+//        System.out.println(dto.getEmail());
         Usuario usuarioLogado = this.usuarioDAO.buscarPorEmail(dto.getEmail());
         if(usuarioLogado == null) {
             throw new UsuarioNaoEncontradoException("Usuário não Encontrado. Verifique o Email e tente novamente");
@@ -37,7 +39,6 @@ public class AuthService {
             throw new SenhaInvalidaException("Senha inválida");
         }
         SessaoUsuario.getInstancia().login(usuarioLogado);
-
 
     }
 

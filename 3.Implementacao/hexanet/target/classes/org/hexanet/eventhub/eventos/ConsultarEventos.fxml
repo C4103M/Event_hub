@@ -12,35 +12,7 @@
         <URL value="@../styles.css" />
     </stylesheets>
     
-    <!-- Top Navigation Bar -->
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-padding: 15 30 15 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-            <children>
-                <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #F97316;" text="EventHub" />
-                <Region HBox.hgrow="ALWAYS" />
-                
-                <!-- Search Bar -->
-                <HBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #F3F4F6; -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
-                    <children>
-                        <TextField promptText="Pesquisar eventos..." style="-fx-background-color: transparent; -fx-pref-width: 250px;" />
-                        <Button text="🔍" style="-fx-background-color: transparent; -fx-text-fill: #1E3A8A; -fx-cursor: hand;" />
-                    </children>
-                </HBox>
-                
-                <Region HBox.hgrow="ALWAYS" />
-                
-                <!-- Menu Actions -->
-                <HBox alignment="CENTER" spacing="15.0">
-                    <children>
-                        <!-- Simulation of Menu (will be dynamic in real code, but mocked here) -->
-                        <Button mnemonicParsing="false" styleClass="button-secondary" text="Login / Cadastrar" />
-                        <Button mnemonicParsing="false" styleClass="button-secondary" text="Meu Perfil" />
-                        <Button mnemonicParsing="false" styleClass="button-secondary" text="Meus Eventos" />
-                    </children>
-                </HBox>
-            </children>
-        </HBox>
-    </top>
+
     
     <!-- Organic List of Events -->
     <center>

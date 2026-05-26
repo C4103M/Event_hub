@@ -17,6 +17,8 @@ public class Evento {
     private String nome;
     private String local;
 
+    private String descricao;
+
     @Column(name = "capacidade_total")
     private int capacidadeTotal;
 
@@ -36,7 +38,7 @@ public class Evento {
     @Column(name = "status_evento")
     private StatusEvento statusEvento;
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<TipoIngresso> tiposIngresso = new ArrayList<>();
 
     @ManyToOne
@@ -152,8 +154,22 @@ public class Evento {
     public List<TipoIngresso> getTiposIngresso() {
         return tiposIngresso;
     }
+    public String getDescricao() {
+        return descricao;
+    }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
     public void setTiposIngresso(List<TipoIngresso> tiposIngresso) {
         this.tiposIngresso = tiposIngresso;
+    }
+
+    public void addTipoIngresso(TipoIngresso tipoIngresso) {
+        if (this.tiposIngresso == null) {
+            this.tiposIngresso = new ArrayList<>();
+        }
+        this.tiposIngresso.add(tipoIngresso);
+        tipoIngresso.setEvento(this);
     }
 }
