@@ -3,9 +3,8 @@ package org.hexanet.eventhub.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.hexanet.eventhub.dto.UsuarioDTO;
-import org.hexanet.eventhub.exceptions.SenhaInvalidaException;
+import org.hexanet.eventhub.exceptions.CampoInvalidoException;
 import org.hexanet.eventhub.exceptions.UsuarioNaoEncontradoException;
 import org.hexanet.eventhub.service.AuthService;
 import org.hexanet.eventhub.utils.AlertManager;
@@ -53,7 +52,7 @@ public class AuthController {
             authService.cadastrar(usuario);
             AlertManager.exibirAlerta(Alert.AlertType.CONFIRMATION, "Sucesso", "Usuário Cadastrado com sucesso!");
             irParaLogin();
-        } catch (SenhaInvalidaException e) {
+        } catch (CampoInvalidoException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Erro de Validação", e.getMessage());
             txtSenha.clear();
 //            txtConfirmarSenha.clear();
@@ -73,7 +72,7 @@ public class AuthController {
             AlertManager.exibirAlerta(Alert.AlertType.CONFIRMATION, "Sucesso", "Usuário logado com sucesso");
             ScreenManager.getInstancia().irParaConsultarEventos();
 
-        } catch (UsuarioNaoEncontradoException | SenhaInvalidaException e) {
+        } catch (UsuarioNaoEncontradoException | CampoInvalidoException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Erro de Validação", e.getMessage());
         } catch (Exception e) {
             AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro Interno", e.getMessage());
@@ -83,12 +82,12 @@ public class AuthController {
 
     @FXML
     public void irParaLogin() {
-        ScreenManager.getInstancia().abrirLogin();
+        ScreenManager.getInstancia().irParaLogin();
     }
 
     @FXML
     public void irParaCadastro() {
-        ScreenManager.getInstancia().abrirCadastro();
+        ScreenManager.getInstancia().irParaCadastro();
     }
 
     public void toogleOrgPart() {

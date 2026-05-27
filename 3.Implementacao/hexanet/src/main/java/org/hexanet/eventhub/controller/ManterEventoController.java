@@ -10,7 +10,7 @@ import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
-import org.hexanet.eventhub.service.EventoService;
+import org.hexanet.eventhub.service.ManterEventoService;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.utils.AlertManager;
 
-public class EventoController implements Initializable {
+public class ManterEventoController implements Initializable {
 
     @FXML
     private TableView<Evento> tblEventos;
@@ -84,7 +84,7 @@ public class EventoController implements Initializable {
     private VBox containerEventos;
 
     private File imagemSelecionada;
-    private EventoService eventoService = new EventoService();
+    private ManterEventoService manterEventoService = new ManterEventoService();
 
 
 
@@ -151,7 +151,7 @@ public class EventoController implements Initializable {
         }
 
         try {
-            List<DetalhesEventoDTO> detalhesEventos = this.eventoService.listarDetalhes();
+            List<DetalhesEventoDTO> detalhesEventos = this.manterEventoService.listarDetalhes();
             for (DetalhesEventoDTO evento : detalhesEventos) {
                 HBox card = criarCardEvento(evento);
                 containerEventos.getChildren().add(card); // Adiciona na tela!
@@ -366,7 +366,7 @@ public class EventoController implements Initializable {
 
     private void carregarEventos() {
         if (tblEventos != null) {
-            List<Evento> eventos = eventoService.listarTodos();
+            List<Evento> eventos = manterEventoService.listarTodos();
             tblEventos.setItems(FXCollections.observableArrayList(eventos));
         }
     }
@@ -434,7 +434,7 @@ public class EventoController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/hexanet/eventhub/eventos/FormularioEvento.fxml"));
             javafx.scene.Parent root = fxmlLoader.load();
             
-            EventoController controller = fxmlLoader.getController();
+            ManterEventoController controller = fxmlLoader.getController();
             controller.preencherFormulario(evento);
 
             Stage stage = (Stage) tblEventos.getScene().getWindow();
@@ -455,7 +455,7 @@ public class EventoController implements Initializable {
         Evento selecionado = tblEventos.getSelectionModel().getSelectedItem();
         if (selecionado != null) {
             try {
-                eventoService.excluirEvento(selecionado.getId());
+                manterEventoService.excluirEvento(selecionado.getId());
                 carregarEventos();
             } catch (Exception e) {
                 javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
@@ -621,7 +621,7 @@ public class EventoController implements Initializable {
             
 
             if (eventoEmEdicao == null) {
-                eventoService.cadastrarEvento(evento, imagemSelecionada);
+                manterEventoService.cadastrarEvento(evento, imagemSelecionada);
                 javafx.scene.control.Alert successAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
                 successAlert.setTitle("Sucesso");
                 successAlert.setHeaderText(null);
@@ -629,7 +629,7 @@ public class EventoController implements Initializable {
                 successAlert.showAndWait();
             } else {
                 evento.setId(eventoEmEdicao.getId());
-                eventoService.atualizarEvento(evento, imagemSelecionada);
+                manterEventoService.atualizarEvento(evento, imagemSelecionada);
                 javafx.scene.control.Alert successAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
                 successAlert.setTitle("Sucesso");
                 successAlert.setHeaderText(null);
@@ -814,7 +814,7 @@ public class EventoController implements Initializable {
         btnComprar.setOnAction(e -> {
             try {
                 // Chama o seu ScreenManager passando o DTO completo do evento clicado
-                ScreenManager.getInstancia().irParaTelaComprarIngressos(evento);
+                ScreenManager.getInstancia().irParaComprarIngressos(evento);
 
                 // Nota: Se o seu singleton estiver em português, talvez seja getInstancia()
 
