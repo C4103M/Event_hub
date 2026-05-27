@@ -65,4 +65,10 @@ public class TesteCrud {
             e.printStackTrace();
         }
     }
+
+    public static void createOrganizador() {
+        Organizador org = new Organizador("Caio", "caio@org", "123", "231313131231");
+        AuthService service = new AuthService();
+        service.cadastrar(new UsuarioDTO(org.getNome(), org.getEmail(),  org.getCnpj(),null, org.getSenhaHash(), org.getSenhaHash()));
+    }
 }

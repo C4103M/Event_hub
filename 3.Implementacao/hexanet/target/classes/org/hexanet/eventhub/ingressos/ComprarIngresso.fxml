@@ -3,6 +3,7 @@
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
@@ -14,13 +15,32 @@
    <content>
       <VBox alignment="TOP_CENTER" spacing="0.0">
          <children>
-
-            <!-- Top Banner -->
-            <ImageView fitHeight="300.0" fitWidth="1080.0" preserveRatio="false">
-               <image>
-                  <Image url="@../../../../assets/BannerRodeiodeItu.jpg" />
-               </image>
-            </ImageView>
+            <StackPane prefHeight="266.0" prefWidth="1080.0">
+               <children>
+      
+                  <!-- Top Banner -->
+                  <ImageView fx:id="bigBanner" fitHeight="268.0" fitWidth="1080.0" preserveRatio="false">
+                     <effect>
+                        <GaussianBlur radius="15.0" />
+                     </effect>
+<!--                     <image>-->
+<!--                        <Image url="@../../../../assets/BannerRodeiodeItu.jpg" />-->
+<!--                     </image>-->
+                  </ImageView>
+                  <FlowPane alignment="BOTTOM_LEFT" prefHeight="0.0" prefWidth="1080.0">
+                     <children>
+                        <ImageView fx:id="lowBanner" fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+<!--                           <image>-->
+<!--                              <Image url="@../../../../assets/BannerRodeiodeItu.jpg" />-->
+<!--                           </image>-->
+                           <FlowPane.margin>
+                              <Insets bottom="-50.0" left="50.0" />
+                           </FlowPane.margin>
+                        </ImageView>
+                     </children>
+                  </FlowPane>
+               </children>
+            </StackPane>
 
             <!-- Main Content Area -->
             <HBox alignment="TOP_CENTER" maxWidth="1000.0" prefWidth="1000.0" spacing="40.0">
@@ -57,6 +77,9 @@
                      </children>
                   </VBox>
                </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
             </HBox>
          </children>
       </VBox>

@@ -81,7 +81,7 @@ public class ConsultarEventos {
                 System.out.println("Imagem não encontrada no classpath para: " + evento.getNome() + " (Caminho tentado: " + cleanPath + ")");
             }
         } else {
-            imageView.setImage(new Image("https://fastly.picsum.photos/id/683/250/150.jpg?hmac=5UPaDMUrMfvAqOVC2wOVYLNgVCaXgfwbFA6Zv9AcghE", true));
+            imageView.setImage(new Image("https://picsum.photos/250/150", true));
         }
         // --- FIM DA LÓGICA DE IMAGEM ---
 

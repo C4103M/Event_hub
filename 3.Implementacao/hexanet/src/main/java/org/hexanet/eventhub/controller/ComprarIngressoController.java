@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -30,6 +32,10 @@ public class ComprarIngressoController {
     @FXML private Label lblNomeEvento;
     @FXML private Label lblDataLocal;
 
+    @FXML private ImageView bigBanner;
+    @FXML private ImageView lowBanner;
+
+
     private final Map<TipoIngressoDTO, Spinner<Integer>> mapaContadores = new HashMap<>();
     private Evento eventoBase = new Evento();
 
@@ -46,7 +52,7 @@ public class ComprarIngressoController {
         this.eventoBase.setId(detalhes.getIdEvento());
         this.eventoBase.setNome(detalhes.getNome());
 
-
+        carregarImagens(detalhes.getUrlImg());
         carregarOpcoesDeIngresso(detalhes.getTiposDisponiveis());
     }
 
@@ -123,4 +129,14 @@ public class ComprarIngressoController {
 
     }
 
+    public void carregarImagens(String urlImg) {
+        Image img;
+        if(urlImg == null) {
+            img = new Image("https://picsum.photos/250/150");
+        } else {
+            img = new Image(urlImg);
+        }
+        bigBanner.setImage(img);
+        lowBanner.setImage(img);
+    }
 }

@@ -20,7 +20,7 @@ public class AuthService {
         Participante usuario = new Participante();
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setCpf(dto.getCpf());
+        usuario.setCpf(dto.getCpfOrCnpj());
         usuario.getDataNasc(dto.getDataNasc());
         usuario.setSenhaHash(criptografarSenha(dto.getSenha()));
 
