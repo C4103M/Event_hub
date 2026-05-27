@@ -18,17 +18,10 @@ import java.util.List;
 
 public class ComprarIngressoService {
     private final PedidoDAO pedidoDAO = new PedidoDAO();
-    private final EventoDAO eventoDAO = new EventoDAO();
 
     public ComprarIngressoService() {}
 
     public void comprarIngresso(ComprarIngressoDTO comprarIngressoDTO) {
-        if((SessaoUsuario.getInstancia().getUsuarioLogado() instanceof Organizador organizador)){
-            throw new PermissaoNegada("Organizador não pode comprar ingresso");
-        }
-        if(SessaoUsuario.getInstancia().getUsuarioLogado() == null) {
-            throw new PermissaoNegada("Deve fazer login para comprar ingresso");
-        }
 
         Participante participante = (Participante) SessaoUsuario.getInstancia().getUsuarioLogado();
 

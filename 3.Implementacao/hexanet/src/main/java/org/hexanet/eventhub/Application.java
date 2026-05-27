@@ -10,11 +10,10 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("MainLayout.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("EventHub");
-        stage.setScene(scene);
         ScreenManager.getInstancia().setStagePrincipal(stage);
+        ScreenManager.getInstancia().carregarLayoutPrincipal();
+        ScreenManager.getInstancia().irParaConsultarEventos();
         stage.show();
     }
 }

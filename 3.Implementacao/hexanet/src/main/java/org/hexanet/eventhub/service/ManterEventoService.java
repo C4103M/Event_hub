@@ -11,7 +11,6 @@ import org.hexanet.eventhub.model.Evento;
 
 import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
-import org.w3c.dom.events.Event;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ManterEventoService {
     private final EventoDAO eventoDAO;

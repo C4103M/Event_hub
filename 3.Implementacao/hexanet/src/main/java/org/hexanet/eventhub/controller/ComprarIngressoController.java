@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -20,7 +19,6 @@ import org.hexanet.eventhub.service.TipoIngressoService;
 import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.singleton.ScreenManager;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +118,7 @@ public class ComprarIngressoController {
             carrinhoDTO.setIngressosSelecionados(ingressosSelecionados);
             carrinhoDTO.setValorTotalPedido(valorTotal);
 
-            ScreenManager.getInstancia().irParaTelaPagamento(carrinhoDTO);
+            ScreenManager.getInstancia().irParaPagamento(carrinhoDTO);
         }
 
     }
