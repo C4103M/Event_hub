@@ -9,82 +9,100 @@
       <URL value="@../styles.css" />
    </stylesheets>
    <children>
-      <VBox alignment="CENTER" maxHeight="660.0" maxWidth="450.0" prefWidth="450.0" spacing="15.0" styleClass="card">
-         <children>
-            <VBox alignment="CENTER" spacing="5.0">
+      <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+         <content>
+            <StackPane style="-fx-padding: 20 0 20 0;">
                <children>
-                  <Label styleClass="label-title" text="Crie sua conta" />
-                  <Label styleClass="label-subtitle" text="Selecione o tipo de conta para começar." />
-               </children>
-            </VBox>
-
-            <!-- Tipo de Conta -->
-            <HBox alignment="CENTER" spacing="25.0">
-               <children>
-                  <RadioButton fx:id="rbParticipante" selected="true" text="Participante">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="tgTipoUsuario" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="rbOrganizador" onAction="#toogleOrgPart" text="Organizador" toggleGroup="$tgTipoUsuario" />
-               </children>
-            </HBox>
-
-            <!-- Nome -->
-            <VBox maxWidth="350.0" prefWidth="350.0" spacing="6.0">
-               <children>
-                  <Label text="Nome Completo" />
-                  <TextField fx:id="txtNome" promptText="Digite seu nome completo" />
-               </children>
-            </VBox>
-
-            <!-- E-mail -->
-            <VBox maxWidth="350.0" prefWidth="350.0" spacing="6.0">
-               <children>
-                  <Label text="E-mail" />
-                  <TextField fx:id="txtEmail" promptText="Digite seu e-mail" />
-               </children>
-            </VBox>
-
-            <!-- CPF ou CNPJ Dinâmico -->
-            <VBox fx:id="vboxCpfCnpj" maxWidth="350.0" prefWidth="350.0" spacing="6.0">
-               <children>
-                  <Label fx:id="lblCpfCnpj" text="CPF" />
-                  <TextField fx:id="txtCpfCnpj" promptText="Digite seu CPF" />
-               </children>
-            </VBox>
-
-            <!-- Data de Nascimento Dinâmico (Apenas para Participante) -->
-            <VBox fx:id="vboxDataNasc" maxWidth="350.0" prefWidth="350.0" spacing="6.0">
-               <children>
-                  <Label text="Data de Nascimento" />
-                  <DatePicker fx:id="dpDataNasc" prefWidth="350.0" promptText="Selecione sua data de nascimento" />
-               </children>
-            </VBox>
-
-            <!-- Senha -->
-            <VBox maxWidth="350.0" prefWidth="350.0" spacing="6.0">
-               <children>
-                  <Label text="Senha" />
-                  <PasswordField fx:id="txtSenha" promptText="Crie uma senha de acesso" />
-               </children>
-            </VBox>
-
-            <Label fx:id="lblMensagem" alignment="CENTER" maxWidth="350.0" styleClass="label-error" textAlignment="CENTER" wrapText="true" />
-
-            <!-- Ações -->
-            <VBox alignment="CENTER" maxWidth="350.0" prefWidth="350.0" spacing="12.0">
-               <children>
-                  <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#cadastrar" prefWidth="350.0" text="Cadastrar" />
-                  <HBox alignment="CENTER" spacing="10.0">
+                  <VBox alignment="CENTER" maxWidth="450.0" prefWidth="450.0" spacing="15.0" styleClass="card">
                      <children>
-                        <Label styleClass="label-subtitle" text="Já tem uma conta?" />
-                        <Button fx:id="btnIrParaLogin" mnemonicParsing="false" onAction="#irParaLogin" styleClass="button-secondary" text="Entrar" />
+                        <VBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <Label styleClass="label-title" text="Crie sua conta" />
+                              <Label styleClass="label-subtitle" text="Selecione o tipo de conta para começar." />
+                           </children>
+                        </VBox>
+
+                        <!-- Tipo de Conta -->
+                        <HBox alignment="CENTER" spacing="25.0">
+                           <children>
+                              <RadioButton fx:id="rbParticipante" onAction="#toogleOrgPart" selected="true" text="Participante">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tgTipoUsuario" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rbOrganizador" onAction="#toogleOrgPart" text="Organizador" toggleGroup="$tgTipoUsuario" />
+                           </children>
+                        </HBox>
+
+                        <!-- Nome -->
+                        <VBox maxWidth="350.0" prefWidth="350.0" spacing="6.0">
+                           <children>
+                              <Label text="Nome Completo" />
+                              <TextField fx:id="txtNome" promptText="Digite seu nome completo" onAction="#cadastrar" />
+                           </children>
+                        </VBox>
+
+                        <!-- E-mail -->
+                        <VBox maxWidth="350.0" prefWidth="350.0" spacing="6.0">
+                           <children>
+                              <Label text="E-mail" />
+                              <TextField fx:id="txtEmail" promptText="Digite seu e-mail" onAction="#cadastrar" />
+                           </children>
+                        </VBox>
+
+                        <HBox maxWidth="350.0" prefWidth="350.0" spacing="10.0">
+                           <children>
+                              <!-- CPF ou CNPJ Dinâmico -->
+                              <VBox fx:id="vboxCpfCnpj" HBox.hgrow="ALWAYS" spacing="6.0" prefWidth="170.0">
+                                 <children>
+                                    <Label fx:id="lblCpfCnpj" text="CPF" />
+                                    <TextField fx:id="txtCpfCnpj" promptText="Digite seu CPF" onAction="#cadastrar" />
+                                 </children>
+                              </VBox>
+
+                              <!-- Data de Nascimento Dinâmico (Apenas para Participante) -->
+                              <VBox fx:id="vboxDataNasc" HBox.hgrow="ALWAYS" spacing="6.0" prefWidth="170.0">
+                                 <children>
+                                    <Label text="Data de Nascimento" />
+                                    <DatePicker fx:id="dpDataNasc" maxWidth="Infinity" promptText="DD/MM/AAAA" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+
+                        <!-- Senha -->
+                        <VBox maxWidth="350.0" prefWidth="350.0" spacing="6.0">
+                           <children>
+                              <Label text="Senha" />
+                              <StackPane alignment="CENTER_LEFT">
+                                 <children>
+                                    <PasswordField fx:id="txtSenha" promptText="Crie uma senha de acesso" onAction="#cadastrar" />
+                                    <TextField fx:id="txtSenhaRevelada" promptText="Crie uma senha de acesso" visible="false" managed="false" onAction="#cadastrar" />
+                                 </children>
+                              </StackPane>
+                              <CheckBox fx:id="chkMostrarSenha" text="Mostrar Senha" onAction="#toogleMostrarSenha" style="-fx-font-size: 11px; -fx-text-fill: #4B5563;" />
+                           </children>
+                        </VBox>
+
+                        <Label fx:id="lblMensagem" alignment="CENTER" maxWidth="350.0" styleClass="label-error" textAlignment="CENTER" wrapText="true" />
+
+                        <!-- Ações -->
+                        <VBox alignment="CENTER" maxWidth="350.0" prefWidth="350.0" spacing="12.0">
+                           <children>
+                              <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#cadastrar" prefWidth="350.0" text="Cadastrar" />
+                              <HBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <Label styleClass="label-subtitle" text="Já tem uma conta?" />
+                                    <Button fx:id="btnIrParaLogin" mnemonicParsing="false" onAction="#irParaLogin" styleClass="button-secondary" text="Entrar" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
-            </VBox>
-         </children>
-      </VBox>
+            </StackPane>
+         </content>
+      </ScrollPane>
    </children>
 </StackPane>

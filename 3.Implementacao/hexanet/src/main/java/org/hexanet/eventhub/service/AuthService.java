@@ -2,10 +2,12 @@ package org.hexanet.eventhub.service;
 
 import org.hexanet.eventhub.dao.ParticipanteDAO;
 import org.hexanet.eventhub.dao.UsuarioDAO;
+import org.hexanet.eventhub.dao.OrganizadorDAO;
 import org.hexanet.eventhub.dto.UsuarioDTO;
 import org.hexanet.eventhub.exceptions.CampoInvalidoException;
 import org.hexanet.eventhub.exceptions.UsuarioNaoEncontradoException;
 import org.hexanet.eventhub.model.Participante;
+import org.hexanet.eventhub.model.Organizador;
 import org.hexanet.eventhub.model.Usuario;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,17 +17,50 @@ public class AuthService {
     UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     public void cadastrar(UsuarioDTO dto) {
+        if (dto.getNome() == null || dto.getNome().isBlank()) {
+            throw new CampoInvalidoException("O nome completo não pode ser vazio.");
+        }
+        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
+            throw new CampoInvalidoException("O e-mail não pode ser vazio.");
+        }
         validarSenha(dto.getSenha(), dto.getConfirmarSenha());
 
-        Participante usuario = new Participante();
-        usuario.setNome(dto.getNome());
-        usuario.setEmail(dto.getEmail());
-        usuario.setCpf(dto.getCpf());
-        usuario.getDataNasc(dto.getDataNasc());
-        usuario.setSenhaHash(criptografarSenha(dto.getSenha()));
+        if("ORGANIZADOR".equals(dto.getTipoUsuario())){
+            String cnpj = dto.getCpf();
+            if (cnpj == null || cnpj.isBlank()) {
+                throw new CampoInvalidoException("O CNPJ não pode ser vazio.");
+            }
+            if (!validarCNPJ(cnpj)) {
+                throw new CampoInvalidoException("CNPJ inválido! Por favor, verifique os números digitados.");
+            }
 
-        participanteDAO.salvar(usuario);
+            Organizador organizador = new Organizador();
+            organizador.setNome(dto.getNome());
+            organizador.setEmail(dto.getEmail());
+            organizador.setCnpj(cnpj);
+            organizador.setSenhaHash(criptografarSenha(dto.getSenha()));
 
+            OrganizadorDAO organizadorDAO = new OrganizadorDAO();
+            organizadorDAO.salvar(organizador);
+        }else{
+            String cpf = dto.getCpf();
+            if (cpf == null || cpf.isBlank()) {
+                throw new CampoInvalidoException("O CPF não pode ser vazio.");
+            }
+            validarCPF(cpf);
+            if (dto.getDataNasc() == null) {
+                throw new CampoInvalidoException("A data de nascimento não pode ser vazia.");
+            }
+
+            Participante usuario = new Participante();
+            usuario.setNome(dto.getNome());
+            usuario.setEmail(dto.getEmail());
+            usuario.setCpf(cpf);
+            usuario.setDataNasc(dto.getDataNasc());
+            usuario.setSenhaHash(criptografarSenha(dto.getSenha()));
+
+            participanteDAO.salvar(usuario);
+        }
     }
 
     public void logar(UsuarioDTO dto) {
@@ -104,6 +139,40 @@ public class AuthService {
 
     public String criptografarSenha(String senha) {
         return BCrypt.hashpw(senha, BCrypt.gensalt(12));
+    }
+
+
+
+    private boolean validarCNPJ(String cnpj) {
+        if (cnpj == null) return false;
+        cnpj = cnpj.replaceAll("\\D", ""); // Remove caracteres especiais
+        if (cnpj.length() != 14 || cnpj.matches("(\\d)\\1{13}")) return false;
+
+        try {
+            int sm = 0;
+            int peso = 2;
+            for (int i = 11; i >= 0; i--) {
+                int num = (int)(cnpj.charAt(i) - 48);
+                sm = sm + (num * peso);
+                peso = (peso == 9) ? 2 : peso + 1;
+            }
+            int r = sm % 11;
+            char dig13 = (r < 2) ? '0' : (char)((11 - r) + 48);
+
+            sm = 0;
+            peso = 2;
+            for (int i = 12; i >= 0; i--) {
+                int num = (int)(cnpj.charAt(i) - 48);
+                sm = sm + (num * peso);
+                peso = (peso == 9) ? 2 : peso + 1;
+            }
+            r = sm % 11;
+            char dig14 = (r < 2) ? '0' : (char)((11 - r) + 48);
+
+            return (dig13 == cnpj.charAt(12)) && (dig14 == cnpj.charAt(13));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

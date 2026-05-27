@@ -23,8 +23,10 @@ public class MainController {
     @FXML private Label lblSaudacao;
     @FXML private Button btnGerenciarEventos;
     @FXML private Button btnGerenciarPerfil;
-
     public void initialize() {
+        // Registra o painel central no Singleton de Navegação
+        ScreenManager.getInstancia().setPainelPrincipal(mainContainer);
+        ScreenManager.getInstancia().setMainController(this);
     }
 
     public void atualizarMenu(String nomeTelaAtual) {
@@ -58,6 +60,14 @@ public class MainController {
     private void alternarVisibilidade(Node node, boolean visivel) {
         node.setVisible(visivel);
         node.setManaged(visivel);
+    }
+
+    public void atualizarMenu() {
+        atualizarMenu("");
+    }
+
+    public void exibirBarraPesquisa(boolean mostrar) {
+        alternarVisibilidade(barraPesquisa, mostrar);
     }
 
 

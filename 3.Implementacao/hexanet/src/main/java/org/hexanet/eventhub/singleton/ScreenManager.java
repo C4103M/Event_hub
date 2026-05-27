@@ -12,18 +12,17 @@ import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.exceptions.PermissaoNegada;
 
+import org.hexanet.eventhub.controller.MainController;
+
 import java.io.IOException;
 import java.util.Stack;
 
 public class ScreenManager {
 
     private static ScreenManager instancia;
-    private MainController mainController;
-
     private Stage stagePrincipal;
-
     private BorderPane painelPrincipal;
-
+    private MainController mainController;
     private Stack<String> historicoTelas = new Stack<>();
 
     private ScreenManager() {}
@@ -43,6 +42,21 @@ public class ScreenManager {
         this.painelPrincipal = borderPane;
     }
 
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
+    public void atualizarMenu() {
+        if (mainController != null) {
+            mainController.atualizarMenu();
+        }
+    }
+
+    private void exibirBarraPesquisa(boolean mostrar) {
+        if (mainController != null) {
+            mainController.exibirBarraPesquisa(mostrar);
+        }
+    }
 
     private static final String MAIN_LAYOUT = "/org/hexanet/eventhub/MainLayout.fxml";
     public void carregarLayoutPrincipal() {
@@ -67,6 +81,7 @@ public class ScreenManager {
     private static final String TELA_CONSULTAR_EVENTOS = "/org/hexanet/eventhub/eventos/ConsultarEventos.fxml";
     public void irParaConsultarEventos() {
         try {
+            exibirBarraPesquisa(true);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_CONSULTAR_EVENTOS));
             Parent root = loader.load();
 
@@ -85,7 +100,34 @@ public class ScreenManager {
 
         } catch (IOException e) {
             e.printStackTrace();
-            // AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar o pagamento.");
+        }
+    }
+
+
+    private static final String TELA_FORMULARIO_EVENTO = "/org/hexanet/eventhub/eventos/FormularioEvento.fxml";
+
+    public void irParaFormularioEvento() {
+        irParaFormularioEvento(null);
+    }
+
+    public void irParaFormularioEvento(org.hexanet.eventhub.model.Evento eventoEdicao) {
+        try {
+            exibirBarraPesquisa(false);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_FORMULARIO_EVENTO));
+            Parent root = loader.load();
+
+            if (eventoEdicao != null) {
+                org.hexanet.eventhub.controller.ManterEventoController controller = loader.getController();
+                controller.preencherFormulario(eventoEdicao);
+            }
+
+            if (painelPrincipal != null) {
+                painelPrincipal.setCenter(root);
+            } else {
+                stagePrincipal.getScene().setRoot(root);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -95,6 +137,7 @@ public class ScreenManager {
             if(!SessaoUsuario.getInstancia().isLogado()) {
                 throw new PermissaoNegada("Precisa estar logado");
             }
+            exibirBarraPesquisa(false);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_COMPRAR_INGRESSO));
             Parent root = loader.load();
 
@@ -125,6 +168,7 @@ public class ScreenManager {
             if(! SessaoUsuario.getInstancia().isLogado()) {
                 throw new PermissaoNegada("Precisa ter uma conta");
             }
+            exibirBarraPesquisa(false);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_PAGAMENTO));
             Parent root = loader.load();
 
@@ -148,7 +192,6 @@ public class ScreenManager {
 
         } catch (IOException e) {
             e.printStackTrace();
-            // AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar o pagamento.");
         }
     }
 
@@ -158,6 +201,7 @@ public class ScreenManager {
             if(SessaoUsuario.getInstancia().isLogado()) {
                 throw new PermissaoNegada("Você já está logado");
             }
+            exibirBarraPesquisa(false);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_LOGIN));
             Parent root = loader.load();
 
@@ -183,6 +227,7 @@ public class ScreenManager {
             if(SessaoUsuario.getInstancia().isLogado()) {
                 throw new PermissaoNegada("Você já está logado");
             }
+            exibirBarraPesquisa(false);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_CADASTRO));
             Parent root = loader.load();
 
@@ -210,6 +255,7 @@ public class ScreenManager {
             if(! SessaoUsuario.getInstancia().isOrganizador()) {
                 throw new PermissaoNegada("Página restrita à Organizadores");
             }
+            exibirBarraPesquisa(false);
             this.mainController.atualizarMenu("GerenciarEventos.fxml");
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_GERENCIAR_EVENTOS));
@@ -231,6 +277,7 @@ public class ScreenManager {
             if(! SessaoUsuario.getInstancia().isLogado()) {
                 throw new PermissaoNegada("Página restrita à usuários");
             }
+            exibirBarraPesquisa(false);
             this.mainController.atualizarMenu("GerenciarPerfil.fxml");
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_GERENCIAR_PERFIL));
