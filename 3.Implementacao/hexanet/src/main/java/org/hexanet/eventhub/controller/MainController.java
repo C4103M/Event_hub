@@ -92,4 +92,9 @@ public class MainController {
         SessaoUsuario.getInstancia().logout();
         irParaInicio(); // Redireciona para o início deslogado
     }
+    @FXML
+    public void voltar() {
+        ScreenManager.getInstancia().voltarTelaAnterior();
+        atualizarMenu("");
+    }
 }

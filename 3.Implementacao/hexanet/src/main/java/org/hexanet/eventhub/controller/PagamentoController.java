@@ -11,7 +11,7 @@ import org.hexanet.eventhub.utils.AlertManager;
 
 public class PagamentoController {
 
-    private ComprarIngressoDTO carrinhoDTO;
+    private ComprarIngressoDTO comprarIngressoDTO;
 
     private ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
 
@@ -25,7 +25,7 @@ public class PagamentoController {
     @FXML private Label lbValorTotal;
 
     public void initData(ComprarIngressoDTO dto) {
-        this.carrinhoDTO = dto;
+        this.comprarIngressoDTO = dto;
     }
     @FXML
     private void confirmarPagamento() {
@@ -45,11 +45,9 @@ public class PagamentoController {
     }
 
     public void comprarIngressos(MetodoPagamento metodoPagamento) {
-        ComprarIngressoDTO comprarIngressoDTO = new ComprarIngressoDTO(this.carrinhoDTO.getIngressosSelecionados(), metodoPagamento);
+        this.comprarIngressoDTO.setMetodoPagamento(metodoPagamento);
         try {
             this.comprarIngressoService.comprarIngresso(comprarIngressoDTO);
-        } catch (PermissaoNegada e) {
-            AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Permissão Negada", e.getMessage());
         } catch (IngressoNaoDisponivelException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Ingresso indisponível", e.getMessage());
         } catch (RuntimeException e) {
