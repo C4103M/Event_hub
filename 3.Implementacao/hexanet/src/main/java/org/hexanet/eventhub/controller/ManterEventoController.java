@@ -88,6 +88,8 @@ public class ManterEventoController implements Initializable {
 
 
 
+
+
     private class LinhaIngresso {
         TextField tfNomeTipo;
         TextField tfPreco;
@@ -742,7 +744,8 @@ public class ManterEventoController implements Initializable {
         imageView.setPreserveRatio(false);
         imageView.setStyle("-fx-background-radius: 8;");
 
-        String nomeArquivo = evento.getUrlImg();
+        // --- INÍCIO DA LÓGICA DE IMAGEM ADAPTADA ---
+        String nomeArquivo = evento.getUrlImg(); // Pegando a string da imagem do DTO
 
         if (nomeArquivo != null && !nomeArquivo.trim().isEmpty()) {
             String cleanPath = nomeArquivo;
@@ -754,6 +757,7 @@ public class ManterEventoController implements Initializable {
                 cleanPath = cleanPath.substring("assets/".length());
             }
 
+            // Tentando resolver a URL em diferentes locais possíveis
             URL url = getClass().getResource("/assets/" + cleanPath);
             if (url == null) {
                 url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
@@ -768,7 +772,7 @@ public class ManterEventoController implements Initializable {
                 System.out.println("Imagem não encontrada no classpath para: " + evento.getNome() + " (Caminho tentado: " + cleanPath + ")");
             }
         }
-       
+        // --- FIM DA LÓGICA DE IMAGEM ---
 
         // Detalhes em VBox
         VBox detalhesVBox = new VBox(10.0);
