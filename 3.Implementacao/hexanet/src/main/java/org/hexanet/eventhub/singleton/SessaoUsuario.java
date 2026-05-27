@@ -20,6 +20,7 @@ public class SessaoUsuario {
     }
 
     public void logout() {
+        ScreenManager.getInstancia().limparHistorico();
         this.usuarioLogado = null;
     }
 

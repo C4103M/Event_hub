@@ -42,7 +42,7 @@ public class ManterEventoService {
         }
 
         if (imagem != null && imagem.exists()) {
-            String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
+            String assetsDir = "src/main/resources/assets";
             File dir = new File(assetsDir);
             if (!dir.exists())
                 dir.mkdirs(); // cria o diretorio, se nao existir
@@ -76,7 +76,7 @@ public class ManterEventoService {
 
             String imagemCaminho = existEvent.getEventoImg();
             if (novaImagem != null && novaImagem.exists()) {
-                String assetsDir = "src/main/resources/org/hexanet/eventhub/assets";
+                String assetsDir = "src/main/resources/assets";
                 File dir = new File(assetsDir);
                 if (!dir.exists())
                     dir.mkdirs();
@@ -194,6 +194,7 @@ public class ManterEventoService {
     }
 
     public List<DetalhesEventoDTO> listarDetalhes() {
+        System.out.println("========================DEBUG listar detalhes ====================");
         List<Evento> eventos = this.listarTodos();
 
         // Lista que vai guardar o resultado final
@@ -210,7 +211,9 @@ public class ManterEventoService {
             dto.setDataHora(evento.getDataHora());
             dto.setUrlImg(evento.getEventoImg());
 
-            // Lista para guardar os tipos de ingresso convertidos
+            System.out.println("========================DEBUG listar detalhes ====================");
+            System.out.println(evento.getNome());
+
             List<TipoIngressoDTO> tiposDTO = new ArrayList<>();
 
             // Verifica se a lista não é nula antes de tentar percorrê-la
@@ -220,13 +223,10 @@ public class ManterEventoService {
                 for (TipoIngresso tipo : evento.getTiposIngresso()) {
                     TipoIngressoDTO tipoDTO = new TipoIngressoDTO();
 
-                    // ATENÇÃO: Adapte os getters/setters abaixo conforme
-                    // os campos exatos da sua classe TipoIngressoDTO
                     tipoDTO.setId(tipo.getId());
-                    tipoDTO.setNome(tipo.getNome()); // Exemplo: "Inteira", "Meia"
+                    tipoDTO.setNome(tipo.getNome());
                     tipoDTO.setPreco(tipo.getPreco());
 
-                    // Adiciona o ingresso convertido na nossa lista temporária
                     tiposDTO.add(tipoDTO);
                 }
             }

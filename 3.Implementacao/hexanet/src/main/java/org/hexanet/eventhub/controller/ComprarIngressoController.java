@@ -21,6 +21,8 @@ import org.hexanet.eventhub.service.TipoIngressoService;
 import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.singleton.ScreenManager;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +32,12 @@ public class ComprarIngressoController {
 
     @FXML private VBox containerTipoIngresso;
     @FXML private Label lblNomeEvento;
-    @FXML private Label lblDataLocal;
+    @FXML private Label lblData;
+    @FXML private Label lblHora;
+    @FXML private Label lblLocal;
+    @FXML private Label lblDescricao;
+
+
 
     @FXML private ImageView bigBanner;
     @FXML private ImageView lowBanner;
@@ -42,16 +49,10 @@ public class ComprarIngressoController {
     private final ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
     private final TipoIngressoService tipoIngressoService = new TipoIngressoService();
 
-
-
     @FXML
     public void initData(DetalhesEventoDTO detalhes) {
-        this.lblNomeEvento.setText(detalhes.getNome());
-        this.lblDataLocal.setText(detalhes.getLocal() + " - " + detalhes.getDataHora().toString());
-
         this.eventoBase.setId(detalhes.getIdEvento());
         this.eventoBase.setNome(detalhes.getNome());
-
         carregarImagens(detalhes.getUrlImg());
         carregarOpcoesDeIngresso(detalhes.getTiposDisponiveis());
     }
@@ -88,6 +89,33 @@ public class ComprarIngressoController {
             mapaContadores.put(ingresso, spinnerQuantidade);
         }
 
+    }
+
+    private void carregarDados(DetalhesEventoDTO detalhes) {
+        lblNomeEvento.setText(detalhes.getNome());
+        lblLocal.setText(detalhes.getLocal());
+
+        DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = detalhes.getDataHora().format(formatadorData);
+        lblData.setText(dataFormatada);
+
+        DateTimeFormatter formatadorHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String horaFormatada = detalhes.getDataHora().format(formatadorHora);
+        lblHora.setText(horaFormatada);
+
+//        lblDescricao.setText(detalhes.getDescricao();
+
+    }
+
+    public void carregarImagens(String urlImg) {
+        Image img;
+        if(urlImg == null) {
+            img = new Image("https://picsum.photos/250/150");
+        } else {
+            img = new Image(urlImg);
+        }
+        bigBanner.setImage(img);
+        lowBanner.setImage(img);
     }
 
     public void irParaPagamento() {
@@ -127,16 +155,5 @@ public class ComprarIngressoController {
             ScreenManager.getInstancia().irParaPagamento(carrinhoDTO);
         }
 
-    }
-
-    public void carregarImagens(String urlImg) {
-        Image img;
-        if(urlImg == null) {
-            img = new Image("https://picsum.photos/250/150");
-        } else {
-            img = new Image(urlImg);
-        }
-        bigBanner.setImage(img);
-        lowBanner.setImage(img);
     }
 }

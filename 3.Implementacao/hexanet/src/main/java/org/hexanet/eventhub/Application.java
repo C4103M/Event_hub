@@ -13,7 +13,7 @@ public class Application extends javafx.application.Application {
         stage.setTitle("EventHub");
         ScreenManager.getInstancia().setStagePrincipal(stage);
         ScreenManager.getInstancia().carregarLayoutPrincipal();
-        ScreenManager.getInstancia().irParaConsultarEventos();
-        stage.show();
+//        ScreenManager.getInstancia().irParaConsultarEventos();
+//        stage.show();
     }
 }

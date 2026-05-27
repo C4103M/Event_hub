@@ -11,50 +11,54 @@
     </stylesheets>
 
     <top>
-        <VBox alignment="CENTER_LEFT" style="-fx-background-color: #FFFFFF; -fx-padding: 15 30 15 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <VBox style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
             <children>
-                <Group>
+                <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-padding: 15 30 15 30;">
                     <children>
-                        <Label layoutX="156.0" layoutY="45.0" onMouseClicked="#irParaInicio" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #F97316; -fx-cursor: hand;" text="EventHub" />
-
-                        <Region layoutX="273.0" layoutY="34.0" />
-
-                        <HBox fx:id="barraPesquisa" alignment="CENTER" layoutX="345.0" layoutY="34.0" spacing="5.0" style="-fx-background-color: #F3F4F6; -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
+                        <!-- Logo -->
+                        <Label onMouseClicked="#irParaInicio" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #F97316; -fx-cursor: hand;" text="EventHub" />
+                        
+                        <!-- Spacer (Empurra pesquisa e menus) -->
+                        <Region HBox.hgrow="ALWAYS" />
+                        
+                        <!-- Barra de Pesquisa -->
+                        <HBox fx:id="barraPesquisa" alignment="CENTER" spacing="5.0" style="-fx-background-color: #F3F4F6; -fx-background-radius: 20; -fx-padding: 5 15 5 15;">
                             <children>
                                 <TextField promptText="Pesquisar eventos..." style="-fx-background-color: transparent; -fx-pref-width: 250px;" />
                                 <Button style="-fx-background-color: transparent; -fx-text-fill: #1E3A8A; -fx-cursor: hand;" text="🔍" />
                             </children>
                         </HBox>
-
-                        <Region layoutX="712.0" layoutY="34.0" />
-
-                        <HBox fx:id="menuDeslogado" alignment="CENTER" layoutX="784.0" layoutY="34.0" spacing="15.0">
+                        
+                        <!-- Spacer -->
+                        <Region HBox.hgrow="ALWAYS" />
+                        
+                        <!-- Menu Deslogado -->
+                        <HBox fx:id="menuDeslogado" alignment="CENTER" spacing="15.0">
                             <children>
                                 <Button onAction="#irParaLogin" styleClass="button-secondary" text="Login / Cadastrar" />
                             </children>
                         </HBox>
-
-                        <HBox fx:id="menuLogado" alignment="CENTER" layoutX="112.0" layoutY="19.0" managed="false" spacing="15.0" visible="false">
+                        
+                        <!-- Menu Logado -->
+                        <HBox fx:id="menuLogado" alignment="CENTER" spacing="15.0" managed="false" visible="false">
                             <children>
                                 <Label fx:id="lblSaudacao" style="-fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Olá, Usuário" />
-
                                 <Button fx:id="btnGerenciarEventos" onAction="#irParaGerenciarEventos" styleClass="button-secondary" text="Gerenciar Eventos" />
-
                                 <Button fx:id="btnGerenciarPerfil" onAction="#irParaGerenciarPerfil" styleClass="button-secondary" text="Gerenciar Perfil" />
-
                                 <Button onAction="#fazerLogout" styleClass="button-secondary" text="Sair" />
                             </children>
                         </HBox>
                     </children>
-                </Group>
-                <Pane prefHeight="30.0" prefWidth="1020.0" style="-fx-background-color: #E5E7EB;">
+                </HBox>
+                
+                <!-- Barra de Voltar Premium -->
+                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #F9FAFB; -fx-padding: 8 30 8 30; -fx-border-color: #E5E7EB; -fx-border-width: 1 0 1 0;">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#voltar" style="-fx-background-radius: 50em; -fx-min-width: 30px; -fx-min-height: 30px; -fx-max-width: 30px; -fx-max-height: 30px; -fx-padding: 0;" text="&lt;-" />
+                        <Button mnemonicParsing="false" onAction="#voltar" style="-fx-background-color: #F97316; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 50em; -fx-min-width: 30px; -fx-min-height: 30px; -fx-max-width: 30px; -fx-max-height: 30px; -fx-padding: 0;" text="&lt;-" />
                     </children>
-                </Pane>
+                </HBox>
             </children>
         </VBox>
-
     </top>
 
     <center>

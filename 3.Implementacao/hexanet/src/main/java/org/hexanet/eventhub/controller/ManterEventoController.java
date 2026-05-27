@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.control.*;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
+import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
@@ -29,6 +30,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import org.hexanet.eventhub.singleton.ScreenManager;
+import org.hexanet.eventhub.utils.AlertManager;
 
 public class ManterEventoController implements Initializable {
 
@@ -82,7 +84,6 @@ public class ManterEventoController implements Initializable {
 
 
     private File imagemSelecionada;
-
     private ManterEventoService manterEventoService = new ManterEventoService();
 
 
@@ -141,15 +142,14 @@ public class ManterEventoController implements Initializable {
 
             cbStatus.getItems().clear();
             cbStatus.getItems().addAll(StatusEvento.ABERTO, StatusEvento.RASCUNHO);
-            
-            if(vboxTiposIngresso != null){
+
+            if (vboxTiposIngresso != null) {
                 vboxTiposIngresso.getChildren().clear();
                 listaCamposIngresso.clear();
                 adicionarLinhaIngresso();
             }
+            
         }
-
-
     }
 
 
@@ -301,9 +301,9 @@ public class ManterEventoController implements Initializable {
                         cleanPath = cleanPath.substring("assets/".length());
                     }
 
-                    URL url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
+                    URL url = getClass().getResource("/assets/" + cleanPath);
                     if (url == null) {
-                        url = getClass().getResource("/assets/" + cleanPath);
+                        url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
                     }
                     if (url == null) {
                         url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
@@ -421,17 +421,9 @@ public class ManterEventoController implements Initializable {
 
     private void editarEvento(Evento evento) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/hexanet/eventhub/eventos/FormularioEvento.fxml"));
-            javafx.scene.Parent root = fxmlLoader.load();
-            
-            ManterEventoController controller = fxmlLoader.getController();
-            controller.preencherFormulario(evento);
-
-            Stage stage = (Stage) tblEventos.getScene().getWindow();
-            stage.setTitle("Editar Evento");
-            stage.getScene().setRoot(root);
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
+            ScreenManager.getInstancia().irParaFormularioEvento(evento);
+        } catch (PermissaoNegadaException e) {
+            AlertManager.exibirAlerta(Alert.AlertType.INFORMATION, "Permissão Negada", e.getMessage());
         }
     }
 
@@ -481,13 +473,9 @@ public class ManterEventoController implements Initializable {
     @FXML
     public void novoEvento() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/hexanet/eventhub/eventos/FormularioEvento.fxml"));
-            javafx.scene.Parent root = fxmlLoader.load();
-            Stage stage = (Stage) tblEventos.getScene().getWindow();
-            stage.setTitle("Cadastrar Evento");
-            stage.getScene().setRoot(root);
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
+            ScreenManager.getInstancia().irParaFormularioEvento(null);
+        } catch (PermissaoNegadaException e) {
+            AlertManager.exibirAlerta(Alert.AlertType.INFORMATION, "Permissão Negada", e.getMessage());
         }
     }
 
@@ -627,13 +615,7 @@ public class ManterEventoController implements Initializable {
                 successAlert.showAndWait();
             }
 
-            if (tfNome != null && tfNome.getScene() != null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/hexanet/eventhub/eventos/GerenciarEventos.fxml"));
-                javafx.scene.Parent root = fxmlLoader.load();
-                Stage stage = (Stage) tfNome.getScene().getWindow();
-                stage.setTitle("EventHub - Gerenciar Eventos");
-                stage.getScene().setRoot(root);
-            }
+            ScreenManager.getInstancia().irParaGerenciarEventos();
         }catch (Exception e) {
             System.err.println("Erro ao cadastrar evento: " + e.getMessage());
             e.printStackTrace();
@@ -647,17 +629,7 @@ public class ManterEventoController implements Initializable {
 
     @FXML
     public void cancelar() {
-        try {
-            if (tfNome != null && tfNome.getScene() != null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/hexanet/eventhub/eventos/GerenciarEventos.fxml"));
-                javafx.scene.Parent root = fxmlLoader.load();
-                Stage stage = (Stage) tfNome.getScene().getWindow();
-                stage.setTitle("EventHub - Gerenciar Eventos");
-                stage.getScene().setRoot(root);
-            }
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
+        ScreenManager.getInstancia().irParaGerenciarEventos();
     }
 
     private void carregarImagensDaPasta() {
@@ -716,5 +688,4 @@ public class ManterEventoController implements Initializable {
             adicionarLinhaIngresso();
         }
     }
-
 }

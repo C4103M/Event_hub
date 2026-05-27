@@ -10,21 +10,7 @@
         <URL value="@../styles.css" />
     </stylesheets>
     
-    <!-- Top Navigation Bar -->
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-padding: 15 30 15 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-            <children>
-                <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #F97316;" text="EventHub" />
-                <Region HBox.hgrow="ALWAYS" />
-                <HBox alignment="CENTER" spacing="15.0">
-                    <children>
-                        <Button mnemonicParsing="false" styleClass="button-secondary" text="Página Inicial" />
-                        <Button mnemonicParsing="false" styleClass="button-secondary" text="Meu Perfil" />
-                    </children>
-                </HBox>
-            </children>
-        </HBox>
-    </top>
+
 
     <!-- Main Content -->
     <center>

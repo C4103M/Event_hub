@@ -1,20 +1,14 @@
 package org.hexanet.eventhub.service;
 
-import org.hexanet.eventhub.dao.EventoDAO;
-import org.hexanet.eventhub.dao.IngressoDAO;
-import org.hexanet.eventhub.dao.PagamentoDAO;
 import org.hexanet.eventhub.dao.PedidoDAO;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
-import org.hexanet.eventhub.exceptions.PermissaoNegada;
 import org.hexanet.eventhub.model.*;
 import org.hexanet.eventhub.model.enums.MetodoPagamento;
 import org.hexanet.eventhub.model.enums.StatusEvento;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ComprarIngressoService {
     private final PedidoDAO pedidoDAO = new PedidoDAO();

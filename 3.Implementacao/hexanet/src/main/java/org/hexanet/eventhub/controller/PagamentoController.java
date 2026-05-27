@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
-import org.hexanet.eventhub.exceptions.PermissaoNegada;
 import org.hexanet.eventhub.model.enums.MetodoPagamento;
 import org.hexanet.eventhub.service.ComprarIngressoService;
 import org.hexanet.eventhub.utils.AlertManager;

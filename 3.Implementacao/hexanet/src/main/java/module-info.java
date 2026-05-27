@@ -13,6 +13,7 @@ module org.hexanet.eventhub {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires jbcrypt;
+    requires annotations;
 
     opens org.hexanet.eventhub to javafx.fxml;
     opens org.hexanet.eventhub.controller to javafx.fxml;

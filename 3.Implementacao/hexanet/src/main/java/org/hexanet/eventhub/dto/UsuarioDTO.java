@@ -9,6 +9,7 @@ public class UsuarioDTO {
     private LocalDate dataNasc;
     private String senha;
     private String confirmarSenha;
+    private String tipoUsuario;
 
     public UsuarioDTO(String nome, String email, String cpfOrCnpj, LocalDate dataNasc, String senha, String confirmarSenha) {
         this.nome = nome;
@@ -74,5 +75,12 @@ public class UsuarioDTO {
 
     public void setConfirmarSenha(String confirmarSenha) {
         this.confirmarSenha = confirmarSenha;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 }

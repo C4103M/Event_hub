@@ -23,15 +23,17 @@ public class MainController {
     @FXML private Label lblSaudacao;
     @FXML private Button btnGerenciarEventos;
     @FXML private Button btnGerenciarPerfil;
-
     public void initialize() {
+        // Registra o painel central no Singleton de Navegação
+        ScreenManager.getInstancia().setPainelPrincipal(mainContainer);
+        ScreenManager.getInstancia().setMainController(this);
     }
 
-    public void atualizarMenu(String nomeTelaAtual) {
+    public void atualizarMenu(Boolean mostarBarraPesquisa) {
         Usuario usuarioLogado = SessaoUsuario.getInstancia().getUsuarioLogado();
 
-        boolean isTelaInicio = nomeTelaAtual.equals("ConsultarEventos");
-        alternarVisibilidade(barraPesquisa, isTelaInicio);
+
+        alternarVisibilidade(barraPesquisa, mostarBarraPesquisa);
 
         // 2. Controle dos Menus Baseado em Login
         if (usuarioLogado == null) {
@@ -61,30 +63,35 @@ public class MainController {
     }
 
 
+    public void exibirBarraPesquisa(boolean mostrar) {
+        alternarVisibilidade(barraPesquisa, mostrar);
+    }
+
+
     // --- Ações de Navegação ---
 
     @FXML
     public void irParaInicio() {
         ScreenManager.getInstancia().irParaConsultarEventos();
-        atualizarMenu("ConsultarEventos");
+        atualizarMenu(true);
     }
 
     @FXML
     public void irParaLogin() {
         ScreenManager.getInstancia().irParaLogin();
-        atualizarMenu("Login");
+        atualizarMenu(false);
     }
 
     @FXML
     public void irParaGerenciarPerfil() {
         ScreenManager.getInstancia().irParaGerenciarPerfil();
-        atualizarMenu("GerenciarPerfil");
+        atualizarMenu(false);
     }
 
     @FXML
     public void irParaGerenciarEventos() {
         ScreenManager.getInstancia().irParaGerenciarEventos();
-        atualizarMenu("GerenciarEventos");
+        atualizarMenu(false);
     }
 
     @FXML
@@ -95,6 +102,5 @@ public class MainController {
     @FXML
     public void voltar() {
         ScreenManager.getInstancia().voltarTelaAnterior();
-        atualizarMenu("");
     }
 }

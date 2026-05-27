@@ -3,6 +3,7 @@ package org.hexanet.eventhub.singleton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.hexanet.eventhub.controller.ComprarIngressoController;
@@ -10,7 +11,9 @@ import org.hexanet.eventhub.controller.MainController;
 import org.hexanet.eventhub.controller.PagamentoController;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
-import org.hexanet.eventhub.exceptions.PermissaoNegada;
+import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
+
+import org.hexanet.eventhub.utils.AlertManager;
 
 import java.io.IOException;
 import java.util.Stack;
@@ -18,12 +21,9 @@ import java.util.Stack;
 public class ScreenManager {
 
     private static ScreenManager instancia;
-    private MainController mainController;
-
     private Stage stagePrincipal;
-
     private BorderPane painelPrincipal;
-
+    private MainController mainController;
     private Stack<String> historicoTelas = new Stack<>();
 
     private ScreenManager() {}
@@ -43,6 +43,9 @@ public class ScreenManager {
         this.painelPrincipal = borderPane;
     }
 
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
 
     private static final String MAIN_LAYOUT = "/org/hexanet/eventhub/MainLayout.fxml";
     public void carregarLayoutPrincipal() {
@@ -56,7 +59,9 @@ public class ScreenManager {
 
             Scene scene = new Scene(root);
             this.stagePrincipal.setScene(scene);
+            irParaConsultarEventos();
             this.stagePrincipal.show();
+
 
         } catch (Exception e) {
             throw new RuntimeException("Exceção ao carregar o layout no ScreenManager: " + e.getMessage(), e);
@@ -77,15 +82,43 @@ public class ScreenManager {
                 stagePrincipal.getScene().setRoot(root);
             }
             String nomeTela = "ConsultarEventos";
-            this.mainController.atualizarMenu(nomeTela);
+            this.mainController.atualizarMenu(false);
 
             if (historicoTelas.isEmpty() || !historicoTelas.peek().equals(nomeTela)) {
                 historicoTelas.push(nomeTela);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertManager.exibirAlerta(Alert.AlertType.ERROR, "ERRO", e.getMessage());
+            throw new RuntimeException("Erro ao carregar a tela ConsultarEventos: " + e.getMessage(), e);
+        }
+    }
+
+
+    private static final String TELA_FORMULARIO_EVENTO = "/org/hexanet/eventhub/eventos/FormularioEvento.fxml";
+    public void irParaFormularioEvento(org.hexanet.eventhub.model.Evento eventoEdicao) {
+        try {
+            if(! SessaoUsuario.getInstancia().isOrganizador()) {
+                throw new PermissaoNegadaException("Apenas organizadores pode acessar esta área");
+            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_FORMULARIO_EVENTO));
+            Parent root = loader.load();
+
+            if (eventoEdicao != null) {
+                org.hexanet.eventhub.controller.ManterEventoController controller = loader.getController();
+                controller.preencherFormulario(eventoEdicao);
+            }
+
+            this.mainController.atualizarMenu(false);
+
+            if (painelPrincipal != null) {
+                painelPrincipal.setCenter(root);
+            } else {
+                stagePrincipal.getScene().setRoot(root);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            // AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar o pagamento.");
         }
     }
 
@@ -93,7 +126,7 @@ public class ScreenManager {
     public void irParaComprarIngressos(DetalhesEventoDTO detalhes) {
         try {
             if(!SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegada("Precisa estar logado");
+                throw new PermissaoNegadaException("Precisa estar logado");
             }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_COMPRAR_INGRESSO));
             Parent root = loader.load();
@@ -109,7 +142,7 @@ public class ScreenManager {
 
             String nomeTela = "ComprarIngresso";
 
-            this.mainController.atualizarMenu(nomeTela);
+            this.mainController.atualizarMenu(false);
 
             if (historicoTelas.isEmpty() || !historicoTelas.peek().equals(nomeTela)) {
                 historicoTelas.push(nomeTela);
@@ -123,7 +156,7 @@ public class ScreenManager {
     public void irParaPagamento(ComprarIngressoDTO carrinhoDTO) {
         try {
             if(! SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegada("Precisa ter uma conta");
+                throw new PermissaoNegadaException("Precisa ter uma conta");
             }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_PAGAMENTO));
             Parent root = loader.load();
@@ -139,16 +172,14 @@ public class ScreenManager {
                 stagePrincipal.getScene().setRoot(root);
             }
 
+            this.mainController.atualizarMenu(false);
             String nomeTela = "Pagamento";
-            this.mainController.atualizarMenu(nomeTela);
-
             if (historicoTelas.isEmpty() || !historicoTelas.peek().equals(nomeTela)) {
                 historicoTelas.push(nomeTela);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            // AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível carregar o pagamento.");
         }
     }
 
@@ -156,7 +187,7 @@ public class ScreenManager {
     public void irParaLogin() {
         try {
             if(SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegada("Você já está logado");
+                throw new PermissaoNegadaException("Você já está logado");
             }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_LOGIN));
             Parent root = loader.load();
@@ -167,7 +198,7 @@ public class ScreenManager {
                 stagePrincipal.getScene().setRoot(root);
             }
             String nomeTela = "Login";
-            this.mainController.atualizarMenu(nomeTela);
+            this.mainController.atualizarMenu(false);
 
             if (historicoTelas.isEmpty() || !historicoTelas.peek().equals(nomeTela)) {
                 historicoTelas.push(nomeTela);
@@ -181,8 +212,9 @@ public class ScreenManager {
     public void irParaCadastro() {
         try {
             if(SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegada("Você já está logado");
+                throw new PermissaoNegadaException("Você já está logado");
             }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_CADASTRO));
             Parent root = loader.load();
 
@@ -194,7 +226,9 @@ public class ScreenManager {
 
 
             String nomeTela = "Cadastro";
-            this.mainController.atualizarMenu(nomeTela);
+
+            this.mainController.atualizarMenu(false);
+
             if (historicoTelas.isEmpty() || !historicoTelas.peek().equals(nomeTela)) {
                 historicoTelas.push(nomeTela);
             }
@@ -208,9 +242,10 @@ public class ScreenManager {
     public void irParaGerenciarEventos() {
         try {
             if(! SessaoUsuario.getInstancia().isOrganizador()) {
-                throw new PermissaoNegada("Página restrita à Organizadores");
+                throw new PermissaoNegadaException("Página restrita à Organizadores");
             }
-            this.mainController.atualizarMenu("GerenciarEventos.fxml");
+
+            this.mainController.atualizarMenu(false);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_GERENCIAR_EVENTOS));
             Parent root = loader.load();
@@ -229,9 +264,9 @@ public class ScreenManager {
     public void irParaGerenciarPerfil() {
         try {
             if(! SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegada("Página restrita à usuários");
+                throw new PermissaoNegadaException("Página restrita à usuários");
             }
-            this.mainController.atualizarMenu("GerenciarPerfil.fxml");
+            this.mainController.atualizarMenu(false);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_GERENCIAR_PERFIL));
             Parent root = loader.load();
@@ -274,5 +309,9 @@ public class ScreenManager {
                     break;
             }
         }
+    }
+
+    public void limparHistorico() {
+        this.historicoTelas.clear();
     }
 }

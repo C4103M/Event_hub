@@ -12,14 +12,16 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
+import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
 import org.hexanet.eventhub.service.ManterEventoService;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.utils.AlertManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.List;
 
-public class ConsultarEventos {
+public class ConsultarEventosController {
     private ManterEventoService manterEventoService = new ManterEventoService();
 
     @FXML
@@ -27,6 +29,7 @@ public class ConsultarEventos {
 
     @FXML
     public void initialize() {
+        System.out.println("==============================DEBUG initialize ConsultarEventos ===============================");
         try {
             List<DetalhesEventoDTO> detalhesEventos = this.manterEventoService.listarDetalhes();
             for (DetalhesEventoDTO evento : detalhesEventos) {
@@ -38,7 +41,7 @@ public class ConsultarEventos {
         }
     }
 
-    private HBox criarCardEvento(DetalhesEventoDTO evento) {
+    private HBox criarCardEvento(@NotNull DetalhesEventoDTO evento) {
         // Container Principal do Card
         HBox card = new HBox(20.0);
         card.getStyleClass().add("card");
@@ -126,14 +129,9 @@ public class ConsultarEventos {
         // Adicionando a ação de clique do botão dinâmico!
         btnComprar.setOnAction(e -> {
             try {
-                // Chama o seu ScreenManager passando o DTO completo do evento clicado
                 ScreenManager.getInstancia().irParaComprarIngressos(evento);
-
-                // Nota: Se o seu singleton estiver em português, talvez seja getInstancia()
-
-            } catch (Exception ex) {
-                System.err.println("Erro ao tentar abrir a tela de compra: " + ex.getMessage());
-                ex.printStackTrace();
+            } catch (PermissaoNegadaException ex) {
+                AlertManager.exibirAlerta(Alert.AlertType.INFORMATION, "Permissão Negada", ex.getMessage());
             }
         });
 

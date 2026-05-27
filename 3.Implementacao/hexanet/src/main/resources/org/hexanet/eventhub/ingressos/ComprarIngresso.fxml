@@ -52,13 +52,13 @@
                   <!-- Left Side: Event Details -->
                   <VBox prefWidth="400.0" spacing="20.0">
                      <children>
-                        <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Festa Junina Foxes" />
+                        <Label fx:id="lblNomeEvento" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Festa Junina Foxes" />
 
                         <VBox spacing="10.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" styleClass="card">
                            <children>
-                              <Label fx:id="lblNomeEvento" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Centro de Eventos, São Paulo, SP" />
-                              <Label fx:id="lblDataLocal" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="24 de Junho de 2026" />
-                              <Label style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Abertura dos portões: 18:00" />
+                              <Label fx:id="lblLocal" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Centro de Eventos, São Paulo, SP" />
+                              <Label fx:id="lblData" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="24 de Junho de 2026" />
+                              <Label fx:id="lblHora" style="-fx-text-fill: #4B5563; -fx-font-size: 16px;" text="Abertura dos portões: 18:00" />
                            </children>
                         </VBox>
 
