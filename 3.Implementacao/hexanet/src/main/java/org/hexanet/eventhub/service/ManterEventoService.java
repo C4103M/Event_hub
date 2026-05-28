@@ -11,6 +11,7 @@ import org.hexanet.eventhub.model.Evento;
 
 import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.enums.StatusEvento;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,15 @@ public class ManterEventoService {
         this.eventoDAO = new EventoDAO();
     }
 
+    private Path obterDiretorioUpload() throws IOException{
+        String userHome = System.getProperty("user.home");
+        Path path = Paths.get(userHome,".eventhub","images");
+        if (!Files.exists(path)){
+            Files.createDirectories(path);
+        }
+        return path;
+    }
+
     public void cadastrarEvento(Evento evento, File imagem) throws IOException {
         evento.setQtdDisponiveis(evento.getCapacidadeTotal());
 
@@ -37,7 +47,7 @@ public class ManterEventoService {
         }
 
         if (org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() &&
-                org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
+            org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
             evento.setOrganizador((org.hexanet.eventhub.model.Organizador) org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado());
         }
 
@@ -48,12 +58,12 @@ public class ManterEventoService {
                 dir.mkdirs(); // cria o diretorio, se nao existir
 
             String imgName = UUID.randomUUID().toString() + "_" + imagem.getName();
-            Path destiny = Paths.get(assetsDir, imgName);
+            Path targetPath = obterDiretorioUpload().resolve(imgName);
 
-            Files.copy(imagem.toPath(), destiny, StandardCopyOption.REPLACE_EXISTING);
-            evento.setEventoImg("assets/" + imgName);
+            Files.copy(imagem.toPath(),targetPath,StandardCopyOption.REPLACE_EXISTING);
+
+            evento.setEventoImg(targetPath.toUri().toString());
         }
-
         eventoDAO.salvar(evento);
     }
 
@@ -76,16 +86,21 @@ public class ManterEventoService {
 
             String imagemCaminho = existEvent.getEventoImg();
             if (novaImagem != null && novaImagem.exists()) {
-                String assetsDir = "src/main/resources/assets";
-                File dir = new File(assetsDir);
-                if (!dir.exists())
-                    dir.mkdirs();
+                if (imagemCaminho != null && imagemCaminho.startsWith("file:")) {
+                    try {
+
+                        java.nio.file.Path antigoCaminho = java.nio.file.Paths.get(java.net.URI.create(imagemCaminho));
+                        java.nio.file.Files.deleteIfExists(antigoCaminho);
+                    } catch (Exception e) {
+                        System.err.println("Aviso: Não foi possível deletar o arquivo de imagem antigo: " + e.
+                        getMessage());
+                    }
+                }
 
                 String imgName = UUID.randomUUID().toString() + "_" + novaImagem.getName();
-                Path destiny = Paths.get(assetsDir, imgName);
-
-                Files.copy(novaImagem.toPath(), destiny, StandardCopyOption.REPLACE_EXISTING);
-                imagemCaminho = "assets/" + imgName;
+                Path targetPath = obterDiretorioUpload().resolve(imgName);
+                Files.copy(novaImagem.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                imagemCaminho = targetPath.toUri().toString();
             }
 
             int diferencaCapacidade = eventoAtualizado.getCapacidadeTotal() - existEvent.getCapacidadeTotal();
@@ -103,8 +118,8 @@ public class ManterEventoService {
             existEvent.setEventoImg(imagemCaminho);
             existEvent.setQtdDisponiveis(novaQtdDisponivel);
 
-            if (existEvent.getOrganizador() == null && org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() &&
-                    org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
+            if (existEvent.getOrganizador() == null && org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() && 
+                org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
                 existEvent.setOrganizador((org.hexanet.eventhub.model.Organizador) org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado());
             }
 

@@ -1,5 +1,6 @@
 package org.hexanet.eventhub.controller;
 
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -60,28 +61,42 @@ public class ConsultarEventosController {
         String nomeArquivo = evento.getUrlImg(); // Pegando a string da imagem do DTO
 
         if (nomeArquivo != null && !nomeArquivo.trim().isEmpty()) {
-            String cleanPath = nomeArquivo;
+            try {
+                if (nomeArquivo.startsWith("file:") || nomeArquivo.startsWith("http://") || 
+                    nomeArquivo.startsWith("https://") || nomeArquivo.startsWith("jar:")) {
+                    imageView.setImage(new Image(nomeArquivo));
+                } else {
+                    String cleanPath = nomeArquivo;
+                    if (cleanPath.startsWith("assets/images/")) {
+                        cleanPath = cleanPath.substring("assets/images/".length());
+                    } else if (cleanPath.startsWith("assets/")) {
+                        cleanPath = cleanPath.substring("assets/".length());
+                    }
 
-            // Limpando o caminho assim como no configurarColunaBanner
-            if (cleanPath.startsWith("assets/images/")) {
-                cleanPath = cleanPath.substring("assets/images/".length());
-            } else if (cleanPath.startsWith("assets/")) {
-                cleanPath = cleanPath.substring("assets/".length());
-            }
+                    URL url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
+                    if (url == null) {
+                        url = getClass().getResource("/assets/" + cleanPath);
+                    }
+                    if (url == null) {
+                        url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
+                    }
 
-            // Tentando resolver a URL em diferentes locais possíveis
-            URL url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
-            if (url == null) {
-                url = getClass().getResource("/assets/" + cleanPath);
-            }
-            if (url == null) {
-                url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
-            }
-
-            if (url != null) {
-                imageView.setImage(new Image(url.toExternalForm()));
-            } else {
-                System.out.println("Imagem não encontrada no classpath para: " + evento.getNome() + " (Caminho tentado: " + cleanPath + ")");
+                    if (url != null) {
+                        imageView.setImage(new Image(url.toExternalForm()));
+                    } else {
+                        // Tenta resolver como arquivo absoluto direto caso falte o prefixo file:
+                        File externalFile = new File(nomeArquivo);
+                        if (externalFile.exists()) {
+                            imageView.setImage(new Image(externalFile.toURI().toString()));
+                        } else {
+                            System.out.println("Imagem não encontrada no classpath nem no sistema para: " + evento.getNome());
+                            imageView.setImage(new Image("https://picsum.photos/250/150", true));
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Erro ao carregar imagem no card: " + e.getMessage());
+                imageView.setImage(new Image("https://picsum.photos/250/150", true));
             }
         } else {
             imageView.setImage(new Image("https://picsum.photos/250/150", true));
