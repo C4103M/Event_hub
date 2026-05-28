@@ -1,5 +1,6 @@
 package org.hexanet.eventhub.dto;
 
+import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.Ingresso;
 import org.hexanet.eventhub.model.enums.MetodoPagamento;
 
@@ -10,21 +11,20 @@ import java.util.List;
 public class ComprarIngressoDTO {
     private Long idEvento;
     private String nomeEvento;
-    private double valorTotalPedido;
+    private Evento evento;
 
-    // Dados vitais para persistência no banco
+    private double valorTotalPedido;
     private List<Ingresso> ingressosSelecionados;
     private MetodoPagamento metodoPagamento;
 
     public ComprarIngressoDTO() {
     }
 
-    public ComprarIngressoDTO(Long idEvento, String nomeEvento, double valorTotalPedido, List<Ingresso> ingressosSelecionados, MetodoPagamento metodoPagamento) {
+    public ComprarIngressoDTO(Long idEvento, String nomeEvento, double valorTotalPedido, List<Ingresso> ingressosSelecionados) {
         this.idEvento = idEvento;
         this.nomeEvento = nomeEvento;
         this.valorTotalPedido = valorTotalPedido;
         this.ingressosSelecionados = ingressosSelecionados;
-        this.metodoPagamento = metodoPagamento;
     }
     public ComprarIngressoDTO(List<Ingresso> ingressos, MetodoPagamento metodoPagamento) {
         this.ingressosSelecionados = ingressos;

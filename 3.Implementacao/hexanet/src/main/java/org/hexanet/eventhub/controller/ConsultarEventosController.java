@@ -29,7 +29,7 @@ public class ConsultarEventosController {
 
     @FXML
     public void initialize() {
-        System.out.println("==============================DEBUG initialize ConsultarEventos ===============================");
+//        System.out.println("==============================DEBUG initialize ConsultarEventos ===============================");
         try {
             List<DetalhesEventoDTO> detalhesEventos = this.manterEventoService.listarDetalhes();
             for (DetalhesEventoDTO evento : detalhesEventos) {
@@ -126,6 +126,15 @@ public class ConsultarEventosController {
         HBox.setHgrow(spacerHorizontal, Priority.ALWAYS);
 
         Button btnComprar = new Button("Comprar Ingresso");
+        if(evento.getIdEvento() == null) {
+            throw new RuntimeException("ID ESTÁ CHEGANDO NULO");
+        }
+//        System.out.printf("\nId enviado %d\n", evento.getIdEvento());
+//        System.out.printf("\n Qantidade enviada %d\n", evento.getTiposDisponiveis().get(0).getQtdDisponiveis());
+//        System.out.println("Nome enviado " + evento.getNome());
+//        System.out.println("Local enviado " + evento.getLocal());
+
+//        btnComprar.setUserData(evento.getIdEvento());
         // Adicionando a ação de clique do botão dinâmico!
         btnComprar.setOnAction(e -> {
             try {

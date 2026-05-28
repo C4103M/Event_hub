@@ -3,9 +3,11 @@ package org.hexanet.eventhub.dto;
 public class TipoIngressoDTO {
     private Long id;
     private String nome;
-    private String descricaoCurta;
     private double preco;
     private int qtdDisponiveis;
+
+    private double valotTotal;
+    private int qtdSelecionados;
 
     public TipoIngressoDTO(Long id, String nome, double preco, int qtdDisponiveis) {
         this.id = id;
@@ -18,8 +20,23 @@ public class TipoIngressoDTO {
 
     }
 
+    public double getValotTotal() {
+        return valotTotal;
+    }
+
+    public void setValotTotal(double valotTotal) {
+        this.valotTotal = valotTotal;
+    }
+
     public double getPreco() {
         return preco;
+    }
+    public int getQtdSelecionados() {
+        return qtdSelecionados;
+    }
+
+    public void setQtdSelecionados(int qtdSelecionados) {
+        this.qtdSelecionados = qtdSelecionados;
     }
 
     public void setPreco(double preco) {
@@ -40,14 +57,6 @@ public class TipoIngressoDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getDescricaoCurta() {
-        return descricaoCurta;
-    }
-
-    public void setDescricaoCurta(String descricaoCurta) {
-        this.descricaoCurta = descricaoCurta;
     }
 
     public int getQtdDisponiveis() {

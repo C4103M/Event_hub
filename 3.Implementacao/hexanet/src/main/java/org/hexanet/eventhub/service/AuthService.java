@@ -117,7 +117,7 @@ public class AuthService {
     }
 
     private void validarEmail(String email) {
-        if (!email.contains("@")) {
+        if (!(email.contains("@") && email.contains("."))) {
             throw new CampoInvalidoException("Email Inválido");
         }
     }

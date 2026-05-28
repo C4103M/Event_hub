@@ -194,7 +194,7 @@ public class ManterEventoService {
     }
 
     public List<DetalhesEventoDTO> listarDetalhes() {
-        System.out.println("========================DEBUG listar detalhes ====================");
+//        System.out.println("========================DEBUG listar detalhes ====================");
         List<Evento> eventos = this.listarTodos();
 
         // Lista que vai guardar o resultado final
@@ -211,8 +211,8 @@ public class ManterEventoService {
             dto.setDataHora(evento.getDataHora());
             dto.setUrlImg(evento.getEventoImg());
 
-            System.out.println("========================DEBUG listar detalhes ====================");
-            System.out.println(evento.getNome());
+//            System.out.println("========================DEBUG listar detalhes ====================");
+//            System.out.println(evento.getNome());
 
             List<TipoIngressoDTO> tiposDTO = new ArrayList<>();
 
@@ -222,10 +222,10 @@ public class ManterEventoService {
                 // Laço passando por cada tipo de ingresso daquele evento específico
                 for (TipoIngresso tipo : evento.getTiposIngresso()) {
                     TipoIngressoDTO tipoDTO = new TipoIngressoDTO();
-
                     tipoDTO.setId(tipo.getId());
                     tipoDTO.setNome(tipo.getNome());
                     tipoDTO.setPreco(tipo.getPreco());
+                    tipoDTO.setQtdDisponiveis(tipo.getQtdDisponiveis());
 
                     tiposDTO.add(tipoDTO);
                 }

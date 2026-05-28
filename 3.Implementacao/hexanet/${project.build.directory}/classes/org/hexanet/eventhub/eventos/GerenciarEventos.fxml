@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #F3F4F6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.ManterEventoController">
+    <stylesheets>
+        <URL value="@../styles.css" />
+    </stylesheets>
+    
+
+
+    <!-- Main Content -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20.0">
+            <padding>
+                <Insets top="30" right="50" bottom="30" left="50" />
+            </padding>
+            <children>
+                
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" maxWidth="950.0" prefWidth="950.0">
+                    <children>
+                        <VBox>
+                            <children>
+                                <Label styleClass="label-title" text="Gerenciar Eventos" />
+                                <Label style="-fx-text-fill: #6B7280; -fx-font-size: 14px;" text="Administre os eventos que você organiza." />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Styled TableView (Organic List Style) -->
+                <VBox styleClass="card" maxWidth="950.0" prefWidth="950.0" style="-fx-padding: 10; -fx-background-radius: 12;" VBox.vgrow="ALWAYS">
+                    <children>
+                        <TableView fx:id="tblEventos" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                            <columns>
+                                <TableColumn fx:id="colNome" prefWidth="220.0" text="Nome do Evento" style="-fx-alignment: CENTER-LEFT; -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1F2937;" />
+                                <TableColumn fx:id="colLocal" prefWidth="220.0" text="Local" style="-fx-alignment: CENTER-LEFT; -fx-text-fill: #4B5563;" />
+                                <TableColumn fx:id="colData" prefWidth="160.0" text="Data/Hora" style="-fx-alignment: CENTER; -fx-text-fill: #4B5563;" />
+                                <TableColumn fx:id="colPreco" prefWidth="180.0" text="Valor (R$)" style="-fx-alignment: CENTER; -fx-text-fill: #10B981; -fx-font-weight: bold;" />
+                                <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" style="-fx-alignment: CENTER; -fx-font-weight: bold;" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Actions Bottom Bar -->
+                <HBox alignment="CENTER_RIGHT" spacing="15.0" maxWidth="950.0" prefWidth="950.0" style="-fx-padding: 10 0 0 0;">
+                    <children>
+                        <Button mnemonicParsing="false" styleClass="button-secondary" onAction="#excluirEvento" style="-fx-border-color: #EF4444; -fx-text-fill: #EF4444;" text="Excluir Selecionado" />
+                        <Button mnemonicParsing="false" styleClass="button-secondary" onAction="#editarEvento" style="-fx-border-color: #3B82F6; -fx-text-fill: #3B82F6;" text="Editar Selecionado" />
+                        <Button mnemonicParsing="false" onAction="#novoEvento" style="-fx-background-color: #10B981; -fx-text-fill: white;" text="Criar Novo Evento" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

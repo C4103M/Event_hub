@@ -125,9 +125,9 @@ public class ScreenManager {
     private static final String TELA_COMPRAR_INGRESSO = "/org/hexanet/eventhub/ingressos/ComprarIngresso.fxml";
     public void irParaComprarIngressos(DetalhesEventoDTO detalhes) {
         try {
-            if(!SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegadaException("Precisa estar logado");
-            }
+//            if(!SessaoUsuario.getInstancia().isLogado()) {
+//                throw new PermissaoNegadaException("Precisa estar logado");
+//            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_COMPRAR_INGRESSO));
             Parent root = loader.load();
 
@@ -155,9 +155,9 @@ public class ScreenManager {
     private static final String TELA_PAGAMENTO = "/org/hexanet/eventhub/ingressos/Pagamento.fxml";
     public void irParaPagamento(ComprarIngressoDTO carrinhoDTO) {
         try {
-            if(! SessaoUsuario.getInstancia().isLogado()) {
-                throw new PermissaoNegadaException("Precisa ter uma conta");
-            }
+//            if(! SessaoUsuario.getInstancia().isLogado()) {
+//                throw new PermissaoNegadaException("Precisa ter uma conta");
+//            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_PAGAMENTO));
             Parent root = loader.load();
 

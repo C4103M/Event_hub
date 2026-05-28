@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #F3F4F6;"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.hexanet.eventhub.controller.ConsultarEventosController">
+    <stylesheets>
+        <URL value="@../styles.css" />
+    </stylesheets>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 20;">
+            <content>
+                <VBox fx:id="containerEventos" alignment="TOP_CENTER" spacing="20.0">
+                    <padding>
+                        <Insets top="20" right="50" bottom="20" left="50" />
+                    </padding>
+                    <children>
+                        <Label styleClass="label-title" text="Eventos em Destaque" />
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
