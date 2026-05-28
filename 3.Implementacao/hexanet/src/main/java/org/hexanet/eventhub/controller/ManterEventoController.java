@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.*;
-import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.TipoIngresso;
@@ -15,7 +14,6 @@ import org.hexanet.eventhub.service.ManterEventoService;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -291,29 +289,46 @@ public class ManterEventoController implements Initializable {
             @Override
             protected void updateItem(String nomeArquivo, boolean empty) {
                 super.updateItem(nomeArquivo, empty);
-                if (empty || nomeArquivo == null) {
+                if (empty || nomeArquivo == null || nomeArquivo.trim().isEmpty()) {
                     setGraphic(null);
                 } else {
-                    String cleanPath = nomeArquivo;
-                    if (cleanPath.startsWith("assets/images/")) {
-                        cleanPath = cleanPath.substring("assets/images/".length());
-                    } else if (cleanPath.startsWith("assets/")) {
-                        cleanPath = cleanPath.substring("assets/".length());
+                    Image img = null;
+                    try {
+                        if (nomeArquivo.startsWith("file:") || nomeArquivo.startsWith("http://") || 
+                            nomeArquivo.startsWith("https://") || nomeArquivo.startsWith("jar:")) {
+                            img = new Image(nomeArquivo);
+                        } else {
+                            String cleanPath = nomeArquivo;
+                            if (cleanPath.startsWith("assets/images/")) {
+                                cleanPath = cleanPath.substring("assets/images/".length());
+                            } else if (cleanPath.startsWith("assets/")) {
+                                cleanPath = cleanPath.substring("assets/".length());
+                            }
+                            URL url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
+                            if (url == null) {
+                                url = getClass().getResource("/assets/" + cleanPath);
+                            }
+                            if (url == null) {
+                                url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
+                            }
+                            if (url != null) {
+                                img = new Image(url.toExternalForm());
+                            } else {
+                                File externalFile = new File(nomeArquivo);
+                                if (externalFile.exists()) {
+                                    img = new Image(externalFile.toURI().toString());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Erro ao carregar miniatura na tabela: " + e.getMessage());
                     }
 
-                    URL url = getClass().getResource("/assets/" + cleanPath);
-                    if (url == null) {
-                        url = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
-                    }
-                    if (url == null) {
-                        url = getClass().getResource(nomeArquivo.startsWith("/") ? nomeArquivo : "/" + nomeArquivo);
-                    }
-
-                    if (url != null) {
-                        imgView.setImage(new Image(url.toExternalForm()));
+                    if (img != null) {
+                        imgView.setImage(img);
                         setGraphic(imgView);
                     } else {
-                        setGraphic(null); // Se não achar a imagem, deixa vazio
+                        setGraphic(null);
                     }
                 }
             }
@@ -646,8 +661,6 @@ public class ManterEventoController implements Initializable {
                     cbxBannerEvento.getItems().add(arquivo.getName());
                 }
             }
-        } else {
-            System.out.println("Aviso: Pasta assets não encontrada.");
         }
     }
 
@@ -668,9 +681,15 @@ public class ManterEventoController implements Initializable {
         }
         
         cbStatus.setValue(evento.getStatusEvento());
-        
+
         if (evento.getEventoImg() != null) {
-            lblImagemSelecionada.setText("Imagem carregada: " + evento.getEventoImg());
+            String caminho = evento.getEventoImg();
+            if (caminho.contains("/")) {
+                String nomeExibicao = caminho.substring(caminho.lastIndexOf("/") + 1);
+                lblImagemSelecionada.setText("Imagem carregada: " + nomeExibicao);
+            } else {
+                lblImagemSelecionada.setText("Imagem carregada: " + caminho);
+            }
         }
 
         vboxTiposIngresso.getChildren().clear();

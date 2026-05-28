@@ -107,16 +107,45 @@ public class ComprarIngressoController {
 
     }
 
-    public void carregarImagens(String urlImg) {
-        Image img;
-        if(urlImg == null) {
-            img = new Image("https://picsum.photos/250/150");
-        } else {
-            img = new Image(urlImg);
+        public void carregarImagens(String urlImg) {
+        Image img = null;
+        
+        if (urlImg != null && !urlImg.trim().isEmpty()) {
+            try {
+                if (urlImg.startsWith("http://") || urlImg.startsWith("https://") || 
+                    urlImg.startsWith("file:") || urlImg.startsWith("jar:")) {
+                    img = new Image(urlImg);
+                } else {
+                    String cleanPath = urlImg;
+                    if (cleanPath.startsWith("assets/")) {
+                        cleanPath = cleanPath.substring("assets/".length());
+                    }
+                    
+                    java.net.URL resourceUrl = getClass().getResource("/assets/" + cleanPath);
+                    if (resourceUrl == null) {
+                        resourceUrl = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
+                    }
+                    if (resourceUrl == null) {
+                        resourceUrl = getClass().getResource(urlImg.startsWith("/") ? urlImg : "/" + urlImg);
+                    }
+                    
+                    if (resourceUrl != null) {
+                        img = new Image(resourceUrl.toExternalForm());
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Erro ao tentar carregar a imagem do evento: " + e.getMessage());
+            }
         }
+        
+        if (img == null) {
+            img = new Image("https://picsum.photos/250/150");
+        }
+        
         bigBanner.setImage(img);
         lowBanner.setImage(img);
     }
+
 
     public void irParaPagamento() {
         List<Ingresso> ingressosSelecionados = new ArrayList<>();
