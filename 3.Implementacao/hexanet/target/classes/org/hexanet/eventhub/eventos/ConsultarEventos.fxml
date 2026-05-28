@@ -3,31 +3,27 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<StackPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.EventoController">
+<BorderPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #F3F4F6;"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.hexanet.eventhub.controller.ConsultarEventosController">
     <stylesheets>
         <URL value="@../styles.css" />
     </stylesheets>
-    <children>
-        <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="card" maxWidth="900.0" maxHeight="600.0" prefWidth="900.0" prefHeight="600.0">
-            <children>
-                <VBox alignment="CENTER" spacing="5.0">
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 20;">
+            <content>
+                <VBox fx:id="containerEventos" alignment="TOP_CENTER" spacing="20.0">
+                    <padding>
+                        <Insets top="20" right="50" bottom="20" left="50" />
+                    </padding>
                     <children>
-                        <Label styleClass="label-title" text="Consultar Eventos" />
-                        <Label styleClass="label-subtitle" text="Veja todos os eventos disponíveis na plataforma." />
+                        <Label styleClass="label-title" text="Eventos em Destaque" />
                     </children>
                 </VBox>
-
-                <TableView fx:id="tabelaEventos" prefHeight="450.0" prefWidth="850.0" style="-fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8;">
-                    <columns>
-                        <TableColumn fx:id="colNome" prefWidth="250.0" text="Nome do Evento" />
-                        <TableColumn fx:id="colLocal" prefWidth="200.0" text="Local" />
-                        <TableColumn fx:id="colData" prefWidth="150.0" text="Data/Hora" />
-                        <TableColumn fx:id="colPreco" prefWidth="120.0" text="Valor (R$)" />
-                        <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
-                    </columns>
-                </TableView>
-            </children>
-        </VBox>
-    </children>
-</StackPane>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

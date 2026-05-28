@@ -5,20 +5,21 @@ import java.time.LocalDate;
 public class UsuarioDTO {
     private String nome;
     private String email;
-    private String cpf;
+    private String cpfOrCnpj;
     private LocalDate dataNasc;
     private String senha;
     private String confirmarSenha;
+    private String tipoUsuario;
 
-    public UsuarioDTO(String nome, String email, String cpf, LocalDate dataNasc, String senha, String confirmarSenha) {
+    public UsuarioDTO(String nome, String email, String cpfOrCnpj, LocalDate dataNasc, String senha, String confirmarSenha) {
         this.nome = nome;
         this.email = email;
-        this.cpf = cpf;
+        this.cpfOrCnpj = cpfOrCnpj;
         this.dataNasc = dataNasc;
         this.senha = senha;
         this.confirmarSenha = confirmarSenha;
     }
-    public UsuarioDTO(String nome, String senha) {
+    public UsuarioDTO(String email, String senha) {
         this.email = email;
         this.senha = senha;
     }
@@ -44,12 +45,12 @@ public class UsuarioDTO {
         this.email = email;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCpfOrCnpj() {
+        return cpfOrCnpj;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpfOrCnpj(String cpfOrCnpj) {
+        this.cpfOrCnpj = cpfOrCnpj;
     }
 
     public LocalDate getDataNasc() {
@@ -74,5 +75,12 @@ public class UsuarioDTO {
 
     public void setConfirmarSenha(String confirmarSenha) {
         this.confirmarSenha = confirmarSenha;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 }

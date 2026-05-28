@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hexanet.eventhub.model.enums.StatusEvento;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "evento")
@@ -15,6 +17,8 @@ public class Evento {
     private String nome;
     private String local;
 
+    private String descricao;
+
     @Column(name = "capacidade_total")
     private int capacidadeTotal;
 
@@ -24,15 +28,15 @@ public class Evento {
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
-    @Column(name = "valor_ingresso")
-    private double valorIngresso;
-
     @Column(name = "evento_img")
     private String eventoImg;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_evento")
     private StatusEvento statusEvento;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<TipoIngresso> tiposIngresso = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "organizador_id")
@@ -120,13 +124,7 @@ public class Evento {
         this.qtdDisponiveis -= qtd;
     }
 
-    public double getValorIngresso() {
-        return valorIngresso;
-    }
 
-    public void setValorIngresso(double valorIngresso) {
-        this.valorIngresso = valorIngresso;
-    }
 
     public Organizador getOrganizador() {
         return organizador;
@@ -142,5 +140,36 @@ public class Evento {
 
     public String getEventoImg() {
         return eventoImg;
+    }
+
+    public List<TipoIngresso> getTiposIngresso() {
+        return tiposIngresso;
+    }
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+    public void setTiposIngresso(List<TipoIngresso> tiposIngresso) {
+        this.tiposIngresso = tiposIngresso;
+    }
+
+    public void addTipoIngresso(TipoIngresso tipoIngresso) {
+        if (this.tiposIngresso == null) {
+            this.tiposIngresso = new ArrayList<>();
+        }
+        this.tiposIngresso.add(tipoIngresso);
+        tipoIngresso.setEvento(this);
+    }
+    public String getData() {
+        if (dataHora == null) return "";
+        return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String getHorario() {
+        if (dataHora == null) return "";
+        return dataHora.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
     }
 }

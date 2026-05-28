@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="720.0" prefWidth="1080.0"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.hexanet.eventhub.controller.GerenciarPerfilController">
+    <stylesheets>
+        <URL value="@./styles.css" />
+    </stylesheets>
+
+    <children>
+        <ScrollPane fitToWidth="true" fitToHeight="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <content>
+                <StackPane style="-fx-padding: 40 0 40 0;">
+                    <children>
+                        <VBox alignment="CENTER" maxWidth="500.0" prefWidth="500.0" spacing="20.0" styleClass="card">
+                            <children>
+
+                                <!-- Título -->
+                                <VBox alignment="CENTER" spacing="4.0">
+                                    <children>
+                                        <Label styleClass="label-title" text="Gerenciar Perfil" />
+                                        <Label fx:id="lblSubtitulo" styleClass="label-subtitle"
+                                               text="Atualize suas informações pessoais" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Separador -->
+                                <Separator />
+
+                                <!-- Nome Completo -->
+                                <VBox maxWidth="420.0" prefWidth="420.0" spacing="6.0">
+                                    <children>
+                                        <Label text="Nome Completo" />
+                                        <TextField fx:id="txtNome"
+                                                   promptText="Digite seu nome completo" />
+                                        <Label fx:id="lblErroNome" styleClass="label-error"
+                                               managed="false" visible="false" />
+                                    </children>
+                                </VBox>
+
+                                <!-- E-mail -->
+                                <VBox maxWidth="420.0" prefWidth="420.0" spacing="6.0">
+                                    <children>
+                                        <Label text="E-mail" />
+                                        <TextField fx:id="txtEmail"
+                                                   promptText="Digite seu e-mail" />
+                                        <Label fx:id="lblErroEmail" styleClass="label-error"
+                                               managed="false" visible="false" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Data de Nascimento (somente Participante) -->
+                                <VBox fx:id="vboxDataNasc" maxWidth="420.0" prefWidth="420.0"
+                                      spacing="6.0" managed="false" visible="false">
+                                    <children>
+                                        <Label text="Data de Nascimento" />
+                                        <DatePicker fx:id="dpDataNasc"
+                                                    maxWidth="Infinity"
+                                                    promptText="DD/MM/AAAA" />
+                                        <Label fx:id="lblErroData" styleClass="label-error"
+                                               managed="false" visible="false" />
+                                    </children>
+                                </VBox>
+
+                                <!-- CPF (somente Participante) ou CNPJ (somente Organizador) -->
+                                <VBox fx:id="vboxDocumento" maxWidth="420.0" prefWidth="420.0"
+                                      spacing="6.0" managed="false" visible="false">
+                                    <children>
+                                        <Label fx:id="lblDocumento" text="CPF" />
+                                        <TextField fx:id="txtDocumento"
+                                                   promptText="Documento" />
+                                        <Label fx:id="lblErroDocumento" styleClass="label-error"
+                                               managed="false" visible="false" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Separador de Senha -->
+                                <Separator />
+
+                                <Label style="-fx-text-fill: #6B7280; -fx-font-size: 12px;"
+                                       text="Deixe os campos de senha em branco para não alterar." />
+
+                                <!-- Nova Senha -->
+                                <VBox maxWidth="420.0" prefWidth="420.0" spacing="6.0">
+                                    <children>
+                                        <Label text="Nova Senha" />
+                                        <StackPane>
+                                            <children>
+                                                <PasswordField fx:id="txtNovaSenha"
+                                                               promptText="Digite a nova senha (mín. 8 caracteres)" />
+                                                <TextField fx:id="txtNovaSenhaRevelada"
+                                                           promptText="Digite a nova senha (mín. 8 caracteres)"
+                                                           visible="false" managed="false" />
+                                            </children>
+                                        </StackPane>
+                                        <Label fx:id="lblErroSenha" styleClass="label-error"
+                                               managed="false" visible="false" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Confirmar Nova Senha -->
+                                <VBox maxWidth="420.0" prefWidth="420.0" spacing="6.0">
+                                    <children>
+                                        <Label text="Confirmar Nova Senha" />
+                                        <StackPane>
+                                            <children>
+                                                <PasswordField fx:id="txtConfirmarSenha"
+                                                               promptText="Confirme a nova senha" />
+                                                <TextField fx:id="txtConfirmarSenhaRevelada"
+                                                           promptText="Confirme a nova senha"
+                                                           visible="false" managed="false" />
+                                            </children>
+                                        </StackPane>
+                                        <Label fx:id="lblErroConfirmarSenha" styleClass="label-error"
+                                               managed="false" visible="false" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Checkbox mostrar senha -->
+                                <HBox maxWidth="420.0" prefWidth="420.0">
+                                    <children>
+                                        <CheckBox fx:id="chkMostrarSenha"
+                                                  text="Mostrar senha"
+                                                  onAction="#toggleMostrarSenha"
+                                                  style="-fx-font-size: 11px; -fx-text-fill: #4B5563;"/>
+                                    </children>
+                                </HBox>
+
+                                <!-- Mensagem de Feedback Geral -->
+                                <Label fx:id="lblMensagem" styleClass="label-success"
+                                       managed="false" visible="false"
+                                       wrapText="true" maxWidth="420.0" />
+
+                                <!-- Botões de Ação -->
+                                <HBox spacing="15.0" alignment="CENTER" maxWidth="420.0" prefWidth="420.0">
+                                    <children>
+                                        <Button fx:id="btnCancelar"
+                                                onAction="#cancelar"
+                                                styleClass="button-secondary"
+                                                text="Cancelar"
+                                                HBox.hgrow="ALWAYS"
+                                                maxWidth="Infinity" />
+                                        <Button fx:id="btnSalvar"
+                                                onAction="#salvarAlteracoes"
+                                                text="Salvar Alterações"
+                                                HBox.hgrow="ALWAYS"
+                                                maxWidth="Infinity" />
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </StackPane>
+            </content>
+        </ScrollPane>
+    </children>
+</StackPane>
