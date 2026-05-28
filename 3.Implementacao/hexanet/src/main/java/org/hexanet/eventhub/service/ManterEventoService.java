@@ -36,8 +36,8 @@ public class ManterEventoService {
             evento.setStatusEvento(StatusEvento.ABERTO);
         }
 
-        if (org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() && 
-            org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
+        if (org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() &&
+                org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
             evento.setOrganizador((org.hexanet.eventhub.model.Organizador) org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado());
         }
 
@@ -103,8 +103,8 @@ public class ManterEventoService {
             existEvent.setEventoImg(imagemCaminho);
             existEvent.setQtdDisponiveis(novaQtdDisponivel);
 
-            if (existEvent.getOrganizador() == null && org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() && 
-                org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
+            if (existEvent.getOrganizador() == null && org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().isLogado() &&
+                    org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado() instanceof org.hexanet.eventhub.model.Organizador) {
                 existEvent.setOrganizador((org.hexanet.eventhub.model.Organizador) org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado());
             }
 

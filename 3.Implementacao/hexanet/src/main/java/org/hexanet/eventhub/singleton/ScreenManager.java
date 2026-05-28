@@ -162,8 +162,8 @@ public class ScreenManager {
             Parent root = loader.load();
 
             // Injeção de dados via controller
-             PagamentoController controller = loader.getController();
-             controller.initData(comprarIngressoDTO);
+            PagamentoController controller = loader.getController();
+            controller.initData(comprarIngressoDTO);
 
             // Troca o miolo do BorderPane se estiver configurado, ou a cena inteira
             if (painelPrincipal != null) {
