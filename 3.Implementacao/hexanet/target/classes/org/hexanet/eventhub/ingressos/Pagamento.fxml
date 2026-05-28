@@ -34,6 +34,7 @@
                             <columns>
                                 <TableColumn fx:id="colIngressoNome" prefWidth="350.0" text="Tipo de Ingresso" />
                                 <TableColumn fx:id="colIngressoPreco" minWidth="0.0" prefWidth="150.0" text="Preço Unitário" />
+                                <TableColumn fx:id="colIngressoQtd" minWidth="0.0" prefWidth="150.0" text="Quantidade" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

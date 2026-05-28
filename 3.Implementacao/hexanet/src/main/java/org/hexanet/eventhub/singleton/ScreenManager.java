@@ -153,7 +153,7 @@ public class ScreenManager {
     }
 
     private static final String TELA_PAGAMENTO = "/org/hexanet/eventhub/ingressos/Pagamento.fxml";
-    public void irParaPagamento(ComprarIngressoDTO carrinhoDTO) {
+    public void irParaPagamento(ComprarIngressoDTO comprarIngressoDTO) {
         try {
 //            if(! SessaoUsuario.getInstancia().isLogado()) {
 //                throw new PermissaoNegadaException("Precisa ter uma conta");
@@ -163,7 +163,7 @@ public class ScreenManager {
 
             // Injeção de dados via controller
              PagamentoController controller = loader.getController();
-             controller.initData(carrinhoDTO);
+             controller.initData(comprarIngressoDTO);
 
             // Troca o miolo do BorderPane se estiver configurado, ou a cena inteira
             if (painelPrincipal != null) {

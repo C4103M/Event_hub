@@ -9,10 +9,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
+import org.hexanet.eventhub.dto.ItemPedidoDTO;
 import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
 import org.hexanet.eventhub.model.Ingresso;
 import org.hexanet.eventhub.model.enums.MetodoPagamento;
 import org.hexanet.eventhub.service.ComprarIngressoService;
+import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.dto.TipoIngressoDTO;
 
@@ -22,7 +24,7 @@ public class PagamentoController {
 
     private ComprarIngressoDTO comprarIngressoDTO;
 
-    private ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
+    private final ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
 
     @FXML private ToggleGroup grupoPagamento;
     @FXML private RadioButton rbPix;
@@ -30,64 +32,62 @@ public class PagamentoController {
     @FXML private RadioButton rbDebito;
     @FXML private RadioButton rbBoleto;
 
-    @FXML private TableView<TipoIngressoDTO> tvResumoItens;
-
     @FXML private Label lblValorTotal;
-    @FXML private TableColumn<TipoIngressoDTO, String> colIngressoNome;
-    @FXML private TableColumn<TipoIngressoDTO, Double> colIngressoPreco;
-    @FXML private TableColumn<TipoIngressoDTO, Integer> colIngressoQtd;
+    @FXML private TableView<ItemPedidoDTO> tvResumoItens;
+    @FXML private TableColumn<ItemPedidoDTO, String> colIngressoNome;
+    @FXML private TableColumn<ItemPedidoDTO, Double> colIngressoPreco;
+    @FXML private TableColumn<ItemPedidoDTO, Integer> colIngressoQtd;
 
 
     public void initData(ComprarIngressoDTO dto) {
         this.comprarIngressoDTO = dto;
-        carragarDados();
+        carregarDados();
     }
+
+    private void carregarDados() {
+        if (this.comprarIngressoDTO == null) return;
+
+        colIngressoNome.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getNome())
+        );
+        colIngressoPreco.setCellValueFactory(cellData ->
+                new SimpleDoubleProperty(cellData.getValue().getPrecoUnitario()).asObject()
+        );
+        colIngressoQtd.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(cellData.getValue().getQuantidade()).asObject()
+        );
+
+        ObservableList<ItemPedidoDTO> dadosObservaveis = FXCollections.observableArrayList(
+                this.comprarIngressoDTO.getItensResumo()
+        );
+        tvResumoItens.setItems(dadosObservaveis);
+
+        lblValorTotal.setText(String.format("R$ %.2f", this.comprarIngressoDTO.getValorTotalPedido()));
+    }
+
     @FXML
     private void confirmarPagamento() {
         RadioButton selecionado = (RadioButton) grupoPagamento.getSelectedToggle();
 
         if (selecionado != null) {
             String textoSelecionado = (String) selecionado.getUserData();
-            System.out.println("Método escolhido: " + textoSelecionado);
+//            System.out.println("Método escolhido: " + textoSelecionado);
 
             MetodoPagamento metodo = MetodoPagamento.fromString(textoSelecionado);
 
             comprarIngressos(metodo);
 
         } else {
-            System.out.println("Nenhum método selecionado!");
+            AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Selecione uma forma de pagamento.");
         }
-    }
-
-    private void carragarDados() {
-        colIngressoNome.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getNome())
-        );
-        colIngressoPreco.setCellValueFactory(cellData ->
-                new SimpleDoubleProperty(cellData.getValue().getPreco()).asObject()
-        );
-        colIngressoQtd.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getQtdDisponiveis()).asObject()
-        );
-
-        List<Ingresso> ingressosModel = this.comprarIngressoDTO.getIngressosSelecionados();
-        List<TipoIngressoDTO> listaDTOs = ingressosModel.stream()
-                .map(ingresso -> new TipoIngressoDTO(
-                        ingresso.getNome(),
-                        ingresso.getPreco(),
-                        ingresso.getQuantidadeSelecionada() // ou o contador do Spinner
-                ))
-                .toList();
-        ObservableList<TipoIngressoDTO> dadosObservaveis = FXCollections.observableArrayList(
-                this.comprarIngressoDTO.getIngressosSelecionados()
-        );
-        tvResumoItens.setItems(dadosObservaveis);
     }
 
     public void comprarIngressos(MetodoPagamento metodoPagamento) {
         this.comprarIngressoDTO.setMetodoPagamento(metodoPagamento);
         try {
             this.comprarIngressoService.comprarIngresso(comprarIngressoDTO);
+            AlertManager.exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Compra finalizada com sucesso!");
+            ScreenManager.getInstancia().voltarTelaAnterior();
         } catch (IngressoNaoDisponivelException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Ingresso indisponível", e.getMessage());
         } catch (RuntimeException e) {

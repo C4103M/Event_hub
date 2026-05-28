@@ -12,6 +12,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
+import org.hexanet.eventhub.dto.ItemPedidoDTO;
 import org.hexanet.eventhub.dto.TipoIngressoDTO;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.Ingresso;
@@ -21,7 +22,6 @@ import org.hexanet.eventhub.service.TipoIngressoService;
 import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.singleton.ScreenManager;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,8 +58,7 @@ public class ComprarIngressoController {
 
         carregarDados(detalhes);
 
-        this.eventoBase.setId(detalhes.getIdEvento());
-        this.eventoBase.setNome(detalhes.getNome());
+        this.eventoBase = detalhes.getEvento();
 
         carregarImagens(detalhes.getUrlImg());
         carregarOpcoesDeIngresso(detalhes.getTiposDisponiveis());
@@ -83,7 +82,7 @@ public class ComprarIngressoController {
             lblPreco.getStyleClass().add("label-subtitle");
             vboxTextos.getChildren().addAll(lblNome, lblPreco);
 
-//            System.out.printf("Quantidade disponíveis = %d", ingresso.getQtdDisponiveis());
+            // System.out.printf("Quantidade disponíveis = %d", ingresso.getQtdDisponiveis());
 
             Spinner<Integer> spinnerQuantidade = new Spinner<>(0, ingresso.getQtdDisponiveis(), 0); // min: 0, max: 10, inicial: 0
             spinnerQuantidade.setPrefWidth(100.0);
@@ -128,40 +127,33 @@ public class ComprarIngressoController {
     }
 
     public void irParaPagamento() {
-
-        ComprarIngressoDTO comprarIngressoDTO = new ComprarIngressoDTO();
-        // Campos de comprarIngressoDTO
         List<Ingresso> ingressosSelecionados = new ArrayList<>();
-        List<TipoIngressoDTO> listaTiposSelecionados = new ArrayList<>();
-        Evento evento = new Evento();
-        double valorTotal = 0.0;
+        List<ItemPedidoDTO> itensResumo = new ArrayList<>();
+        double total = 0;
 
-        for(Map.Entry<TipoIngressoDTO, Spinner<Integer>> entry : mapaContadores.entrySet()) {
+        for (Map.Entry<TipoIngressoDTO, Spinner<Integer>> entry : mapaContadores.entrySet()) {
             TipoIngressoDTO tipoDTO = entry.getKey();
-            Spinner<Integer> spinner = entry.getValue();
-            int quantidade = spinner.getValue();
+            int quantidade = entry.getValue().getValue();
 
-            if(quantidade > 0) {
-                // Converte TipoIngressoDTO para tipoIngresso
+            if (quantidade > 0) {
+                // Converte TipoIngressoDTO para a entidade de modelo TipoIngresso
                 TipoIngresso tipoIngresso = new TipoIngresso();
                 tipoIngresso.setId(tipoDTO.getId());
                 tipoIngresso.setNome(tipoDTO.getNome());
                 tipoIngresso.setPreco(tipoDTO.getPreco());
-                //
 
-                // Cria uma lista de ingressos
+                // Adiciona na lista física individual de ingressos (para o Service persistir)
                 for (int i = 0; i < quantidade; i++) {
                     Ingresso ingresso = new Ingresso();
                     ingresso.setTipo(tipoIngresso);
-                    ingresso.setEvento(this.eventoBase); // CRUCIAL para o service subtrair a QTD!
-
+                    ingresso.setEvento(this.eventoBase); // Mantém o vínculo crucial para o estoque
                     ingressosSelecionados.add(ingresso);
-                    valorTotal += tipoDTO.getPreco(); // Soma no total
+
+                    total += tipoDTO.getPreco();
                 }
 
-
-
-                listaTiposSelecionados.add(tipoDTO);
+                // Adiciona no resumo agrupado (para a Tabela do JavaFX ler)
+                itensResumo.add(new ItemPedidoDTO(tipoDTO.getNome(), tipoDTO.getPreco(), quantidade));
             }
         }
 
@@ -169,12 +161,16 @@ public class ComprarIngressoController {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Atenção", "Selecione pelo menos um ingresso.");
             return;
         }
+
         ComprarIngressoDTO comprarIngressoDTO = new ComprarIngressoDTO();
         comprarIngressoDTO.setIdEvento(this.eventoBase.getId());
         comprarIngressoDTO.setNomeEvento(this.eventoBase.getNome());
+        comprarIngressoDTO.setEvento(this.eventoBase);
         comprarIngressoDTO.setIngressosSelecionados(ingressosSelecionados);
-        comprarIngressoDTO.setValorTotalPedido(valorTotal);
+        comprarIngressoDTO.setItensResumo(itensResumo);
+        comprarIngressoDTO.setValorTotalPedido(total);
 
+        // Navega direto passando o DTO unificado
         ScreenManager.getInstancia().irParaPagamento(comprarIngressoDTO);
 
     }

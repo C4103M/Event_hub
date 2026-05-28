@@ -1,5 +1,8 @@
 package org.hexanet.eventhub.dto;
 
+import org.hexanet.eventhub.dao.EventoDAO;
+import org.hexanet.eventhub.model.Evento;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +13,7 @@ public class DetalhesEventoDTO {
     private LocalDateTime dataHora;
     private String urlImg;
     private List<TipoIngressoDTO> tiposDisponiveis;
-
+    private Evento evento;
     public DetalhesEventoDTO() {
     }
 
@@ -69,5 +72,13 @@ public class DetalhesEventoDTO {
 
     public void setTiposDisponiveis(List<TipoIngressoDTO> tiposDisponiveis) {
         this.tiposDisponiveis = tiposDisponiveis;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 }

@@ -1,5 +1,6 @@
 package org.hexanet.eventhub.service;
 
+import org.hexanet.eventhub.dao.EventoDAO;
 import org.hexanet.eventhub.dao.PedidoDAO;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 
 public class ComprarIngressoService {
     private final PedidoDAO pedidoDAO = new PedidoDAO();
-
+//    private final EventoDAO eventoDAO = new EventoDAO();
     public ComprarIngressoService() {}
 
     public void comprarIngresso(ComprarIngressoDTO comprarIngressoDTO) {
@@ -27,8 +28,7 @@ public class ComprarIngressoService {
 
         for(Ingresso ingresso : pedido.getIngressos()) {
 
-            // Está vindo errado, tem que resolver
-            if(isDisponivel(ingresso) ) {
+            if(!isDisponivel(ingresso) ) {
                 throw new IngressoNaoDisponivelException("Ingresso para o evento " + ingresso.getEvento().getNome() + " esgotado");
             }
             ingresso.getEvento().subtrairQtdDisponiveis(1);

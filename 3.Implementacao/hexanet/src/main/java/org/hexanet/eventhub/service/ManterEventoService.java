@@ -203,7 +203,7 @@ public class ManterEventoService {
         // Laço passando por cada evento retornado do banco
         for (Evento evento : eventos) {
             DetalhesEventoDTO dto = new DetalhesEventoDTO();
-
+            dto.setEvento(evento);
             // Mapeando os campos básicos
             dto.setIdEvento(evento.getId());
             dto.setNome(evento.getNome());
