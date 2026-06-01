@@ -7,6 +7,7 @@ org/hexanet/eventhub/controller/AuthController.class
 org/hexanet/eventhub/dao/OrganizadorDAO.class
 org/hexanet/eventhub/model/enums/MetodoPagamento.class
 org/hexanet/eventhub/dao/UsuarioDAO.class
+org/hexanet/eventhub/dto/ItemPedidoDTO.class
 org/hexanet/eventhub/dto/DetalhesEventoDTO.class
 org/hexanet/eventhub/controller/ManterEventoController$LinhaIngresso.class
 org/hexanet/eventhub/service/ComprarIngressoService.class
@@ -36,6 +37,7 @@ org/hexanet/eventhub/exceptions/PermissaoNegadaException.class
 org/hexanet/eventhub/model/Pagamento.class
 org/hexanet/eventhub/exceptions/CapacidadeTotal.class
 org/hexanet/eventhub/model/Participante.class
+org/hexanet/eventhub/service/GerenciarPerfilService.class
 org/hexanet/eventhub/service/TipoIngressoService.class
 org/hexanet/eventhub/service/IngressarNoEventoService.class
 org/hexanet/eventhub/dao/ParticipanteDAO.class

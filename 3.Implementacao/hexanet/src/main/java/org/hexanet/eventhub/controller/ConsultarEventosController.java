@@ -32,7 +32,7 @@ public class ConsultarEventosController {
     public void initialize() {
 //        System.out.println("==============================DEBUG initialize ConsultarEventos ===============================");
         try {
-            List<DetalhesEventoDTO> detalhesEventos = this.manterEventoService.listarDetalhes();
+            List<DetalhesEventoDTO> detalhesEventos = this.manterEventoService.listarDetalhesPublicos();
             for (DetalhesEventoDTO evento : detalhesEventos) {
                 HBox card = criarCardEvento(evento);
                 containerEventos.getChildren().add(card); // Adiciona na tela!

@@ -374,7 +374,13 @@ public class ManterEventoController implements Initializable {
 
     private void carregarEventos() {
         if (tblEventos != null) {
-            List<Evento> eventos = manterEventoService.listarTodos();
+            org.hexanet.eventhub.model.Usuario usuario = org.hexanet.eventhub.singleton.SessaoUsuario.getInstancia().getUsuarioLogado();
+            List<Evento> eventos;
+            if (usuario != null && usuario.getId() != null) {
+                eventos = manterEventoService.listarPorOrganizador(usuario.getId());
+            } else {
+                eventos = manterEventoService.listarTodos();
+            }
             tblEventos.setItems(FXCollections.observableArrayList(eventos));
         }
     }
