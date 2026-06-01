@@ -115,8 +115,11 @@ public class ConsultarEventosController {
         Label lblInfo = new Label(String.format("📍 %s | \uD83D\uDCC5 %s", evento.getLocal(), evento.getDataHora()));
         lblInfo.setStyle("-fx-text-fill: #4B5563;");
 
-        // Se o seu DTO não possuir getDescricao(), remova ou crie o campo
-        Label lblDescricao = new Label("Descrição do evento não disponível.");
+        String desc = (evento.getEvento() != null && evento.getEvento().getDescricao()
+                != null && !evento.getEvento().getDescricao().trim().isEmpty()
+                ? evento.getEvento().getDescricao() : "Sem descrição disponível para esse evento");
+
+        Label lblDescricao = new Label(desc);
         lblDescricao.setStyle("-fx-text-fill: #6B7280;");
         lblDescricao.setWrapText(true);
 

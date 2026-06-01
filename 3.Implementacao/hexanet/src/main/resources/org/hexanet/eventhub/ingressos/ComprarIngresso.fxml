@@ -63,7 +63,7 @@
                         </VBox>
 
                         <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Sobre o Evento" />
-                        <Label style="-fx-text-fill: #6B7280; -fx-wrap-text: true; -fx-font-size: 14px;" text="A maior festa junina universitária está de volta! Prepare-se para muita comida típica, brincadeiras, fogueira e atrações musicais incríveis que vão animar a noite toda. Não perca!" />
+                     <Label fx:id="lblDescricao" style="-fx-text-fill: #6B7280; -fx-wrap-text: true; -fx-font-size: 14px;" />
                      </children>
                   </VBox>
 

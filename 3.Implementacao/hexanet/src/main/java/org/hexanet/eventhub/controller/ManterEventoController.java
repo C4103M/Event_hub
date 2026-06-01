@@ -72,6 +72,9 @@ public class ManterEventoController implements Initializable {
     @FXML
     private ComboBox<StatusEvento> cbStatus;
 
+    @FXML
+    private TextArea taDescricao;
+
     private Evento eventoEmEdicao = null;
     @FXML
     private Label lblImagemSelecionada;
@@ -580,6 +583,10 @@ public class ManterEventoController implements Initializable {
                 dataHora,
                 status
             );
+
+            if(taDescricao != null){
+                evento.setDescricao(taDescricao.getText());
+            }
             
             List<TipoIngresso> tipos = new ArrayList<>();
             int qtdTotalIngressos = 0;
@@ -681,6 +688,10 @@ public class ManterEventoController implements Initializable {
         }
         
         cbStatus.setValue(evento.getStatusEvento());
+
+        if (taDescricao != null){
+            taDescricao.setText(evento.getDescricao() != null ? evento.getDescricao() : "null");
+        }
 
         if (evento.getEventoImg() != null) {
             String caminho = evento.getEventoImg();

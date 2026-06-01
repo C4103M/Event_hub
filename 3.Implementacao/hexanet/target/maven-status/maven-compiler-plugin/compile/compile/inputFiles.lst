@@ -20,6 +20,7 @@
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/dao/interfaces/CrudInterface.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/dto/ComprarIngressoDTO.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/dto/DetalhesEventoDTO.java
+/home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/dto/ItemPedidoDTO.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/dto/TipoIngressoDTO.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/dto/UsuarioDTO.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/exceptions/AlterarEvento.java
@@ -44,6 +45,7 @@
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/model/enums/StatusPagamento.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/service/AuthService.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/service/ComprarIngressoService.java
+/home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/service/GerenciarPerfilService.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/service/IngressarNoEventoService.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/service/ManterEventoService.java
 /home/lucas/Área de trabalho/Event_hub/3.Implementacao/hexanet/src/main/java/org/hexanet/eventhub/service/TipoIngressoService.java
