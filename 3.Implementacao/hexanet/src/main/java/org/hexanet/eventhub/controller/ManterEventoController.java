@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.TipoIngresso;
+import org.hexanet.eventhub.model.Usuario;
 import org.hexanet.eventhub.model.enums.StatusEvento;
 import org.hexanet.eventhub.service.ManterEventoService;
 
@@ -28,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import org.hexanet.eventhub.singleton.ScreenManager;
+import org.hexanet.eventhub.singleton.SessaoUsuario;
 import org.hexanet.eventhub.utils.AlertManager;
 
 public class ManterEventoController implements Initializable {
@@ -374,7 +376,13 @@ public class ManterEventoController implements Initializable {
 
     private void carregarEventos() {
         if (tblEventos != null) {
-            List<Evento> eventos = manterEventoService.listarTodos();
+            Usuario usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
+            List<Evento> eventos;
+            if (usuario != null && usuario.getId() != null) {
+                eventos = manterEventoService.listarPorOrganizador(usuario.getId());
+            } else {
+                eventos = manterEventoService.listarTodos();
+            }
             tblEventos.setItems(FXCollections.observableArrayList(eventos));
         }
     }

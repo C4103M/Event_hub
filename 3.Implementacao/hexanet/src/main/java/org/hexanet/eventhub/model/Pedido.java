@@ -8,20 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
+import org.w3c.dom.events.Event;
+
 @Entity
 @Table(name = "pedido")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    public Participante getParticipante() {
-        return participante;
-    }
-
-    public void setParticipante(Participante participante) {
-        this.participante = participante;
-    }
 
     private LocalDateTime dataHora;
 
@@ -40,7 +34,7 @@ public class Pedido {
 
     }
 
-    public Pedido(Long id, LocalDateTime dataHora, List<Ingresso> ingressos) {
+    public Pedido(Long id, LocalDateTime dataHora, List<Ingresso> ingressos, Evento evento) {
         this.id = id;
         this.dataHora = dataHora;
         this.ingressos = ingressos;
@@ -52,6 +46,13 @@ public class Pedido {
         this.pagamento = new Pagamento();
 
         this.addIngresso(ingresso);
+    }
+    public Participante getParticipante() {
+        return participante;
+    }
+
+    public void setParticipante(Participante participante) {
+        this.participante = participante;
     }
 
     public Long getId() {

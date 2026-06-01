@@ -2,6 +2,8 @@ package org.hexanet.eventhub.model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "ingresso")
 public class Ingresso {
@@ -13,7 +15,11 @@ public class Ingresso {
     @JoinColumn(name = "tipo_ingresso_id", nullable = false)
     private TipoIngresso tipo;
 
-    private String codigo;
+    @Column(name = "codigo_seguranca", unique = true, nullable = false, updatable = false)
+    private String codigoSeguranca;
+
+    @Column(name = "usado", nullable = false)
+    private boolean usado = false;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id") // Nome da coluna FK no banco
@@ -23,6 +29,17 @@ public class Ingresso {
     @ManyToOne
     @JoinColumn(name = "evento_id")
     private Evento evento;
+
+    public Ingresso() {
+
+    }
+
+    @PrePersist
+    public void gerarCodigoSeguranca() {
+        if (this.codigoSeguranca == null) {
+            this.codigoSeguranca = UUID.randomUUID().toString();
+        }
+    }
 
     public Evento getEvento() {
         return evento;
@@ -48,13 +65,27 @@ public class Ingresso {
         this.tipo = tipo;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getCodigoSeguranca() {
+        return codigoSeguranca;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodigoSeguranca(String codigoSeguranca) {
+        this.codigoSeguranca = codigoSeguranca;
     }
 
+    public boolean isUsado() {
+        return usado;
+    }
 
+    public void setUsado(boolean usado) {
+        this.usado = usado;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 }

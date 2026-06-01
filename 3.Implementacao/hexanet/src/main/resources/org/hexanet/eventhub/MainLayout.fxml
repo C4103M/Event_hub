@@ -5,7 +5,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainContainer" prefHeight="720.0" prefWidth="1080.0" style="-fx-padding: 0; -fx-margin: 0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.MainController">
+<BorderPane fx:id="mainContainer" prefHeight="720.0"
+            prefWidth="1080.0" style="-fx-padding: 0; -fx-margin: 0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.hexanet.eventhub.controller.MainController">
     <stylesheets>
         <URL value="@./styles.css" />
     </stylesheets>
@@ -45,6 +47,7 @@
                                 <Label fx:id="lblSaudacao" style="-fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Olá, Usuário" />
                                 <Button fx:id="btnGerenciarEventos" onAction="#irParaGerenciarEventos" styleClass="button-secondary" text="Gerenciar Eventos" />
                                 <Button fx:id="btnGerenciarPerfil" onAction="#irParaGerenciarPerfil" styleClass="button-secondary" text="Gerenciar Perfil" />
+                                <Button fx:id="btnMeusPedidos" onAction="#irParaMeusPedidos" styleClass="button-secondary" text="Meus Pedidos" />
                                 <Button onAction="#fazerLogout" styleClass="button-secondary" text="Sair" />
                             </children>
                         </HBox>

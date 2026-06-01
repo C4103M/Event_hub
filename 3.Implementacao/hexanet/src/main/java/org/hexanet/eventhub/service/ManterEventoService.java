@@ -209,6 +209,10 @@ public class ManterEventoService {
         return eventoDAO.listarTodos();
     }
 
+    public List<Evento> listarPorOrganizador(Long organizadorId) {
+        return eventoDAO.listarPorOrganizador(organizadorId);
+    }
+
     public List<DetalhesEventoDTO> listarDetalhes() {
 //        System.out.println("========================DEBUG listar detalhes ====================");
         List<Evento> eventos = this.listarTodos();
@@ -256,6 +260,44 @@ public class ManterEventoService {
 
         return listaDetalhes;
     }
+
+    public List<DetalhesEventoDTO> listarDetalhesPublicos() {
+
+        List<Evento> eventos = this.eventoDAO.
+                listarEventosPublicos();
+
+        List<DetalhesEventoDTO> listaDetalhes = new ArrayList<>();
+
+        for (Evento evento : eventos) {
+            DetalhesEventoDTO dto = new DetalhesEventoDTO();
+            dto.setEvento(evento);
+            dto.setIdEvento(evento.getId());
+            dto.setNome(evento.getNome());
+            dto.setLocal(evento.getLocal());
+            dto.setDataHora(evento.getDataHora());
+            dto.setUrlImg(evento.getEventoImg());
+
+            List<TipoIngressoDTO> tiposDTO = new ArrayList<>();
+
+            if (evento.getTiposIngresso() != null) {
+                for (TipoIngresso tipo : evento.getTiposIngresso()) {
+                    TipoIngressoDTO tipoDTO = new TipoIngressoDTO();
+                    tipoDTO.setId(tipo.getId());
+                    tipoDTO.setNome(tipo.getNome());
+                    tipoDTO.setPreco(tipo.getPreco());
+                    tipoDTO.setQtdDisponiveis(tipo.getQtdDisponiveis());
+
+                    tiposDTO.add(tipoDTO);
+                }
+            }
+
+            dto.setTiposDisponiveis(tiposDTO);
+            listaDetalhes.add(dto);
+        }
+
+        return listaDetalhes;
+    }
+
 
 
 }
