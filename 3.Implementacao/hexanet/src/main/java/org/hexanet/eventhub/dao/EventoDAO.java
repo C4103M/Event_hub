@@ -13,4 +13,6 @@ public class EventoDAO extends BaseCrud<Evento, Long> {
     public EventoDAO() {
         super(Evento.class);
     }
+
+
 }

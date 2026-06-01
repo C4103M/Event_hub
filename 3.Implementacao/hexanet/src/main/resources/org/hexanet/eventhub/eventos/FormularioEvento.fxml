@@ -20,9 +20,9 @@
 
             <HBox alignment="TOP_CENTER" spacing="40.0" prefWidth="900.0">
                <children>
-                  <GridPane hgap="10.0" vgap="15.0" alignment="TOP_RIGHT">
+                  <GridPane hgap="20.0" vgap="15.0" alignment="TOP_RIGHT">
                      <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" minWidth="130.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="160.0" />
                         <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
                      </columnConstraints>
 
@@ -44,8 +44,12 @@
                      <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
                      <ComboBox fx:id="cbStatus" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                     <Label text="Imagem do Evento:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <Label text="Descrição do Evento:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                     <TextArea fx:id="taDescricao" prefWidth="300.0" prefHeight="80.0" wrapText="true" promptText="Digite os detalhes do evento..."
+                               GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                     <Label text="Imagem do Evento:" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
                         <Button text="Selecionar" onAction="#selecionarImagem" minWidth="120.0" prefWidth="120.0"/>
                         <Label fx:id="lblImagemSelecionada" text="Nenhuma imagem..."/>
                      </HBox>

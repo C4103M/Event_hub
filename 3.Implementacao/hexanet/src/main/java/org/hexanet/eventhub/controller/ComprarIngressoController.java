@@ -111,7 +111,9 @@ public class ComprarIngressoController {
         String horaFormatada = detalhes.getDataHora().format(formatadorHora);
         lblHora.setText(horaFormatada);
 
-//        lblDescricao.setText(detalhes.getDescricao();
+        if(detalhes.getEvento() != null){
+            lblDescricao.setText(detalhes.getEvento().getDescricao());
+        }
 
     }
 

@@ -113,6 +113,7 @@ public class ManterEventoService {
 
             existEvent.setNome(eventoAtualizado.getNome());
             existEvent.setLocal(eventoAtualizado.getLocal());
+            existEvent.setDescricao(eventoAtualizado.getDescricao());
             existEvent.setCapacidadeTotal(eventoAtualizado.getCapacidadeTotal());
             existEvent.setDataHora(eventoAtualizado.getDataHora());
             existEvent.setEventoImg(imagemCaminho);
@@ -255,4 +256,6 @@ public class ManterEventoService {
 
         return listaDetalhes;
     }
+
+
 }

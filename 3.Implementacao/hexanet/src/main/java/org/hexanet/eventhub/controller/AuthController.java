@@ -95,7 +95,7 @@ public class AuthController {
         } catch (UsuarioNaoEncontradoException | CampoInvalidoException e) {
             AlertManager.exibirAlerta(Alert.AlertType.WARNING, "Erro de Validação", e.getMessage());
         } catch (Exception e) {
-            AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro Interno", e.getMessage());
+            AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro Interno", "Mapeando erro" + e.getMessage());
         }
 
     }
