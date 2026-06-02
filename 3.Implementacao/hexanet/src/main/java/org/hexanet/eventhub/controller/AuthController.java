@@ -10,6 +10,7 @@ import org.hexanet.eventhub.service.AuthService;
 import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
+import org.jetbrains.annotations.NotNull;
 
 public class AuthController {
     @FXML
@@ -47,20 +48,7 @@ public class AuthController {
     @FXML
     public void cadastrar() {
 
-        String tipo = rbOrganizador.isSelected() ? "ORGANIZADOR" : "PARTICIPANTE";
-
-        UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setNome(txtNome.getText());
-        usuario.setEmail(txtEmail.getText());
-        usuario.setCpfOrCnpj(txtCpfCnpj.getText());
-
-        if("PARTICIPANTE".equals(tipo)){
-            usuario.setDataNasc(dpDataNasc.getValue());
-        }
-
-        usuario.setSenha(txtSenha.getText());
-        usuario.setConfirmarSenha(txtSenha.getText()); // Até ter o txtConfirmarSenha na tela
-        usuario.setTipoUsuario(tipo);
+        UsuarioDTO usuario = getUsuarioDTO();
 
         try {
             authService.cadastrar(usuario);
@@ -75,6 +63,25 @@ public class AuthController {
             AlertManager.exibirAlerta(Alert.AlertType.ERROR, "Erro Interno", "Ocorreu um erro ao salvar no banco de dados.");
         }
 
+    }
+
+    @NotNull
+    private UsuarioDTO getUsuarioDTO() {
+        String tipo = rbOrganizador.isSelected() ? "ORGANIZADOR" : "PARTICIPANTE";
+
+        UsuarioDTO usuario = new UsuarioDTO();
+        usuario.setNome(txtNome.getText());
+        usuario.setEmail(txtEmail.getText());
+        usuario.setCpfOrCnpj(txtCpfCnpj.getText());
+
+        if("PARTICIPANTE".equals(tipo)){
+            usuario.setDataNasc(dpDataNasc.getValue());
+        }
+
+        usuario.setSenha(txtSenha.getText());
+        usuario.setConfirmarSenha(txtSenha.getText()); // Até ter o txtConfirmarSenha na tela
+        usuario.setTipoUsuario(tipo);
+        return usuario;
     }
 
     public void logar() {
