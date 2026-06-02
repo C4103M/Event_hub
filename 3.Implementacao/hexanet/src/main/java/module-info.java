@@ -14,6 +14,9 @@ module org.hexanet.eventhub {
     requires org.hibernate.orm.core;
     requires jbcrypt;
     requires annotations;
+    requires java.desktop;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
 
     opens org.hexanet.eventhub to javafx.fxml;
     opens org.hexanet.eventhub.controller to javafx.fxml;

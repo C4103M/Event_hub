@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.hexanet.eventhub.model.Organizador;
+import org.hexanet.eventhub.model.Participante;
 import org.hexanet.eventhub.model.Usuario;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
@@ -22,6 +23,7 @@ public class MainController {
 
     @FXML private Label lblSaudacao;
     @FXML private Button btnGerenciarEventos;
+    @FXML private Button btnMeusPedidos;
     @FXML private Button btnGerenciarPerfil;
     public void initialize() {
         // Registra o painel central no Singleton de Navegação
@@ -51,8 +53,13 @@ public class MainController {
             // 3. Controle de Nível de Permissão (Participante vs Administrador/Organizador)
             if (usuarioLogado instanceof Organizador) {
                 alternarVisibilidade(btnGerenciarEventos, true);
-            } else { // Assume que é Participante
+                alternarVisibilidade(btnMeusPedidos, false);
+            } else if(usuarioLogado instanceof Participante) { // Assume que é Participante
                 alternarVisibilidade(btnGerenciarEventos, false);
+                alternarVisibilidade(btnMeusPedidos, true);
+            } else {
+                alternarVisibilidade(btnGerenciarEventos, false);
+                alternarVisibilidade(btnMeusPedidos, false);
             }
         }
     }
@@ -92,6 +99,10 @@ public class MainController {
     public void irParaGerenciarEventos() {
         ScreenManager.getInstancia().irParaGerenciarEventos();
         atualizarMenu(false);
+    }
+    @FXML
+    public void irParaMeusPedidos() {
+        ScreenManager.getInstancia().irParaMeusPedidos();
     }
 
     @FXML

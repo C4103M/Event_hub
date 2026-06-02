@@ -7,17 +7,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.hexanet.eventhub.controller.ComprarIngressoController;
+import org.hexanet.eventhub.controller.DetalhesPedidoController;
 import org.hexanet.eventhub.controller.MainController;
 import org.hexanet.eventhub.controller.PagamentoController;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
 
+import org.hexanet.eventhub.model.Evento;
+import org.hexanet.eventhub.model.Ingresso;
 import org.hexanet.eventhub.utils.AlertManager;
 
 import java.io.IOException;
 import java.util.Stack;
-
+import java.util.List;
 public class ScreenManager {
 
     private static ScreenManager instancia;
@@ -95,9 +98,8 @@ public class ScreenManager {
         }
     }
 
-
     private static final String TELA_FORMULARIO_EVENTO = "/org/hexanet/eventhub/eventos/FormularioEvento.fxml";
-    public void irParaFormularioEvento(org.hexanet.eventhub.model.Evento eventoEdicao) {
+    public void irParaFormularioEvento(Evento eventoEdicao) {
         try {
             if(! SessaoUsuario.getInstancia().isOrganizador()) {
                 throw new PermissaoNegadaException("Apenas organizadores pode acessar esta área");
@@ -270,6 +272,51 @@ public class ScreenManager {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_GERENCIAR_PERFIL));
             Parent root = loader.load();
+
+            if (painelPrincipal != null) {
+                painelPrincipal.setCenter(root);
+            } else {
+                stagePrincipal.getScene().setRoot(root);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final String TELA_MEUS_PEDIDOS = "/org/hexanet/eventhub/ingressos/MeusPedidos.fxml";
+    public void irParaMeusPedidos() {
+        try {
+            if(! SessaoUsuario.getInstancia().isLogado()) {
+                throw new PermissaoNegadaException("Página restrita à usuários");
+            }
+            this.mainController.atualizarMenu(false);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_MEUS_PEDIDOS));
+            Parent root = loader.load();
+
+            if (painelPrincipal != null) {
+                painelPrincipal.setCenter(root);
+            } else {
+                stagePrincipal.getScene().setRoot(root);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final String TELA_DETALHES_PEDIDO = "/org/hexanet/eventhub/ingressos/DetalhesPedido.fxml";
+    public void irParaDetalhesPedido(List<Ingresso> listaIngressos) {
+        try {
+            if(! SessaoUsuario.getInstancia().isLogado()) {
+                throw new PermissaoNegadaException("Página restrita à usuários");
+            }
+            this.mainController.atualizarMenu(false);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_DETALHES_PEDIDO));
+            Parent root = loader.load();
+
+            DetalhesPedidoController controller = loader.getController();
+            controller.initData(listaIngressos);
 
             if (painelPrincipal != null) {
                 painelPrincipal.setCenter(root);

@@ -1,11 +1,13 @@
 package org.hexanet.eventhub.utils;
 
 import org.hexanet.eventhub.model.Evento;
+import org.hexanet.eventhub.model.Ingresso;
 import org.hexanet.eventhub.model.Usuario;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.UUID;
 
 public class IngressarManager {
 
@@ -13,69 +15,37 @@ public class IngressarManager {
     private static final String CHAVE_SECRETA = "minha-chave-secreta-super-segura-123";
 
 
-    public static String gerarIngresso(Usuario usuario, Evento evento) {
-        if (usuario.getId() == null || evento.getId() == null) {
-            throw new IllegalArgumentException("Usuário e Evento precisam ter IDs válidos (salvos no banco).");
+    public static String formatarDadosQrCode(Ingresso ingresso) {
+        // Validação de segurança: garante que o objeto não é "fantasma"
+        if (ingresso.getId() == null || ingresso.getCodigoSeguranca() == null) {
+            throw new IllegalArgumentException("O ingresso precisa estar salvo no banco (ter ID e Código) antes de gerar o QR Code.");
         }
 
-        try {
-            // Cria o payload puro
-            String payload = usuario.getId() + ":" + evento.getId();
-
-            // Juntar o payload com a chave secreta e passar no BCrypt
-            String textoProtegido = payload + CHAVE_SECRETA;
-            String assinaturaBcrypt = BCrypt.hashpw(textoProtegido, BCrypt.gensalt());
-
-            // converte para Base64 URL-Safe
-            String tokenPuro = payload + "." + assinaturaBcrypt;
-            return Base64.getUrlEncoder().withoutPadding()
-                    .encodeToString(tokenPuro.getBytes(StandardCharsets.UTF_8));
-
-        } catch (Exception e) {
-            throw new RuntimeException("Falha ao gerar o ingresso com BCrypt", e);
-        }
+        // Retorna "1052-550e8400-e29b-41d4-a716-446655440000"
+        return ingresso.getId() + "-" + ingresso.getCodigoSeguranca();
     }
 
-    /**
-     * Verifica a autenticidade e a qual evento o ingresso pertence
-     */
-    public static boolean verificarIngresso(String tokenBase64, Evento eventoAtual) {
-        if (eventoAtual.getId() == null) {
-            return false;
-        }
 
+    public static boolean verificarIngresso(String tokenLido, Long idEventoAtual) {
         try {
-            // Decodifica o Base64
-            String tokenDecodificado = new String(
-                    Base64.getUrlDecoder().decode(tokenBase64),
-                    StandardCharsets.UTF_8
-            );
+            String[] partes = tokenLido.split("-", 2);
+            Long idIngresso = Long.parseLong(partes[0]);
+            String uuid = partes[1];
 
-            // Separa o Payload da Assinatura
-            // O limite 2 garante que pontos internos gerados pelo BCrypt não quebrem a divisão
-            String[] partes = tokenDecodificado.split("\\.", 2);
-            if (partes.length != 2) {
-                return false;
-            }
+            // AQUI ENTRA A LÓGICA DE BANCO DE DADOS (DAO/EntityManager):
+            // 1. SELECT * FROM ingressos WHERE id = idIngresso AND hash_seguranca = uuid
+            // 2. if (ingresso == null) return false; (QR Code falso)
+            // 3. if (!ingresso.getEvento().getId().equals(idEventoAtual)) return false; (Ingresso de outro evento)
+            // 4. if (ingresso.isUsado()) return false; (Alguém já entrou com este ingresso!)
 
-            String payload = partes[0];
-            String hashBcryptRecebido = partes[1];
+            // 5. ingresso.setUsado(true);
+            // 6. ingressoDao.atualizar(ingresso);
 
-            // Valida a Criptografia usando o checkpw
-            String textoProtegido = payload + CHAVE_SECRETA;
-            if (!BCrypt.checkpw(textoProtegido, hashBcryptRecebido)) {
-                return false;
-            }
-
-            //  Verifica as Regras de Negócio
-            String[] dadosPayload = payload.split(":");
-            Long idUsuarioPayload = Long.parseLong(dadosPayload[0]);
-            Long idEventoPayload = Long.parseLong(dadosPayload[1]);
-
-            return idEventoPayload.equals(eventoAtual.getId());
+            return true; // Sucesso, pode libertar a catraca!
 
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            // Se o formato estiver errado (não tem o hífen, ou não é número), é falso.
+            return false;
         }
     }
 }

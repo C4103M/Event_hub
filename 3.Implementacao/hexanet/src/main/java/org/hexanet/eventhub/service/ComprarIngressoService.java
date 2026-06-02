@@ -10,6 +10,7 @@ import org.hexanet.eventhub.model.enums.StatusEvento;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ComprarIngressoService {
     private final PedidoDAO pedidoDAO = new PedidoDAO();
@@ -22,7 +23,11 @@ public class ComprarIngressoService {
 
         Pedido pedido = new Pedido();
 
-        pedido.setIngressos(comprarIngressoDTO.getIngressosSelecionados());
+        List<Ingresso> ingressosComprados = comprarIngressoDTO.getIngressosSelecionados();
+        pedido.setIngressos(ingressosComprados);
+        for (Ingresso ingresso : ingressosComprados) {
+            ingresso.setPedido(pedido); // Avisa ao ingresso quem é o dono dele!
+        }
         pedido.setDataHora(LocalDateTime.now());
         pedido.setParticipante(participante);
 
