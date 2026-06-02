@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainContainer" prefHeight="720.0"
-            prefWidth="1080.0" style="-fx-padding: 0; -fx-margin: 0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.hexanet.eventhub.controller.MainController">
+<BorderPane fx:id="mainContainer" prefHeight="720.0" prefWidth="1080.0" style="-fx-padding: 0; -fx-margin: 0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.MainController">
     <stylesheets>
         <URL value="@./styles.css" />
     </stylesheets>
@@ -42,7 +40,7 @@
                         </HBox>
                         
                         <!-- Menu Logado -->
-                        <HBox fx:id="menuLogado" alignment="CENTER" spacing="15.0" managed="false" visible="false">
+                        <HBox fx:id="menuLogado" alignment="CENTER" managed="false" spacing="15.0" visible="false">
                             <children>
                                 <Label fx:id="lblSaudacao" style="-fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Olá, Usuário" />
                                 <Button fx:id="btnGerenciarEventos" onAction="#irParaGerenciarEventos" styleClass="button-secondary" text="Gerenciar Eventos" />
@@ -57,7 +55,14 @@
                 <!-- Barra de Voltar Premium -->
                 <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #F9FAFB; -fx-padding: 8 30 8 30; -fx-border-color: #E5E7EB; -fx-border-width: 1 0 1 0;">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#voltar" style="-fx-background-color: #F97316; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 50em; -fx-min-width: 30px; -fx-min-height: 30px; -fx-max-width: 30px; -fx-max-height: 30px; -fx-padding: 0;" text="&lt;-" />
+                        <Button mnemonicParsing="false" onAction="#voltar" style="-fx-background-color: #F97316; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 50em; -fx-min-width: 30px; -fx-min-height: 30px; -fx-max-width: 30px; -fx-max-height: 30px; -fx-padding: 0;" text="&lt;-">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../assets/seta.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                     </children>
                 </HBox>
             </children>
