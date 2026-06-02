@@ -258,3 +258,10 @@
 .spinner .decrement-arrow-button:hover {
     -fx-background-color: #E5E7EB;
 }
+
+/* Background Image Classes (Resolves URL safely via CSS) */
+.image-rodeio {
+    -fx-background-image: url('assets/rodeio_itu.png');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
