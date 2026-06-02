@@ -111,8 +111,13 @@ public class ConsultarEventosController {
         Label lblTitulo = new Label(evento.getNome());
         lblTitulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;");
 
-        // Formatando local e data dinamicamente (ajuste os getters se necessário)
-        Label lblInfo = new Label(String.format("📍 %s | \uD83D\uDCC5 %s", evento.getLocal(), evento.getDataHora()));
+        // Formatando local e data dinamicamente com DateTimeFormatter
+        String dataHoraFormatada = "";
+        if (evento.getDataHora() != null) {
+            java.time.format.DateTimeFormatter formatador = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+            dataHoraFormatada = evento.getDataHora().format(formatador);
+        }
+        Label lblInfo = new Label(String.format("📍 %s | 📅 %s", evento.getLocal(), dataHoraFormatada));
         lblInfo.setStyle("-fx-text-fill: #4B5563;");
 
         String desc = (evento.getEvento() != null && evento.getEvento().getDescricao()

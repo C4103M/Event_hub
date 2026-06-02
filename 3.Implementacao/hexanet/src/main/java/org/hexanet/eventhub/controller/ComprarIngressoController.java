@@ -46,8 +46,6 @@ public class ComprarIngressoController {
     private final Map<TipoIngressoDTO, Spinner<Integer>> mapaContadores = new HashMap<>();
     private Evento eventoBase = new Evento();
 
-    private final ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
-    private final TipoIngressoService tipoIngressoService = new TipoIngressoService();
 
     @FXML
     public void initData(DetalhesEventoDTO detalhes) {

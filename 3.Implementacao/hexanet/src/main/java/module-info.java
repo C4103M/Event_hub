@@ -20,6 +20,7 @@ module org.hexanet.eventhub {
 
     opens org.hexanet.eventhub to javafx.fxml;
     opens org.hexanet.eventhub.controller to javafx.fxml;
+    opens org.hexanet.eventhub.assets to javafx.fxml;
     opens org.hexanet.eventhub.model to org.hibernate.orm.core, javafx.base;
     exports org.hexanet.eventhub;
 }

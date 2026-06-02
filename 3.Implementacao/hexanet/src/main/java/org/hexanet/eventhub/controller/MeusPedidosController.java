@@ -120,7 +120,13 @@ public class MeusPedidosController {
         Label lblTitulo = new Label(detalhesEvento.getNome());
         lblTitulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;");
 
-        Label lblInfo = new Label(String.format("📍 %s | \uD83D\uDCC5 %s", detalhesEvento.getLocal(), detalhesEvento.getDataHora()));
+        // Formatando local e data dinamicamente com DateTimeFormatter
+        String dataHoraFormatada = "";
+        if (detalhesEvento.getDataHora() != null) {
+            java.time.format.DateTimeFormatter formatador = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+            dataHoraFormatada = detalhesEvento.getDataHora().format(formatador);
+        }
+        Label lblInfo = new Label(String.format("📍 %s | 📅 %s", detalhesEvento.getLocal(), dataHoraFormatada));
         lblInfo.setStyle("-fx-text-fill: #4B5563;");
 
         // --- LISTA DE INGRESSOS COMPRADOS ---

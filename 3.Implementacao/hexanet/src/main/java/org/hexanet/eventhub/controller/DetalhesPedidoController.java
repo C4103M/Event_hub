@@ -42,13 +42,29 @@ public class DetalhesPedidoController {
             colunaDados.setSpacing(8);
             HBox.setHgrow(colunaDados, Priority.ALWAYS); // Ocupa todo o espaço restante da esquerda
 
-            Label lblNomeEvento = new Label(ingresso.getEvento().getNome());
+            String nomeEvento = "";
+            java.time.LocalDateTime dataHora = null;
+            if (ingresso.getEvento() != null) {
+                nomeEvento = ingresso.getEvento().getNome();
+                dataHora = ingresso.getEvento().getDataHora();
+            }
+
+            Label lblNomeEvento = new Label(nomeEvento);
             lblNomeEvento.getStyleClass().add("ticket-event-title");
 
-            Label lblDataHora = new Label("📅 " + ingresso.getEvento().getDataHora());
+            String dataHoraFormatada = "";
+            if (dataHora != null) {
+                java.time.format.DateTimeFormatter formatador = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+                dataHoraFormatada = dataHora.format(formatador);
+            }
+            Label lblDataHora = new Label("📅 " + dataHoraFormatada);
             lblDataHora.getStyleClass().add("label-subtitle");
 
-            Label lblTitular = new Label("👤 Titular: " + ingresso.getPedido().getParticipante().getNome());
+            String nomeTitular = "Não informado";
+            if (ingresso.getPedido() != null && ingresso.getPedido().getParticipante() != null) {
+                nomeTitular = ingresso.getPedido().getParticipante().getNome();
+            }
+            Label lblTitular = new Label("👤 Titular: " + nomeTitular);
             lblTitular.setStyle("-fx-font-weight: bold;");
 
             // Linha horizontal interna para o Tipo de Ingresso
@@ -56,10 +72,19 @@ public class DetalhesPedidoController {
             linhaTipo.setAlignment(Pos.CENTER_LEFT);
             linhaTipo.setSpacing(10);
 
-            Label badgeTipo = new Label(ingresso.getTipo().getNome().toUpperCase());
+            String nomeTipo = "COMUM";
+            double preco = 0.0;
+            if (ingresso.getTipo() != null) {
+                if (ingresso.getTipo().getNome() != null) {
+                    nomeTipo = ingresso.getTipo().getNome().toUpperCase();
+                }
+                preco = ingresso.getTipo().getPreco();
+            }
+
+            Label badgeTipo = new Label(nomeTipo);
             badgeTipo.getStyleClass().add("ticket-badge");
 
-            Label lblPreco = new Label("Preço: R$ " + ingresso.getTipo().getPreco());
+            Label lblPreco = new Label(String.format("Preço: R$ %.2f", preco));
             lblPreco.getStyleClass().add("label-subtitle");
 
             linhaTipo.getChildren().addAll(badgeTipo, lblPreco);
