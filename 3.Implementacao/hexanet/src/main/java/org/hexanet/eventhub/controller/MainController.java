@@ -26,7 +26,6 @@ public class MainController {
     @FXML private Button btnMeusPedidos;
     @FXML private Button btnGerenciarPerfil;
     public void initialize() {
-        // Registra o painel central no Singleton de Navegação
         ScreenManager.getInstancia().setPainelPrincipal(mainContainer);
         ScreenManager.getInstancia().setMainController(this);
     }

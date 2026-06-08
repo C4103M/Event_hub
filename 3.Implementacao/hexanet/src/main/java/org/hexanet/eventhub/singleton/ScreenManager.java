@@ -63,7 +63,7 @@ public class ScreenManager {
 
             Scene scene = new Scene(root);
             this.stagePrincipal.setScene(scene);
-            irParaConsultarEventos();
+            irParaLandingPage();
             this.stagePrincipal.show();
 
 
@@ -329,6 +329,31 @@ public class ScreenManager {
         }
     }
 
+    private static final String TELA_LANDING_PAGE = "/org/hexanet/eventhub/LandingPage.fxml";
+    public void irParaLandingPage() {
+        try {
+            this.mainController.atualizarMenu(false);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_LANDING_PAGE));
+            Parent root = loader.load();
+
+            String nomeTela = "LandingPage";
+
+            if (historicoTelas.isEmpty() || !historicoTelas.peek().equals(nomeTela)) {
+                historicoTelas.push(nomeTela);
+            }
+
+            if (painelPrincipal != null) {
+                painelPrincipal.setCenter(root);
+            } else {
+                stagePrincipal.getScene().setRoot(root);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public void voltarTelaAnterior() {
         if (historicoTelas.size() > 1) {
             historicoTelas.pop(); // Remove a tela atual da pilha
@@ -350,6 +375,9 @@ public class ScreenManager {
                     break;
                 case "GerenciarPerfil":
                     irParaGerenciarPerfil();
+                    break;
+                case "LandingPage":
+                    irParaLandingPage();
                     break;
                 // Os dois casos com parâmetros
                 default:
