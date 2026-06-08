@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToWidth="true" style="-fx-background-color: #F3F4F6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.ComprarIngressoController">
+<ScrollPane fitToWidth="true" style="-fx-background-color: #F3F4F6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.hexanet.eventhub.controller.comprarIngresso.ComprarIngressoController">
    <stylesheets>
       <URL value="@../styles.css" />
    </stylesheets>

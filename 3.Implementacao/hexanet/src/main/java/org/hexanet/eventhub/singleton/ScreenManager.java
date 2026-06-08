@@ -6,10 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.hexanet.eventhub.controller.ComprarIngressoController;
-import org.hexanet.eventhub.controller.DetalhesPedidoController;
+import org.hexanet.eventhub.controller.comprarIngresso.ComprarIngressoController;
+import org.hexanet.eventhub.controller.gerenciarEventos.GerenciarEventoController;
+import org.hexanet.eventhub.controller.verPedidos.DetalhesPedidoController;
 import org.hexanet.eventhub.controller.MainController;
-import org.hexanet.eventhub.controller.PagamentoController;
+import org.hexanet.eventhub.controller.comprarIngresso.PagamentoController;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.DetalhesEventoDTO;
 import org.hexanet.eventhub.exceptions.PermissaoNegadaException;
@@ -72,7 +73,7 @@ public class ScreenManager {
     }
 
     // ------------- Métodos de navegação ------------------
-    private static final String TELA_CONSULTAR_EVENTOS = "/org/hexanet/eventhub/eventos/ConsultarEventos.fxml";
+    private static final String TELA_CONSULTAR_EVENTOS = "/org/hexanet/eventhub/consultarEvento/ConsultarEventos.fxml";
     public void irParaConsultarEventos() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(TELA_CONSULTAR_EVENTOS));
@@ -98,7 +99,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_FORMULARIO_EVENTO = "/org/hexanet/eventhub/eventos/FormularioEvento.fxml";
+    private static final String TELA_FORMULARIO_EVENTO = "/org/hexanet/eventhub/gerenciarEventos/FormularioEvento.fxml";
     public void irParaFormularioEvento(Evento eventoEdicao) {
         try {
             if(! SessaoUsuario.getInstancia().isOrganizador()) {
@@ -108,7 +109,7 @@ public class ScreenManager {
             Parent root = loader.load();
 
             if (eventoEdicao != null) {
-                org.hexanet.eventhub.controller.ManterEventoController controller = loader.getController();
+                GerenciarEventoController controller = loader.getController();
                 controller.preencherFormulario(eventoEdicao);
             }
 
@@ -124,7 +125,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_COMPRAR_INGRESSO = "/org/hexanet/eventhub/ingressos/ComprarIngresso.fxml";
+    private static final String TELA_COMPRAR_INGRESSO = "/org/hexanet/eventhub/comprarIngresso/ComprarIngresso.fxml";
     public void irParaComprarIngressos(DetalhesEventoDTO detalhes) {
         try {
 //            if(!SessaoUsuario.getInstancia().isLogado()) {
@@ -154,7 +155,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_PAGAMENTO = "/org/hexanet/eventhub/ingressos/Pagamento.fxml";
+    private static final String TELA_PAGAMENTO = "/org/hexanet/eventhub/comprarIngresso/Pagamento.fxml";
     public void irParaPagamento(ComprarIngressoDTO comprarIngressoDTO) {
         try {
 //            if(! SessaoUsuario.getInstancia().isLogado()) {
@@ -240,7 +241,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_GERENCIAR_EVENTOS = "/org/hexanet/eventhub/eventos/GerenciarEventos.fxml";
+    private static final String TELA_GERENCIAR_EVENTOS = "/org/hexanet/eventhub/gerenciarEventos/GerenciarEventos.fxml";
     public void irParaGerenciarEventos() {
         try {
             if(! SessaoUsuario.getInstancia().isOrganizador()) {
@@ -262,7 +263,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_GERENCIAR_PERFIL = "/org/hexanet/eventhub/GerenciarPerfil.fxml";
+    private static final String TELA_GERENCIAR_PERFIL = "/org/hexanet/eventhub/gerenciarPerfil/GerenciarPerfil.fxml";
     public void irParaGerenciarPerfil() {
         try {
             if(! SessaoUsuario.getInstancia().isLogado()) {
@@ -283,7 +284,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_MEUS_PEDIDOS = "/org/hexanet/eventhub/ingressos/MeusPedidos.fxml";
+    private static final String TELA_MEUS_PEDIDOS = "/org/hexanet/eventhub/verPedidos/MeusPedidos.fxml";
     public void irParaMeusPedidos() {
         try {
             if(! SessaoUsuario.getInstancia().isLogado()) {
@@ -304,7 +305,7 @@ public class ScreenManager {
         }
     }
 
-    private static final String TELA_DETALHES_PEDIDO = "/org/hexanet/eventhub/ingressos/DetalhesPedido.fxml";
+    private static final String TELA_DETALHES_PEDIDO = "/org/hexanet/eventhub/verPedidos/DetalhesPedido.fxml";
     public void irParaDetalhesPedido(List<Ingresso> listaIngressos) {
         try {
             if(! SessaoUsuario.getInstancia().isLogado()) {

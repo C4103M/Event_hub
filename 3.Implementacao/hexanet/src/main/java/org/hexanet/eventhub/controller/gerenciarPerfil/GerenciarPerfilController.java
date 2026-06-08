@@ -1,4 +1,4 @@
-package org.hexanet.eventhub.controller;
+package org.hexanet.eventhub.controller.gerenciarPerfil;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

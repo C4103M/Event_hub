@@ -1,4 +1,4 @@
-package org.hexanet.eventhub.controller;
+package org.hexanet.eventhub.controller.comprarIngresso;
 
 
 import javafx.beans.property.SimpleDoubleProperty;
@@ -11,14 +11,10 @@ import javafx.scene.control.*;
 import org.hexanet.eventhub.dto.ComprarIngressoDTO;
 import org.hexanet.eventhub.dto.ItemPedidoDTO;
 import org.hexanet.eventhub.exceptions.IngressoNaoDisponivelException;
-import org.hexanet.eventhub.model.Ingresso;
 import org.hexanet.eventhub.model.enums.MetodoPagamento;
 import org.hexanet.eventhub.service.ComprarIngressoService;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.utils.AlertManager;
-import org.hexanet.eventhub.dto.TipoIngressoDTO;
-
-import java.util.List;
 
 public class PagamentoController {
 

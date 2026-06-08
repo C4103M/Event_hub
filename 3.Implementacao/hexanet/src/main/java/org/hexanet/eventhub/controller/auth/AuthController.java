@@ -1,4 +1,4 @@
-package org.hexanet.eventhub.controller;
+package org.hexanet.eventhub.controller.auth;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -7,35 +7,22 @@ import org.hexanet.eventhub.dto.UsuarioDTO;
 import org.hexanet.eventhub.exceptions.CampoInvalidoException;
 import org.hexanet.eventhub.exceptions.UsuarioNaoEncontradoException;
 import org.hexanet.eventhub.service.AuthService;
-import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
-import org.jetbrains.annotations.NotNull;
+import org.hexanet.eventhub.utils.AlertManager;
 
 public class AuthController {
-    @FXML
-    private TextField txtNome;
-    @FXML
-    private TextField txtEmail;
-    @FXML
-    private TextField txtCpfCnpj;
-    @FXML
-    private DatePicker dpDataNasc;
-    @FXML
-    private PasswordField txtSenha;
-    @FXML
-    private TextField txtSenhaRevelada;
-    @FXML
-    private CheckBox chkMostrarSenha;
+    @FXML private TextField txtNome;
+    @FXML private TextField txtEmail;
+    @FXML private TextField txtCpfCnpj;
+    @FXML private DatePicker dpDataNasc;
+    @FXML private PasswordField txtSenha;
+    @FXML private TextField txtSenhaRevelada;
+    @FXML private CheckBox chkMostrarSenha;
 
-    @FXML
-    private RadioButton rbParticipante;
-    @FXML
-    private RadioButton rbOrganizador;
-    @FXML
-    private Label lblCpfCnpj;
-    @FXML
-    private VBox vboxDataNasc;
+    @FXML private RadioButton rbOrganizador;
+    @FXML private Label lblCpfCnpj;
+    @FXML private VBox vboxDataNasc;
     AuthService authService = new AuthService();
 
     @FXML
@@ -65,25 +52,6 @@ public class AuthController {
 
     }
 
-    @NotNull
-    private UsuarioDTO getUsuarioDTO() {
-        String tipo = rbOrganizador.isSelected() ? "ORGANIZADOR" : "PARTICIPANTE";
-
-        UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setNome(txtNome.getText());
-        usuario.setEmail(txtEmail.getText());
-        usuario.setCpfOrCnpj(txtCpfCnpj.getText());
-
-        if("PARTICIPANTE".equals(tipo)){
-            usuario.setDataNasc(dpDataNasc.getValue());
-        }
-
-        usuario.setSenha(txtSenha.getText());
-        usuario.setConfirmarSenha(txtSenha.getText()); // Até ter o txtConfirmarSenha na tela
-        usuario.setTipoUsuario(tipo);
-        return usuario;
-    }
-
     public void logar() {
         UsuarioDTO usuario = new UsuarioDTO(txtEmail.getText().trim().toLowerCase(), txtSenha.getText());
         try {
@@ -107,6 +75,26 @@ public class AuthController {
 
     }
 
+
+    private UsuarioDTO getUsuarioDTO() {
+        String tipo = rbOrganizador.isSelected() ? "ORGANIZADOR" : "PARTICIPANTE";
+
+        UsuarioDTO usuario = new UsuarioDTO();
+        usuario.setNome(txtNome.getText());
+        usuario.setEmail(txtEmail.getText());
+        usuario.setCpfOrCnpj(txtCpfCnpj.getText());
+
+        if("PARTICIPANTE".equals(tipo)){
+            usuario.setDataNasc(dpDataNasc.getValue());
+        }
+
+        usuario.setSenha(txtSenha.getText());
+        usuario.setConfirmarSenha(txtSenha.getText()); // Até ter o txtConfirmarSenha na tela
+        usuario.setTipoUsuario(tipo);
+        return usuario;
+    }
+
+    // ----- Funções de Navegação -----
     @FXML
     public void irParaLogin() {
         ScreenManager.getInstancia().irParaLogin();

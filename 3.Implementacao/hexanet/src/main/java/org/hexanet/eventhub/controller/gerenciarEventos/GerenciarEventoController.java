@@ -1,4 +1,4 @@
-package org.hexanet.eventhub.controller;
+package org.hexanet.eventhub.controller.gerenciarEventos;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.TipoIngresso;
 import org.hexanet.eventhub.model.Usuario;
 import org.hexanet.eventhub.model.enums.StatusEvento;
-import org.hexanet.eventhub.service.ManterEventoService;
+import org.hexanet.eventhub.service.GerencairEventoService;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,64 +32,40 @@ import org.hexanet.eventhub.singleton.ScreenManager;
 import org.hexanet.eventhub.singleton.SessaoUsuario;
 import org.hexanet.eventhub.utils.AlertManager;
 
-public class ManterEventoController implements Initializable {
+public class GerenciarEventoController implements Initializable {
 
-    @FXML
-    private TableView<Evento> tblEventos;
-    @FXML
-    private TableColumn<Evento, String> colNome;
-    @FXML
-    private TableColumn<Evento, String> colData;
-    @FXML
-    private TableColumn<Evento, String> colHorario;
-    @FXML
-    private TableColumn<Evento, String> colLocal;
-    @FXML
-    private TableColumn<Evento, Integer> colCapacidade;
-    @FXML
-    private TableColumn<Evento, Void> colAcoes;
-    @FXML
-    private TableColumn<Evento, String> colBanner;
-    @FXML
-    private TableColumn<Evento, Double> colPreco;
-    @FXML
-    private TableColumn<Evento, StatusEvento> colStatus;
-    @FXML
-    private Label lblNomeOrganizador;
-    @FXML
-    private ComboBox<String> cbxBannerEvento;
-    @FXML
-    private Label lblTituloForm;
+    @FXML private TableView<Evento> tblEventos;
+    @FXML private TableColumn<Evento, String> colNome;
+    @FXML private TableColumn<Evento, String> colData;
+    @FXML private TableColumn<Evento, String> colHorario;
+    @FXML private TableColumn<Evento, String> colLocal;
+    @FXML private TableColumn<Evento, Integer> colCapacidade;
+    @FXML private TableColumn<Evento, Void> colAcoes;
+    @FXML private TableColumn<Evento, String> colBanner;
+    @FXML private TableColumn<Evento, Double> colPreco;
+    @FXML private TableColumn<Evento, StatusEvento> colStatus;
+    @FXML private Label lblNomeOrganizador;
+    @FXML private ComboBox<String> cbxBannerEvento;
+    @FXML private Label lblTituloForm;
 
-    @FXML
-    private TextField tfNome;
-    @FXML
-    private TextField tfLocal;
-    @FXML
-    private TextField tfCapacidade;
-    @FXML
-    private DatePicker dpData;
-    @FXML
-    private TextField tfHorario;
-    @FXML
-    private ComboBox<StatusEvento> cbStatus;
+    @FXML private TextField tfNome;
+    @FXML private TextField tfLocal;
+    @FXML private TextField tfCapacidade;
+    @FXML private DatePicker dpData;
+    @FXML private TextField tfHorario;
+    @FXML private ComboBox<StatusEvento> cbStatus;
 
-    @FXML
-    private TextArea taDescricao;
+    @FXML private TextArea taDescricao;
 
     private Evento eventoEmEdicao = null;
-    @FXML
-    private Label lblImagemSelecionada;
+    @FXML private Label lblImagemSelecionada;
 
-    @FXML
-    private VBox vboxTiposIngresso;
+    @FXML private VBox vboxTiposIngresso;
 
 
 
     private File imagemSelecionada;
-    private ManterEventoService manterEventoService = new ManterEventoService();
-
-
+    private GerencairEventoService gerencairEventoService = new GerencairEventoService();
 
     private class LinhaIngresso {
         TextField tfNomeTipo;
@@ -106,7 +82,7 @@ public class ManterEventoController implements Initializable {
             this.btnRemover = btnRemover;
         }
     }
-    private List<LinhaIngresso> listaCamposIngresso = new ArrayList<>();
+    private final List<LinhaIngresso> listaCamposIngresso = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -379,9 +355,9 @@ public class ManterEventoController implements Initializable {
             Usuario usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
             List<Evento> eventos;
             if (usuario != null && usuario.getId() != null) {
-                eventos = manterEventoService.listarPorOrganizador(usuario.getId());
+                eventos = gerencairEventoService.listarPorOrganizador(usuario.getId());
             } else {
-                eventos = manterEventoService.listarTodos();
+                eventos = gerencairEventoService.listarTodos();
             }
             tblEventos.setItems(FXCollections.observableArrayList(eventos));
         }
@@ -463,7 +439,7 @@ public class ManterEventoController implements Initializable {
         Evento selecionado = tblEventos.getSelectionModel().getSelectedItem();
         if (selecionado != null) {
             try {
-                manterEventoService.excluirEvento(selecionado.getId());
+                gerencairEventoService.excluirEvento(selecionado.getId());
                 carregarEventos();
             } catch (Exception e) {
                 javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
@@ -629,7 +605,7 @@ public class ManterEventoController implements Initializable {
             
 
             if (eventoEmEdicao == null) {
-                manterEventoService.cadastrarEvento(evento, imagemSelecionada);
+                gerencairEventoService.cadastrarEvento(evento, imagemSelecionada);
                 javafx.scene.control.Alert successAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
                 successAlert.setTitle("Sucesso");
                 successAlert.setHeaderText(null);
@@ -637,7 +613,7 @@ public class ManterEventoController implements Initializable {
                 successAlert.showAndWait();
             } else {
                 evento.setId(eventoEmEdicao.getId());
-                manterEventoService.atualizarEvento(evento, imagemSelecionada);
+                gerencairEventoService.atualizarEvento(evento, imagemSelecionada);
                 javafx.scene.control.Alert successAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
                 successAlert.setTitle("Sucesso");
                 successAlert.setHeaderText(null);

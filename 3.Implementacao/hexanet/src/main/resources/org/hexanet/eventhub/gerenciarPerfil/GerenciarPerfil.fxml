@@ -7,9 +7,9 @@
 <StackPane prefHeight="720.0" prefWidth="1080.0"
            xmlns="http://javafx.com/javafx/17.0.12"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="org.hexanet.eventhub.controller.GerenciarPerfilController">
+           fx:controller="org.hexanet.eventhub.controller.gerenciarPerfil.GerenciarPerfilController">
     <stylesheets>
-        <URL value="@./styles.css" />
+        <URL value="@../styles.css" />
     </stylesheets>
 
     <children>

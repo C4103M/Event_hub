@@ -1,4 +1,4 @@
-package org.hexanet.eventhub.controller;
+package org.hexanet.eventhub.controller.comprarIngresso;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -17,8 +17,6 @@ import org.hexanet.eventhub.dto.TipoIngressoDTO;
 import org.hexanet.eventhub.model.Evento;
 import org.hexanet.eventhub.model.Ingresso;
 import org.hexanet.eventhub.model.TipoIngresso;
-import org.hexanet.eventhub.service.ComprarIngressoService;
-import org.hexanet.eventhub.service.TipoIngressoService;
 import org.hexanet.eventhub.utils.AlertManager;
 import org.hexanet.eventhub.singleton.ScreenManager;
 
@@ -37,8 +35,6 @@ public class ComprarIngressoController {
     @FXML private Label lblLocal;
     @FXML private Label lblDescricao;
 
-
-
     @FXML private ImageView bigBanner;
     @FXML private ImageView lowBanner;
 
@@ -46,16 +42,9 @@ public class ComprarIngressoController {
     private final Map<TipoIngressoDTO, Spinner<Integer>> mapaContadores = new HashMap<>();
     private Evento eventoBase = new Evento();
 
-    private final ComprarIngressoService comprarIngressoService = new ComprarIngressoService();
-    private final TipoIngressoService tipoIngressoService = new TipoIngressoService();
 
     @FXML
     public void initData(DetalhesEventoDTO detalhes) {
-//        System.out.printf("\nId recebido %d\n", detalhes.getIdEvento());
-//        System.out.printf("\nQantidade recebida %d\n", detalhes.getTiposDisponiveis().get(0).getQtdDisponiveis());
-//        System.out.println("Nome recebido " + detalhes.getNome());
-//        System.out.println("Local recebido " + detalhes.getLocal());
-
         carregarDados(detalhes);
 
         this.eventoBase = detalhes.getEvento();
@@ -119,10 +108,10 @@ public class ComprarIngressoController {
 
         public void carregarImagens(String urlImg) {
         Image img = null;
-        
+
         if (urlImg != null && !urlImg.trim().isEmpty()) {
             try {
-                if (urlImg.startsWith("http://") || urlImg.startsWith("https://") || 
+                if (urlImg.startsWith("http://") || urlImg.startsWith("https://") ||
                     urlImg.startsWith("file:") || urlImg.startsWith("jar:")) {
                     img = new Image(urlImg);
                 } else {
@@ -130,7 +119,7 @@ public class ComprarIngressoController {
                     if (cleanPath.startsWith("assets/")) {
                         cleanPath = cleanPath.substring("assets/".length());
                     }
-                    
+
                     java.net.URL resourceUrl = getClass().getResource("/assets/" + cleanPath);
                     if (resourceUrl == null) {
                         resourceUrl = getClass().getResource("/org/hexanet/eventhub/assets/" + cleanPath);
@@ -138,7 +127,7 @@ public class ComprarIngressoController {
                     if (resourceUrl == null) {
                         resourceUrl = getClass().getResource(urlImg.startsWith("/") ? urlImg : "/" + urlImg);
                     }
-                    
+
                     if (resourceUrl != null) {
                         img = new Image(resourceUrl.toExternalForm());
                     }
@@ -147,11 +136,11 @@ public class ComprarIngressoController {
                 System.err.println("Erro ao tentar carregar a imagem do evento: " + e.getMessage());
             }
         }
-        
+
         if (img == null) {
             img = new Image("https://picsum.photos/250/150");
         }
-        
+
         bigBanner.setImage(img);
         lowBanner.setImage(img);
     }
